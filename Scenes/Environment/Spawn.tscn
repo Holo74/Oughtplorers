@@ -1,0 +1,7 @@
+[gd_scene format=2]
+
+[node name="Spawn" type="Spatial"]
+
+[node name="Spatial" type="Spatial" parent="." groups=[
+"Spawn",
+]]

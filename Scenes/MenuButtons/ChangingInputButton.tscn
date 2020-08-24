@@ -1,0 +1,36 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scripts/Data/InputMapping.cs" type="Script" id=1]
+
+[node name="JumpButton" type="Control"]
+anchor_left = 0.0590551
+anchor_top = 0.070922
+anchor_right = 0.0590551
+anchor_bottom = 0.070922
+margin_left = 3.8147e-06
+margin_right = 192.0
+margin_bottom = 24.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="."]
+anchor_left = 0.458333
+anchor_top = 1.90735e-07
+anchor_right = 1.0
+anchor_bottom = 1.90735e-07
+margin_top = -7.62939e-06
+margin_right = -6.10352e-05
+margin_bottom = 24.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+anchor_right = 0.458
+margin_right = 0.0639954
+margin_bottom = 24.0
+bbcode_enabled = true
+bbcode_text = "[center]Jump[/center]"
+text = "Jump"

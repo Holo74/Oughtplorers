@@ -1,0 +1,25 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scripts/Menu/MenuButtons/ToggleOptions.cs" type="Script" id=1]
+
+[node name="ToggleSprint" type="Control"]
+anchor_left = 0.0393701
+anchor_top = 0.070922
+anchor_right = 0.0393701
+anchor_bottom = 0.070922
+margin_right = 176.0
+margin_bottom = 48.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+optionName = 2
+
+[node name="CheckButton" type="CheckButton" parent="."]
+margin_right = 176.0
+margin_bottom = 48.0
+text = "Toggle Sprint"
+__meta__ = {
+"_edit_use_anchors_": false
+}

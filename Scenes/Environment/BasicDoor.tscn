@@ -1,0 +1,118 @@
+[gd_scene load_steps=16 format=2]
+
+[ext_resource path="res://Scripts/Environment/Door.cs" type="Script" id=1]
+[ext_resource path="res://Scripts/Environment/DoorLoadingInfo.cs" type="Script" id=2]
+
+[sub_resource type="BoxShape" id=1]
+
+[sub_resource type="CubeMesh" id=2]
+
+[sub_resource type="Animation" id=3]
+resource_name = "DoorClose"
+tracks/0/type = "bezier"
+tracks/0/path = NodePath(".:translation:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 3, -0.25, 0, 0.65, 0.895816, 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AnimationPlayer/AnimationTree:parameters/conditions/Hit")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray(  ),
+"transitions": PoolRealArray(  ),
+"update": 1,
+"values": [  ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "DoorIdle"
+tracks/0/type = "bezier"
+tracks/0/path = NodePath(".:translation:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+
+[sub_resource type="Animation" id=5]
+tracks/0/type = "bezier"
+tracks/0/path = NodePath(".:translation:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 3, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+
+[sub_resource type="AnimationNodeAnimation" id=6]
+animation = "DoorClose"
+
+[sub_resource type="AnimationNodeAnimation" id=7]
+animation = "DoorIdle"
+
+[sub_resource type="AnimationNodeAnimation" id=8]
+animation = "DoorOpen"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=9]
+advance_condition = "Hit"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=10]
+switch_mode = 2
+advance_condition = "Time"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=11]
+switch_mode = 2
+auto_advance = true
+
+[sub_resource type="AnimationNodeStateMachine" id=12]
+states/DoorClose/node = SubResource( 6 )
+states/DoorClose/position = Vector2( 573, 30 )
+states/DoorIdle/node = SubResource( 7 )
+states/DoorIdle/position = Vector2( 177, 46 )
+states/DoorOpen/node = SubResource( 8 )
+states/DoorOpen/position = Vector2( 359, -43 )
+transitions = [ "DoorIdle", "DoorOpen", SubResource( 9 ), "DoorOpen", "DoorClose", SubResource( 10 ), "DoorClose", "DoorIdle", SubResource( 11 ) ]
+start_node = "DoorIdle"
+graph_offset = Vector2( -61, -86 )
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=13]
+
+[node name="Door" type="Spatial"]
+script = ExtResource( 2 )
+
+[node name="Door" type="StaticBody" parent="."]
+transform = Transform( 1.4, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+script = ExtResource( 1 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Door"]
+transform = Transform( 0.8, 0, 0, 0, 1.2, 0, 0, 0, 0.1, 0, 0, 0 )
+shape = SubResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Door/CollisionShape"]
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Door"]
+anims/DoorClose = SubResource( 3 )
+anims/DoorIdle = SubResource( 4 )
+anims/DoorOpen = SubResource( 5 )
+
+[node name="AnimationTree" type="AnimationTree" parent="Door/AnimationPlayer"]
+tree_root = SubResource( 12 )
+anim_player = NodePath("..")
+parameters/playback = SubResource( 13 )
+parameters/conditions/Hit = false
+parameters/conditions/Time = false

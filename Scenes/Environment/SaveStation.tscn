@@ -1,0 +1,38 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Scripts/Environment/SaveStation.cs" type="Script" id=1]
+
+[sub_resource type="BoxShape" id=1]
+
+[sub_resource type="CubeMesh" id=2]
+
+[sub_resource type="BoxShape" id=3]
+
+[node name="Save" type="Spatial"]
+script = ExtResource( 1 )
+
+[node name="Area" type="Area" parent="."]
+transform = Transform( 1, 0, 0, 0, 1.5, 0, 0, 0, 1, 0, 1.5, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Area"]
+shape = SubResource( 1 )
+
+[node name="Bottom" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.2, 0, 0, 0, 1, 0, 0, 0 )
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="RigidBody" type="RigidBody" parent="Bottom"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Bottom/RigidBody"]
+shape = SubResource( 3 )
+
+[node name="Top" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.2, 0, 0, 0, 1, 0, 3, 0 )
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="RigidBody" type="RigidBody" parent="Top"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Top/RigidBody"]
+shape = SubResource( 3 )

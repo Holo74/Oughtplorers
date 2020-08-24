@@ -1,0 +1,383 @@
+[gd_scene load_steps=22 format=2]
+
+[ext_resource path="res://Scripts/Player/PlayerController.cs" type="Script" id=1]
+[ext_resource path="res://Scripts/Player/RayCastData.cs" type="Script" id=2]
+[ext_resource path="res://Scripts/Data/PlayerAreaSensor.cs" type="Script" id=3]
+[ext_resource path="res://Scenes/Weapons/Player/ServicePistolPlaceHolder.tscn" type="PackedScene" id=4]
+
+[sub_resource type="SphereShape" id=1]
+radius = 0.5
+
+[sub_resource type="SphereShape" id=2]
+radius = 0.5
+
+[sub_resource type="CylinderShape" id=3]
+radius = 0.489413
+height = 0.194701
+
+[sub_resource type="BoxShape" id=4]
+extents = Vector3( 0.145557, 0.314335, 0.44142 )
+
+[sub_resource type="CylinderShape" id=5]
+radius = 0.489413
+height = 0.0836858
+
+[sub_resource type="Animation" id=6]
+resource_name = "DeathAnimation"
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("HeadCollisionPos:translation:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.5, 1 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("HeadCollisionPos:translation:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 1, -0.25, 0, 0.01, -0.177921, 0.250582, -0.25, 0, 0.47, 0.257019, -0.0172459, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.5, 1 )
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("HeadCollisionPos:translation:z")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 0.00443658, -0.25, 0, 0.33, -0.528323, -0.45412, -0.27, 0.295028, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.3, 1 )
+}
+
+[sub_resource type="Animation" id=7]
+resource_name = "Idle"
+length = 3.0
+loop = true
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("ViewportContainer/Viewport/Camera/W1/ServicePistolPlaceHolder:translation:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 0.283, -0.25, 0, 0.25, 0, 0.283, -0.25, 0, 0.25, 0, 0.283, -0.25, 0, 0.25, 0, 0.283, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 1, 2, 3 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("ViewportContainer/Viewport/Camera/W1/ServicePistolPlaceHolder:translation:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( -0.417, -0.25, 0, 0.39, 0.00774339, -0.406721, -0.35, -0.00614369, 0.51, 0.00787473, -0.422804, -0.25, 0, 0.34, -0.0067541, -0.417, -0.27, -0.00402921, 0.28, 0.00489518 ),
+"times": PoolRealArray( 0, 1, 2, 3 )
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("ViewportContainer/Viewport/Camera/W1/ServicePistolPlaceHolder:translation:z")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( -0.381, -0.25, 0, 0.25, 0, -0.381, -0.25, 0, 0.25, 0, -0.381, -0.25, 0, 0.25, 0, -0.381, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 1, 2, 3 )
+}
+tracks/3/type = "bezier"
+tracks/3/path = NodePath("ViewportContainer/Viewport/Camera/W1/ServicePistolPlaceHolder:rotation_degrees:x")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 3 )
+}
+tracks/4/type = "bezier"
+tracks/4/path = NodePath("ViewportContainer/Viewport/Camera/W1/ServicePistolPlaceHolder:rotation_degrees:y")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"points": PoolRealArray( -180, -0.25, 0, 0.25, 0, -180, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 3 )
+}
+tracks/5/type = "bezier"
+tracks/5/path = NodePath("ViewportContainer/Viewport/Camera/W1/ServicePistolPlaceHolder:rotation_degrees:z")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 3 )
+}
+
+[sub_resource type="Animation" id=8]
+resource_name = "ServicePistolPlaceHolder"
+length = 1.2
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("ViewportContainer/Viewport/Camera/W1/ServicePistolPlaceHolder:translation:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 0.283, -0.25, 0, 0.25, 0, 0.283, -0.25, 0, 0.25, 0, 0.283, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.5, 1 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("ViewportContainer/Viewport/Camera/W1/ServicePistolPlaceHolder:translation:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( -0.417, -0.25, 0, 0.21, 0.0882843, -0.278, -0.65, 0.00755987, 0.36, -0.0432367, -0.417, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.5, 1.2 )
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("ViewportContainer/Viewport/Camera/W1/ServicePistolPlaceHolder:translation:z")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( -0.381, -0.25, 0, 0.25, 0, -0.381, -0.25, 0, 0.25, 0, -0.381, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.5, 1 )
+}
+tracks/3/type = "bezier"
+tracks/3/path = NodePath("ViewportContainer/Viewport/Camera/W1/ServicePistolPlaceHolder:rotation_degrees:x")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, -40.599, -0.72, -12.167, 0.63, 30.6571, -0.160507, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.5, 1.2 )
+}
+tracks/4/type = "bezier"
+tracks/4/path = NodePath("ViewportContainer/Viewport/Camera/W1/ServicePistolPlaceHolder:rotation_degrees:y")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"points": PoolRealArray( -180, -0.25, 0, 0.25, 0, -180, -0.25, 0, 0.25, 0, -180, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.5, 1 )
+}
+tracks/5/type = "bezier"
+tracks/5/path = NodePath("ViewportContainer/Viewport/Camera/W1/ServicePistolPlaceHolder:rotation_degrees:z")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.5, 1 )
+}
+tracks/6/type = "method"
+tracks/6/path = NodePath(".")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 1, 1.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ "ShootPistol" ],
+"method": "FinishAnimation"
+}, {
+"args": [  ],
+"method": "ReadyWeapon"
+} ]
+}
+
+[sub_resource type="Animation" id=9]
+
+[sub_resource type="AnimationNodeAnimation" id=10]
+animation = "DeathAnimation"
+
+[sub_resource type="AnimationNodeAnimation" id=11]
+animation = "Idle"
+
+[sub_resource type="AnimationNodeAnimation" id=12]
+animation = "ServicePistolPlaceHolder"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=13]
+advance_condition = "Died"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=14]
+advance_condition = "ShootPistol"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=15]
+switch_mode = 2
+auto_advance = true
+
+[sub_resource type="AnimationNodeStateMachine" id=16]
+states/DeathAnimation/node = SubResource( 10 )
+states/DeathAnimation/position = Vector2( 391, 139 )
+states/Idle/node = SubResource( 11 )
+states/Idle/position = Vector2( 100, 81 )
+states/ServicePistolPlaceHolder/node = SubResource( 12 )
+states/ServicePistolPlaceHolder/position = Vector2( 479, 43 )
+transitions = [ "Idle", "DeathAnimation", SubResource( 13 ), "Idle", "ServicePistolPlaceHolder", SubResource( 14 ), "ServicePistolPlaceHolder", "Idle", SubResource( 15 ) ]
+start_node = "Idle"
+end_node = "ServicePistolPlaceHolder"
+graph_offset = Vector2( -136, -36 )
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=17]
+
+[node name="Player" type="KinematicBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0820016, 0, 0 )
+script = ExtResource( 1 )
+headPath = NodePath("HeadCollisionPos")
+headRotationPath = NodePath("HeadCollisionPos/HeadRot")
+cameraPath = NodePath("HeadCollisionPos/HeadRot/Camera")
+gunPath = NodePath("ViewportContainer/Viewport/Camera")
+
+[node name="BodyCollision" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0, 0 )
+shape = SubResource( 1 )
+
+[node name="RaycastLocation" type="Spatial" parent="."]
+
+[node name="Lower" type="RayCast" parent="RaycastLocation"]
+enabled = true
+script = ExtResource( 2 )
+
+[node name="Right" type="RayCast" parent="RaycastLocation"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.260969, 0 )
+cast_to = Vector3( 1, 0, 0 )
+script = ExtResource( 2 )
+current = 5
+
+[node name="Left" type="RayCast" parent="RaycastLocation"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.260969, 0 )
+cast_to = Vector3( -1, 0, 0 )
+script = ExtResource( 2 )
+current = 4
+
+[node name="HeadCollisionPos" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+shape = SubResource( 2 )
+
+[node name="HeadRot" type="Spatial" parent="HeadCollisionPos"]
+
+[node name="Camera" type="Camera" parent="HeadCollisionPos/HeadRot"]
+cull_mask = 1048573
+current = true
+
+[node name="Spatial" type="Spatial" parent="HeadCollisionPos/HeadRot"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0595741, -0.030191, -0.974782 )
+
+[node name="HeadCast" type="RayCast" parent="HeadCollisionPos"]
+cast_to = Vector3( 0, 0.524, 0 )
+script = ExtResource( 2 )
+current = 1
+
+[node name="Above" type="Area" parent="HeadCollisionPos"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.508699, 0 )
+input_ray_pickable = false
+script = ExtResource( 3 )
+direction = 3
+
+[node name="CollisionShape2" type="CollisionShape" parent="HeadCollisionPos/Above"]
+shape = SubResource( 3 )
+
+[node name="HeadSpace" type="RayCast" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.329605, 0 )
+cast_to = Vector3( 0, 1.209, 0 )
+script = ExtResource( 2 )
+current = 3
+
+[node name="SensorAreas" type="Spatial" parent="."]
+
+[node name="Right" type="Area" parent="SensorAreas"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0.281, 0 )
+input_ray_pickable = false
+script = ExtResource( 3 )
+direction = 1
+
+[node name="CollisionShape" type="CollisionShape" parent="SensorAreas/Right"]
+shape = SubResource( 4 )
+
+[node name="Left" type="Area" parent="SensorAreas"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, 0.281, 0 )
+input_ray_pickable = false
+script = ExtResource( 3 )
+
+[node name="CollisionShape" type="CollisionShape" parent="SensorAreas/Left"]
+shape = SubResource( 4 )
+
+[node name="Ground" type="Area" parent="SensorAreas"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.540842, 0 )
+input_ray_pickable = false
+script = ExtResource( 3 )
+direction = 2
+
+[node name="CollisionShape" type="CollisionShape" parent="SensorAreas/Ground"]
+shape = SubResource( 5 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+autoplay = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/DeathAnimation = SubResource( 6 )
+anims/Idle = SubResource( 7 )
+anims/ServicePistolPlaceHolder = SubResource( 8 )
+anims/Walking = SubResource( 9 )
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource( 16 )
+anim_player = NodePath("../AnimationPlayer")
+parameters/playback = SubResource( 17 )
+parameters/conditions/Died = false
+parameters/conditions/ShootPistol = false
+
+[node name="ViewportContainer" type="ViewportContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+stretch = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Viewport" type="Viewport" parent="ViewportContainer"]
+size = Vector2( 1024, 600 )
+transparent_bg = true
+handle_input_locally = false
+render_target_update_mode = 3
+
+[node name="Camera" type="Camera" parent="ViewportContainer/Viewport"]
+cull_mask = 2
+current = true
+
+[node name="W1" type="Spatial" parent="ViewportContainer/Viewport/Camera"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.217, 0, 0 )
+
+[node name="ServicePistolPlaceHolder" parent="ViewportContainer/Viewport/Camera/W1" instance=ExtResource( 4 )]
+transform = Transform( -1, -2.44904e-10, 8.74224e-08, 0, 0.999996, 0.00280138, -8.74228e-08, 0.00280138, -0.999996, 0.283, -0.417, -0.381 )
+
+[node name="W2" type="Spatial" parent="ViewportContainer/Viewport/Camera"]
+
+[node name="ServicePistolPlaceHolder2" parent="ViewportContainer/Viewport/Camera/W2" instance=ExtResource( 4 )]
+transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0.130091, -0.417, -0.381 )
+
+[node name="W3" type="Spatial" parent="ViewportContainer/Viewport/Camera"]
+
+[node name="ServicePistolPlaceHolder3" parent="ViewportContainer/Viewport/Camera/W3" instance=ExtResource( 4 )]
+transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, -0.0676876, -0.417, -0.381 )
+
+[node name="W4" type="Spatial" parent="ViewportContainer/Viewport/Camera"]
+
+[node name="ServicePistolPlaceHolder4" parent="ViewportContainer/Viewport/Camera/W4" instance=ExtResource( 4 )]
+transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, -0.353278, -0.417, -0.381 )

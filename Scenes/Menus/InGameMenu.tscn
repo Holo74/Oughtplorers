@@ -1,0 +1,638 @@
+[gd_scene load_steps=21 format=2]
+
+[ext_resource path="res://Textures/TargetRetical.png" type="Texture" id=1]
+[ext_resource path="res://Scenes/MenuButtons/ToggleOption.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scripts/Menu/InGameMenu.cs" type="Script" id=3]
+[ext_resource path="res://Scripts/Menu/MenuButtons/QuitToTitleScreen.cs" type="Script" id=4]
+[ext_resource path="res://Scripts/Menu/FPSCounter.cs" type="Script" id=5]
+[ext_resource path="res://Scripts/Menu/MenuButtons/SwapToMenu.cs" type="Script" id=6]
+[ext_resource path="res://Scripts/Menu/StateShower.cs" type="Script" id=7]
+[ext_resource path="res://Scenes/MenuButtons/SliderOption.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Scripts/Menu/SpeedDisplay.cs" type="Script" id=9]
+[ext_resource path="res://Scripts/Menu/MenuButtons/ApplySettings.cs" type="Script" id=10]
+[ext_resource path="res://Scripts/Menu/MenuButtons/SwapFromSettings.cs" type="Script" id=11]
+[ext_resource path="res://Scripts/Menu/MenuButtons/RegectSettings.cs" type="Script" id=12]
+[ext_resource path="res://Scripts/Menu/MenuButtons/ConfirmButton.cs" type="Script" id=13]
+[ext_resource path="res://Scripts/Menu/MenuButtons/ContinueGame.cs" type="Script" id=14]
+[ext_resource path="res://Scenes/MenuButtons/ChangingInputButton.tscn" type="PackedScene" id=15]
+[ext_resource path="res://Textures/Hud.png" type="Texture" id=16]
+[ext_resource path="res://Scripts/Menu/MenuButtons/LinkToForm.cs" type="Script" id=17]
+
+[sub_resource type="Animation" id=1]
+resource_name = "Idle"
+loop = true
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("PlayerHud/TextureRect:rect_position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( -40, -0.25, 0, 0.25, 0, -40, -0.25, 0, 0.25, 0, -40, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.5, 1 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("PlayerHud/TextureRect:rect_position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( -40, -0.25, 0, 0.28, 0.348751, -38, -0.21, -0.61832, 0.23, -0.430515, -40, -0.16, 0.755665, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.5, 1 )
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "Walking"
+length = 1.5
+loop = true
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("PlayerHud/TextureRect:rect_position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( -40, -0.25, 0, 0.25, 0, -40, -0.25, 0, 0.25, 0, -40, -0.25, 0, 0.25, 0, -40, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.5, 1, 1.5 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("PlayerHud/TextureRect:rect_position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( -40, -0.25, 0, 0.16, 8.57922, -16, -0.27, -0.953188, 0, -18.0537, -56, -0.3, 6.8966, 0.28, 1.67219, -40, -0.13, -8.29964, 0.26, 15.813 ),
+"times": PoolRealArray( 0, 0.5, 1, 1.5 )
+}
+
+[sub_resource type="AnimationNodeAnimation" id=3]
+animation = "Idle"
+
+[node name="CanvasLayer" type="CanvasLayer"]
+pause_mode = 2
+
+[node name="InGameMenuAndHud" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+pathToQuit = NodePath("BaseMenu/Quit")
+pathToHealthConatiner = NodePath("PlayerHud/Health")
+
+[node name="PlayerHud" type="Control" parent="InGameMenuAndHud"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -512.0
+margin_top = -300.0
+margin_right = 512.0
+margin_bottom = 300.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FPS" type="Label" parent="InGameMenuAndHud/PlayerHud"]
+visible = false
+anchor_right = 0.0390625
+anchor_bottom = 0.0233333
+text = "FPS:"
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Speed" type="Label" parent="InGameMenuAndHud/PlayerHud"]
+visible = false
+anchor_top = 0.0523474
+anchor_right = 0.0390626
+anchor_bottom = 0.0756807
+text = "Speed: "
+script = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="State" type="Label" parent="InGameMenuAndHud/PlayerHud"]
+visible = false
+anchor_top = 0.112364
+anchor_right = 0.0458984
+anchor_bottom = 0.135697
+text = "Speed: "
+script = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Crosshair" type="TextureRect" parent="InGameMenuAndHud/PlayerHud"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -24.0005
+margin_top = -22.5
+margin_right = 24.0005
+margin_bottom = 22.5
+texture = ExtResource( 1 )
+expand = true
+stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Health" type="Control" parent="InGameMenuAndHud/PlayerHud"]
+anchor_left = 0.25
+anchor_top = 0.0666667
+anchor_right = 0.75
+anchor_bottom = 0.12
+margin_top = -3.8147e-06
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": true
+}
+
+[node name="ProgressBar" type="ProgressBar" parent="InGameMenuAndHud/PlayerHud/Health"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+max_value = 99.0
+value = 99.0
+rounded = true
+percent_visible = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Display" type="RichTextLabel" parent="InGameMenuAndHud/PlayerHud"]
+anchor_top = 0.579014
+anchor_right = 1.0
+anchor_bottom = 0.715681
+bbcode_enabled = true
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Timer" type="Timer" parent="InGameMenuAndHud/PlayerHud/Display"]
+one_shot = true
+
+[node name="TextureRect" type="TextureRect" parent="InGameMenuAndHud/PlayerHud"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -552.0
+margin_top = -340.0
+margin_right = 552.0
+margin_bottom = 340.0
+texture = ExtResource( 16 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BaseMenu" type="Panel" parent="InGameMenuAndHud"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Continue" type="Button" parent="InGameMenuAndHud/BaseMenu"]
+anchor_left = 0.4375
+anchor_top = 0.426667
+anchor_right = 0.4375
+anchor_bottom = 0.426667
+margin_right = 128.0
+margin_bottom = 40.0
+text = "Continue"
+script = ExtResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Button" type="Button" parent="InGameMenuAndHud/BaseMenu"]
+anchor_left = 0.4375
+anchor_top = 0.533333
+anchor_right = 0.4375
+anchor_bottom = 0.533333
+margin_right = 128.0
+margin_bottom = 40.0
+text = "Options"
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+path = NodePath("../../OptionsMenu")
+
+[node name="Quit" type="Button" parent="InGameMenuAndHud/BaseMenu"]
+anchor_left = 0.437
+anchor_top = 0.64
+anchor_right = 0.437
+anchor_bottom = 0.64
+margin_left = 0.511993
+margin_right = 128.512
+margin_bottom = 40.0
+text = "Quit"
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Feedback" type="Button" parent="InGameMenuAndHud/BaseMenu"]
+anchor_left = 0.4375
+anchor_top = 0.32
+anchor_right = 0.4375
+anchor_bottom = 0.32
+margin_right = 128.0
+margin_bottom = 40.0
+text = "Feedback"
+script = ExtResource( 17 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OptionsMenu" type="Panel" parent="InGameMenuAndHud"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Actual Control Settings" type="TabContainer" parent="InGameMenuAndHud/OptionsMenu"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Settings" type="Tabs" parent="InGameMenuAndHud/OptionsMenu/Actual Control Settings"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+rect_pivot_offset = Vector2( -508, 208 )
+
+[node name="ToggleSprint" parent="InGameMenuAndHud/OptionsMenu/Actual Control Settings/Settings" instance=ExtResource( 2 )]
+anchor_left = 0.011811
+anchor_top = 0.0141844
+anchor_right = 0.011811
+anchor_bottom = 0.0141845
+text = "Toggle Sprint"
+
+[node name="Invert x" parent="InGameMenuAndHud/OptionsMenu/Actual Control Settings/Settings" instance=ExtResource( 2 )]
+anchor_left = 0.011811
+anchor_top = 0.0876213
+anchor_right = 0.011811
+anchor_bottom = 0.0876213
+text = "Invert X"
+optionName = 4
+
+[node name="Invert Y" parent="InGameMenuAndHud/OptionsMenu/Actual Control Settings/Settings" instance=ExtResource( 2 )]
+anchor_left = 0.011811
+anchor_top = 0.172728
+anchor_right = 0.011811
+anchor_bottom = 0.172728
+text = "Invert Y"
+optionName = 5
+
+[node name="Mouse Sensitivity X" parent="InGameMenuAndHud/OptionsMenu/Actual Control Settings/Settings" instance=ExtResource( 8 )]
+anchor_left = 0.011811
+anchor_top = 0.257834
+anchor_right = 0.0118111
+anchor_bottom = 0.257834
+name = "Horizontal Sensitivity"
+min = 1.0
+
+[node name="Mouse Sensitivity Y" parent="InGameMenuAndHud/OptionsMenu/Actual Control Settings/Settings" instance=ExtResource( 8 )]
+anchor_left = 0.011811
+anchor_top = 0.368795
+anchor_right = 0.0118111
+anchor_bottom = 0.368795
+name = "Vertical sensitivity"
+min = 1.0
+
+[node name="Mouse Sensitivity Y2" parent="InGameMenuAndHud/OptionsMenu/Actual Control Settings/Settings" instance=ExtResource( 8 )]
+anchor_left = 0.011811
+anchor_top = 0.496454
+anchor_right = 0.0118111
+anchor_bottom = 0.496454
+name = "Camera FOV"
+optionName = 3
+multiplier = 1.0
+min = 50.0
+max = 140.0
+
+[node name="Inputs" type="Tabs" parent="InGameMenuAndHud/OptionsMenu/Actual Control Settings"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="JumpButton" parent="InGameMenuAndHud/OptionsMenu/Actual Control Settings/Inputs" instance=ExtResource( 15 )]
+margin_right = 240.0
+text = "Move Forward"
+input = 0
+
+[node name="JumpButton2" parent="InGameMenuAndHud/OptionsMenu/Actual Control Settings/Inputs" instance=ExtResource( 15 )]
+anchor_top = 0.12766
+anchor_bottom = 0.12766
+margin_right = 240.0
+text = "Move Back"
+input = 1
+
+[node name="JumpButton3" parent="InGameMenuAndHud/OptionsMenu/Actual Control Settings/Inputs" instance=ExtResource( 15 )]
+anchor_top = 0.184397
+anchor_bottom = 0.184397
+margin_right = 240.0
+text = "Strafe Left"
+input = 2
+
+[node name="JumpButton4" parent="InGameMenuAndHud/OptionsMenu/Actual Control Settings/Inputs" instance=ExtResource( 15 )]
+anchor_top = 0.241135
+anchor_bottom = 0.241135
+margin_right = 240.0
+text = "Strafe Right"
+input = 3
+
+[node name="JumpButton5" parent="InGameMenuAndHud/OptionsMenu/Actual Control Settings/Inputs" instance=ExtResource( 15 )]
+anchor_top = 0.297872
+anchor_bottom = 0.297872
+margin_right = 240.0
+text = "Jump"
+input = 4
+
+[node name="JumpButton6" parent="InGameMenuAndHud/OptionsMenu/Actual Control Settings/Inputs" instance=ExtResource( 15 )]
+anchor_top = 0.35461
+anchor_bottom = 0.35461
+margin_right = 240.0
+text = "Crouch"
+
+[node name="JumpButton7" parent="InGameMenuAndHud/OptionsMenu/Actual Control Settings/Inputs" instance=ExtResource( 15 )]
+anchor_top = 0.411348
+anchor_bottom = 0.411348
+margin_right = 240.0
+text = "Sprint"
+input = 6
+
+[node name="JumpButton8" parent="InGameMenuAndHud/OptionsMenu/Actual Control Settings/Inputs" instance=ExtResource( 15 )]
+anchor_top = 0.468085
+anchor_bottom = 0.468085
+margin_right = 240.0
+text = "Weapon Slot 1"
+input = 12
+
+[node name="JumpButton9" parent="InGameMenuAndHud/OptionsMenu/Actual Control Settings/Inputs" instance=ExtResource( 15 )]
+anchor_top = 0.524823
+anchor_bottom = 0.524823
+margin_right = 240.0
+text = "Weapon Slot 2"
+input = 13
+
+[node name="JumpButton10" parent="InGameMenuAndHud/OptionsMenu/Actual Control Settings/Inputs" instance=ExtResource( 15 )]
+anchor_top = 0.58156
+anchor_bottom = 0.58156
+margin_right = 240.0
+text = "Weapon Slot 3"
+input = 14
+
+[node name="JumpButton11" parent="InGameMenuAndHud/OptionsMenu/Actual Control Settings/Inputs" instance=ExtResource( 15 )]
+anchor_top = 0.638298
+anchor_bottom = 0.638298
+margin_right = 240.0
+text = "Weapon Slot 4"
+input = 15
+
+[node name="JumpButton12" parent="InGameMenuAndHud/OptionsMenu/Actual Control Settings/Inputs" instance=ExtResource( 15 )]
+anchor_top = 0.695035
+anchor_bottom = 0.695035
+margin_right = 240.0
+text = "Holster"
+input = 16
+
+[node name="Button" type="Button" parent="InGameMenuAndHud/OptionsMenu"]
+anchor_left = 0.0625
+anchor_top = 0.92
+anchor_right = 0.062875
+anchor_bottom = 0.92
+margin_right = 127.616
+margin_bottom = 24.0
+text = "Apply"
+script = ExtResource( 10 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button2" type="Button" parent="InGameMenuAndHud/OptionsMenu"]
+anchor_left = 0.8125
+anchor_top = 0.92
+anchor_right = 0.8125
+anchor_bottom = 0.92
+margin_right = 128.0
+margin_bottom = 24.0
+text = "Back"
+script = ExtResource( 11 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+path = NodePath("../../BaseMenu")
+confirmPath = NodePath("../../Confirm")
+
+[node name="SavingRequest" type="Panel" parent="InGameMenuAndHud"]
+visible = false
+anchor_left = 0.15625
+anchor_top = 0.156667
+anchor_right = 0.84375
+anchor_bottom = 0.843333
+margin_bottom = 3.05176e-05
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="RichTextLabel" type="RichTextLabel" parent="InGameMenuAndHud/SavingRequest"]
+anchor_left = 0.435369
+anchor_top = 0.453883
+anchor_right = 0.564631
+anchor_bottom = 0.546117
+margin_bottom = -1.52588e-05
+bbcode_enabled = true
+bbcode_text = "[center]Save Game?[/center]"
+text = "Save Game?"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Button" type="Button" parent="InGameMenuAndHud/SavingRequest"]
+anchor_left = 0.451923
+anchor_top = 0.575375
+anchor_right = 0.548603
+anchor_bottom = 0.623918
+text = "Yes"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Button2" type="Button" parent="InGameMenuAndHud/SavingRequest"]
+anchor_left = 0.451923
+anchor_top = 0.662329
+anchor_right = 0.548603
+anchor_bottom = 0.710873
+margin_right = -3.05176e-05
+text = "No"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Saving" type="Panel" parent="InGameMenuAndHud"]
+visible = false
+anchor_left = 0.15625
+anchor_top = 0.156667
+anchor_right = 0.84375
+anchor_bottom = 0.843333
+margin_bottom = 3.05176e-05
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="RichTextLabel" type="RichTextLabel" parent="InGameMenuAndHud/Saving"]
+anchor_left = 0.435369
+anchor_top = 0.453883
+anchor_right = 0.564631
+anchor_bottom = 0.546117
+margin_bottom = -1.52588e-05
+bbcode_enabled = true
+bbcode_text = "[center]Saving...[/center]"
+text = "Saving..."
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Confirm" type="Panel" parent="InGameMenuAndHud"]
+visible = false
+anchor_left = 0.312
+anchor_top = 0.427
+anchor_right = 0.312
+anchor_bottom = 0.427
+margin_left = 0.511993
+margin_top = -0.200012
+margin_right = 384.512
+margin_bottom = 127.8
+
+[node name="RichTextLabel" type="RichTextLabel" parent="InGameMenuAndHud/Confirm"]
+anchor_top = 0.125
+anchor_bottom = 0.125
+margin_right = 384.0
+margin_bottom = 24.0
+bbcode_enabled = true
+bbcode_text = "[center]Confirm Changes Made To Settings?[/center]"
+text = "Confirm Changes Made To Settings?"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="InGameMenuAndHud/Confirm"]
+anchor_left = 0.166667
+anchor_top = 0.6875
+anchor_right = 0.166667
+anchor_bottom = 0.6875
+margin_right = 64.0
+margin_bottom = 24.0
+text = "Yes"
+script = ExtResource( 13 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+path = NodePath("../../BaseMenu")
+
+[node name="Button2" type="Button" parent="InGameMenuAndHud/Confirm"]
+anchor_left = 0.666667
+anchor_top = 0.6875
+anchor_right = 0.666667
+anchor_bottom = 0.6875
+margin_right = 64.0
+margin_bottom = 24.0
+text = "No"
+script = ExtResource( 12 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+path = NodePath("../../BaseMenu")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="InGameMenuAndHud"]
+anims/Idle = SubResource( 1 )
+anims/Walking = SubResource( 2 )
+
+[node name="AnimationTree" type="AnimationTree" parent="InGameMenuAndHud"]
+tree_root = SubResource( 3 )
+anim_player = NodePath("../AnimationPlayer")
+
+[node name="Upgrade" type="Control" parent="InGameMenuAndHud"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Panel" type="Panel" parent="InGameMenuAndHud/Upgrade"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -176.0
+margin_top = -68.0
+margin_right = 176.0
+margin_bottom = 68.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RichTextLabel" type="RichTextLabel" parent="InGameMenuAndHud/Upgrade/Panel"]
+anchor_left = 0.045
+anchor_top = 0.118
+anchor_right = 0.045
+anchor_bottom = 0.118
+margin_left = 0.16
+margin_top = -0.0480003
+margin_right = 320.16
+margin_bottom = 15.952
+bbcode_enabled = true
+bbcode_text = "[center]Upgrade Name[/center]"
+text = "Upgrade Name"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="InGameMenuAndHud/Upgrade/Panel"]
+anchor_left = 0.045
+anchor_top = 0.294
+anchor_right = 0.045
+anchor_bottom = 0.294117
+margin_left = 0.16
+margin_top = 0.0159988
+margin_right = 320.16
+margin_bottom = 83.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="InGameMenuAndHud/Upgrade/Panel"]
+anchor_left = 0.363636
+anchor_top = 1.05882
+anchor_right = 0.363636
+anchor_bottom = 1.05882
+margin_right = 96.0
+margin_bottom = 20.0
+text = "Continue"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+[connection signal="pressed" from="InGameMenuAndHud/SavingRequest/Button" to="InGameMenuAndHud" method="SaveGameConfirmed" binds= [ true ]]
+[connection signal="pressed" from="InGameMenuAndHud/SavingRequest/Button2" to="InGameMenuAndHud" method="SaveGameConfirmed" binds= [ false ]]

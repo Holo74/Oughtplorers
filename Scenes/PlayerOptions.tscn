@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scripts/Player/PlayerOptions.cs" type="Script" id=1]
+
+[node name="PlayerOptions" type="Node"]
+script = ExtResource( 1 )

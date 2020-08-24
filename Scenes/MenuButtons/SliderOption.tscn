@@ -1,0 +1,51 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scripts/Menu/MenuButtons/SettingFloatValues.cs" type="Script" id=1]
+
+[node name="Mouse Sensitivity X" type="Control"]
+anchor_left = 0.0393701
+anchor_top = 0.326241
+anchor_right = 0.0393701
+anchor_bottom = 0.326241
+margin_top = -0.000198364
+margin_right = 256.0
+margin_bottom = 47.9998
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+multiplier = -100.0
+
+[node name="SpinBox" type="SpinBox" parent="."]
+margin_right = 74.0
+margin_bottom = 24.0
+value = 20.0
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HSlider" type="HSlider" parent="."]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_right = 256.0
+margin_bottom = 24.0
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+anchor_left = 0.289062
+anchor_top = 4.13259e-06
+anchor_right = 0.289062
+anchor_bottom = 4.13259e-06
+margin_left = -7.62939e-06
+margin_top = -0.000198364
+margin_right = 182.0
+margin_bottom = 23.9998
+bbcode_enabled = true
+bbcode_text = "[center]Horizontal sensitivity[/center]"
+text = "Horizontal sensitivity"
+__meta__ = {
+"_edit_use_anchors_": false
+}
