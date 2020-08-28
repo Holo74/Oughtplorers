@@ -122,6 +122,9 @@
     <Compile Include="Scripts/Projectiles/EnemyProjectiles.cs" />
     <Compile Include="Scripts/Projectiles/PlayerProjectiles.cs" />
     <Compile Include="Scripts/Menu/StateShower.cs" />
+    <Compile Include="Scripts\AI\AIStarters.cs" />
+    <Compile Include="Scripts\AI\GenericLinks\FadeToDeath.cs" />
+    <Compile Include="Scripts\AI\TinyCreature\TinyCreatureStart.cs" />
     <Compile Include="Scripts\Environment\DoorLoadingInfo.cs" />
     <Compile Include="Scripts\Environment\MakeCurrentRoom.cs" />
   </ItemGroup>

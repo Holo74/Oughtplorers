@@ -12,6 +12,14 @@ public class Door : HealthStatic
     private Vector3 offset, rot;
     public override void _Ready()
     {
+        DoorLoadingInfo info = GetParent<DoorLoadingInfo>();
+        offset = info.offset;
+        rot = info.rot;
+        path = info.pathway;
+        WorldManager.instance.RegisterSwitchingRoomEvent(RoomSwitched);
+        registered = true;
+        GetParent<Spatial>().Translate(Vector3.Up * 4);
+        loaded = false;
         Init(-1);
         tree = GetChild(1).GetChild<AnimationTree>(0);
         tree.Active = true;
@@ -51,18 +59,6 @@ public class Door : HealthStatic
     {
         if (registered && WorldManager.instance != null)
             WorldManager.instance.DeregisterSwitchingRoomEvent(RoomSwitched);
-    }
-
-    public override void _EnterTree()
-    {
-        DoorLoadingInfo info = GetParent<DoorLoadingInfo>();
-        offset = info.offset;
-        rot = info.rot;
-        path = info.pathway;
-        WorldManager.instance.RegisterSwitchingRoomEvent(RoomSwitched);
-        registered = true;
-        GetParent<Spatial>().Translate(Vector3.Up * 4);
-        loaded = false;
     }
 
     private void RoomSwitched(Node room)

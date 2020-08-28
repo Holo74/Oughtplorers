@@ -11,14 +11,13 @@
 [node name="Door2" parent="." instance=ExtResource( 2 )]
 transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, -5.97755, -9, 0.0123717 )
 pathway = "res://Scenes/TestingLevels/TreeTesting/AboveTheCatapillar/ATC2.tscn"
-id = 2
+id = 1
 offset = Vector3( 9, -28, 0 )
 
 [node name="Door" parent="." instance=ExtResource( 2 )]
 transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, 0.885288, 0, 0.0123717 )
-pathway = "res://Scenes/TestingLevels/TreeTesting/BirdNestPathwayToTheTree/BNPT.tscn"
-id = 1
-offset = Vector3( 6.37, 0, 0 )
+pathway = "res://Scenes/TestingLevels/TreeTesting/CrashLandingLevels/A1.tscn"
+offset = Vector3( 8.702, 7.302, 0.012 )
 
 [node name="Spatial" parent="." instance=ExtResource( 3 )]
 transform = Transform( 2.16135, 0, 0, 0, 5.84777, 0, 0, 0, 1, -2.30545, -4.24455, 0 )

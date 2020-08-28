@@ -91,7 +91,9 @@ public class Momentum : BaseAttatch
                     }
                 }
                 if (currentSpeed > maxSpeed)
+                {
                     currentSpeed = Mathf.Clamp(currentSpeed - time * PlayerOptions.playerDeccelerationAboveMax, maxSpeed, currentSpeed);
+                }
             }
             if (!groundData.colliding || controller.ability.GetNoCollide())
             {

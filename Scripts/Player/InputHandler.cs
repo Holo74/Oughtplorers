@@ -6,6 +6,73 @@ public class InputHandler : Node
 {
     [Signal]
     public delegate void MouseMoved(Vector2 inputting);
+    public delegate void inputting();
+    private inputting MF, MB, ML, MR, J, C, S, T, H, G, St, Q, W1, W2, W3, W4, Ho, CWU, CWD;
+    public void RegisterToInputEvent(Keys key, inputting function)
+    {
+        switch (key)
+        {
+            case Keys.moveForward:
+                MF += function;
+                break;
+            case Keys.moveBack:
+                MB += function;
+                break;
+            case Keys.moveLeft:
+                ML += function;
+                break;
+            case Keys.moveRight:
+                MR += function;
+                break;
+            case Keys.jump:
+                J += function;
+                break;
+            case Keys.crouch:
+                C += function;
+                break;
+            case Keys.sprint:
+                S += function;
+                break;
+            case Keys.throwing:
+                T += function;
+                break;
+            case Keys.hitting:
+                H += function;
+                break;
+            case Keys.gliding:
+                G += function;
+                break;
+            case Keys.strafe:
+                St += function;
+                break;
+            case Keys.escapeButton:
+                Q += function;
+                break;
+            case Keys.weapon1:
+                W1 += function;
+                break;
+            case Keys.weapon2:
+                W2 += function;
+                break;
+            case Keys.weapon3:
+                W3 += function;
+                break;
+            case Keys.weapon4:
+                W4 += function;
+                break;
+            case Keys.hostler:
+                Ho += function;
+                break;
+            case Keys.cycleUp:
+                CWU += function;
+                break;
+            case Keys.cycleDown:
+                CWD += function;
+                break;
+            default:
+                break;
+        }
+    }
     private bool[] inputs = new bool[19];
     public static InputHandler Instance { get; private set; }
     private static string[] ActionNames =
@@ -33,32 +100,6 @@ public class InputHandler : Node
         Instance = this;
     }
 
-    public override void _Process(float delta)
-    {
-        if (!GameManager.Instance.allowInputs)
-            return;
-        inputs[(int)Keys.moveForward] = Input.IsActionPressed("MoveForward");
-        inputs[(int)Keys.moveBack] = Input.IsActionPressed("MoveBack");
-        inputs[(int)Keys.moveLeft] = Input.IsActionPressed("MoveLeft");
-        inputs[(int)Keys.moveRight] = Input.IsActionPressed("MoveRight");
-        inputs[(int)Keys.jump] = Input.IsActionJustPressed("Jump");
-        inputs[(int)Keys.crouch] = Input.IsActionJustPressed("Crouch");
-        inputs[(int)Keys.sprint] = Input.IsActionPressed("Sprint");
-        inputs[(int)Keys.hitting] = Input.IsActionJustPressed("Hit");
-        inputs[(int)Keys.throwing] = Input.IsActionJustPressed("Throwing");
-        inputs[(int)Keys.gliding] = Input.IsActionPressed("Jump");
-        inputs[(int)Keys.strafe] = Input.IsActionJustPressed("Strafe");
-        inputs[(int)Keys.escapeButton] = Input.IsActionJustPressed("Quit");
-        inputs[(int)Keys.weapon1] = Input.IsActionJustPressed("Weapon1");
-        inputs[(int)Keys.weapon2] = Input.IsActionJustPressed("Weapon2");
-        inputs[(int)Keys.weapon3] = Input.IsActionJustPressed("Weapon3");
-        inputs[(int)Keys.weapon4] = Input.IsActionJustPressed("Weapon4");
-        inputs[(int)Keys.hostler] = Input.IsActionJustPressed("Holster");
-        inputs[(int)Keys.cycleUp] = Input.IsActionJustReleased("CycleWeaponUp");
-        inputs[(int)Keys.cycleDown] = Input.IsActionJustReleased("CycleWeaponDown");
-
-    }
-
     public static string GetScanCode(string key)
     {
         string holder = "";
@@ -83,6 +124,8 @@ public class InputHandler : Node
 
     public override void _Input(InputEvent @event)
     {
+        if (!GameManager.Instance.allowInputs)
+            return;
         if (@event is InputEventMouseMotion motion)
         {
             EmitSignal(nameof(MouseMoved), motion.Relative);

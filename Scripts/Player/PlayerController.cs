@@ -64,7 +64,7 @@ public class PlayerController : HealthKinematic
         for (int i = 0; i < 4; i++)
         {
             weapons[i] = GetNode(gunPath).GetChild<Spatial>(i);
-            weapons[i].Translate(Vector3.Down * 5);
+            weapons[i].Scale = Vector3.Zero;
         }
         fireFromLocations = GetChild<Spatial>(2).GetChild<Spatial>(0).GetChild<Spatial>(1);
         ability.AddToWeaponChange(WeaponChanged);
@@ -74,11 +74,10 @@ public class PlayerController : HealthKinematic
 
     private void WeaponChanged(CurrentWeaponEquiped weapon)
     {
-        GD.Print("Weapon changed");
         if (equipedWeapon != null)
-            equipedWeapon.Translate(Vector3.Down * 5);
+            equipedWeapon.Scale = Vector3.Zero;
         equipedWeapon = weapons[(int)weapon];
-        equipedWeapon.Translate(Vector3.Up * 5);
+        equipedWeapon.Scale = Vector3.One;
     }
 
     public void UpdateCharacterSettings()

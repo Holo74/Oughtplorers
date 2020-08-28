@@ -130,11 +130,11 @@ public class WorldManager : Node
                     loadingDone?.Invoke(true);
                     loadingDone = null;
                     nextRoom = node;
+                    loader = null;
                     break;
                 case Error.Ok:
                     break;
                 default:
-                    loader = null;
                     break;
             }
         }

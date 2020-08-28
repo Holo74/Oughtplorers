@@ -4,6 +4,8 @@ public abstract class AILink
     {
         this.controller = controller;
     }
+    protected bool started = false;
+    public bool Started { get { return started; } }
     protected MasterController controller;
     public abstract void StartingLink();
     public abstract void LinkUpdate();

@@ -116,7 +116,12 @@ public class PlayerAbility : BaseAttatch
                 controller.playMovement.GroundMovement(direction, maxSpeed, acceleration);
                 break;
             case PlayerState.crouch:
-                controller.playMovement.GroundMovement(direction, PlayerOptions.playerMaxCrouchSpeed, PlayerOptions.playerWalkingSpeed);
+                float acc = PlayerOptions.playerCrouchSpeed;
+                if (controller.playMovement.GetCurrentSpeed() > controller.playMovement.GetMaxSpeed())
+                {
+                    acc = 0;
+                }
+                controller.playMovement.GroundMovement(direction, PlayerOptions.playerMaxCrouchSpeed, acc);
                 break;
             case PlayerState.wallRunning:
             case PlayerState.fallingDown:

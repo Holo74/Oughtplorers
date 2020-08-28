@@ -8,6 +8,19 @@ public class HealthKinematic : KinematicBody, Health
     //Used in conjunction with another body that is considered the main body
     private HealthKinematic master;
     //Needs to be formated to have a certain amount of health
+    public delegate void TakeDamageSignal(int damaged, int health);
+    private TakeDamageSignal damaged;
+
+    public void RegisterDamageSignal(TakeDamageSignal function)
+    {
+        damaged += function;
+    }
+
+    public void DeRegisterDamageSignal(TakeDamageSignal function)
+    {
+        damaged -= function;
+    }
+
     public void Init(float maxHealth)
     {
         health = maxHealth;

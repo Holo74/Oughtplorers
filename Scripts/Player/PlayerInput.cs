@@ -22,87 +22,87 @@ public class PlayerInput : BaseAttatch
         }
         if (controller.ability.GetNoCollide())
         {
-            if (input.GetInput(Keys.moveForward))
+            if (Input.IsActionPressed("MoveForward"))
             {
                 controller.ability.Move(-controller.camera.GlobalTransform.basis.z, sprint);
             }
-            if (input.GetInput(Keys.moveBack))
+            if (Input.IsActionPressed("MoveBack"))
             {
                 controller.ability.Move(controller.camera.GlobalTransform.basis.z, sprint);
             }
-            if (input.GetInput(Keys.moveLeft))
+            if (Input.IsActionPressed("MoveLeft"))
             {
                 controller.ability.Move(-controller.camera.GlobalTransform.basis.x, sprint);
             }
-            if (input.GetInput(Keys.moveRight))
+            if (Input.IsActionPressed("MoveRight"))
             {
                 controller.ability.Move(controller.camera.GlobalTransform.basis.x, sprint);
             }
             return;
         }
         bool jumped = false;
-        if (input.GetInput(Keys.moveForward))
+        if (Input.IsActionPressed("MoveForward"))
         {
             controller.ability.Move(-controller.Transform.basis.z, sprint, true);
             movedForwardOrBack = true;
         }
-        if (input.GetInput(Keys.moveBack))
+        if (Input.IsActionPressed("MoveBack"))
         {
             controller.ability.Move(controller.Transform.basis.z, sprint);
             movedForwardOrBack = true;
         }
-        if (input.GetInput(Keys.moveLeft))
+        if (Input.IsActionPressed("MoveLeft"))
         {
             controller.ability.Move(-controller.Transform.basis.x, sprint);
-            if (input.GetInput(Keys.strafe) && !movedForwardOrBack)
+            if (Input.IsActionJustPressed("Strafe") && !movedForwardOrBack)
                 controller.ability.Strafe(-controller.Transform.basis.x);
         }
-        if (input.GetInput(Keys.moveRight))
+        if (Input.IsActionPressed("MoveRight"))
         {
             controller.ability.Move(controller.Transform.basis.x, sprint);
-            if (input.GetInput(Keys.strafe) && !movedForwardOrBack)
+            if (Input.IsActionJustPressed("Strafe") && !movedForwardOrBack)
                 controller.ability.Strafe(controller.Transform.basis.x);
         }
-        if (input.GetInput(Keys.jump))
+        if (Input.IsActionJustPressed("Jump"))
         {
             controller.ability.Jump();
             jumped = true;
         }
-        if (input.GetInput(Keys.gliding) && !jumped)
+        if (Input.IsActionPressed("Jump") && !jumped)
         {
             controller.ability.Glide();
         }
-        if (input.GetInput(Keys.crouch))
+        if (Input.IsActionJustPressed("Crouch"))
             controller.ability.Crouch();
-        if (input.GetInput(Keys.throwing))
+        if (Input.IsActionJustPressed("Throwing"))
         {
             controller.ability.Throw();
         }
-        if (input.GetInput(Keys.weapon1))
+        if (Input.IsActionJustPressed("Weapon1"))
         {
             controller.ability.SwapWeapon(CurrentWeaponEquiped.first);
         }
-        if (input.GetInput(Keys.weapon2))
+        if (Input.IsActionJustPressed("Weapon2"))
         {
             controller.ability.SwapWeapon(CurrentWeaponEquiped.second);
         }
-        if (input.GetInput(Keys.weapon3))
+        if (Input.IsActionJustPressed("Weapon3"))
         {
             controller.ability.SwapWeapon(CurrentWeaponEquiped.third);
         }
-        if (input.GetInput(Keys.weapon4))
+        if (Input.IsActionJustPressed("Weapon4"))
         {
             controller.ability.SwapWeapon(CurrentWeaponEquiped.fourth);
         }
-        if (input.GetInput(Keys.hostler))
+        if (Input.IsActionJustPressed("Holster"))
         {
             controller.ability.SwapWeapon(CurrentWeaponEquiped.none);
         }
-        if (input.GetInput(Keys.cycleUp))
+        if (Input.IsActionJustReleased("CycleWeaponUp"))
         {
             controller.ability.SwapWeapon(true);
         }
-        if (input.GetInput(Keys.cycleDown))
+        if (Input.IsActionJustReleased("CycleWeaponDown"))
         {
             controller.ability.SwapWeapon(false);
         }
@@ -112,22 +112,13 @@ public class PlayerInput : BaseAttatch
     {
         if (SettingsOptions.GetSetting<bool>(SettingsNames.toggleSprint))
         {
-            if (!sprintLock)
+            if (Input.IsActionJustPressed("Sprint"))
             {
-                if (input.GetInput(Keys.sprint))
-                {
-                    sprintLock = true;
-                    sprintToggleOn = !sprintToggleOn;
-                }
-            }
-            else
-            {
-                if (!input.GetInput(Keys.sprint))
-                    sprintLock = false;
+                sprintToggleOn = !sprintToggleOn;
             }
             return sprintToggleOn;
         }
-        return input.GetInput(Keys.sprint);
+        return Input.IsActionPressed("Sprint");
     }
 
     public void Rotating(Vector2 vec)
