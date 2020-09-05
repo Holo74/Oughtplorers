@@ -276,7 +276,7 @@ shape = SubResource( 2 )
 cull_mask = 1048573
 current = true
 
-[node name="Spatial" type="Spatial" parent="HeadCollisionPos/HeadRot"]
+[node name="FiringPoint" type="Spatial" parent="HeadCollisionPos/HeadRot"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0595741, -0.030191, -0.974782 )
 
 [node name="HeadCast" type="RayCast" parent="HeadCollisionPos"]
@@ -285,7 +285,7 @@ script = ExtResource( 2 )
 current = 1
 
 [node name="Above" type="Area" parent="HeadCollisionPos"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.508699, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.355788, 0 )
 input_ray_pickable = false
 script = ExtResource( 3 )
 direction = 3
@@ -294,7 +294,7 @@ direction = 3
 shape = SubResource( 3 )
 
 [node name="HeadSpace" type="RayCast" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.329605, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.279173, 0 )
 cast_to = Vector3( 0, 1.209, 0 )
 script = ExtResource( 2 )
 current = 3
@@ -355,7 +355,10 @@ __meta__ = {
 size = Vector2( 1024, 600 )
 transparent_bg = true
 handle_input_locally = false
+hdr = false
+usage = 3
 render_target_update_mode = 3
+gui_snap_controls_to_pixels = false
 
 [node name="Camera" type="Camera" parent="ViewportContainer/Viewport"]
 cull_mask = 2

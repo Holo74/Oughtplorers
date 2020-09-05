@@ -1,0 +1,45 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Models/TreeLevelLevelBoxes/CrashLanding/CrashLanding.escn" type="PackedScene" id=1]
+[ext_resource path="res://Scenes/Environment/Spawn.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/Environment/Upgrades.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/Creatures/Passive/TinyCreature/TinyCreature.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/Environment/BasicDoor.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Scenes/Environment/MakeCurrentRoom.tscn" type="PackedScene" id=6]
+
+[node name="CrashLanding" instance=ExtResource( 1 )]
+
+[node name="Crash LandingPhysics" parent="." index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+
+[node name="Spawn" parent="." index="1" instance=ExtResource( 2 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 47.4476, -3, -8.06091 )
+
+[node name="Upgrades" parent="." index="2" instance=ExtResource( 3 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 42.8032, 1, -7.66479 )
+upgradeName = 6
+name = "Service Pistol"
+description = "Basic Pistol that i capable of taking down smaller foes while stunning more resiliant foes"
+
+[node name="TinyCreature" parent="." index="3" instance=ExtResource( 4 )]
+transform = Transform( 0.870089, 0, 0.492894, 0, 1, 0, -0.492894, 0, 0.870089, 38.9463, 1.38716, -7.70269 )
+
+[node name="TinyCreature2" parent="." index="4" instance=ExtResource( 4 )]
+transform = Transform( 0.93291, 0, -0.360111, 0, 1, 0, 0.360111, 0, 0.93291, 35.787, 2.38716, -6.61662 )
+
+[node name="TinyCreature3" parent="." index="5" instance=ExtResource( 4 )]
+transform = Transform( 0.93291, 0, -0.360111, 0, 1, 0, 0.360111, 0, 0.93291, 33.9755, 0.38716, -6.54022 )
+
+[node name="TinyCreature4" parent="." index="6" instance=ExtResource( 4 )]
+transform = Transform( 0.33951, 0, 0.940603, 0, 1, 0, -0.940603, 0, 0.33951, 30.8836, -2.57115, -7.3584 )
+
+[node name="Door" parent="." index="7" instance=ExtResource( 5 )]
+transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, -15, -12, 0 )
+pathway = "res://Scenes/InGameLevels/TreeLevels/WormTunnel/WormTunnel.tscn"
+offset = Vector3( -16, -12, 0 )
+
+[node name="MakeCurrentRoom" parent="." index="8" instance=ExtResource( 6 )]
+transform = Transform( 3.78613, 0, 0, 0, 3.12393, 0, 0, 0, 3.98356, -10.057, -10.3427, 0.197222 )
+
+[node name="MakeCurrentRoom2" parent="." index="9" instance=ExtResource( 6 )]
+transform = Transform( 3.78613, 0, 0, 0, 3.12393, 0, 0, 0, 3.98356, 52.5436, -3.45487, -7.57168 )

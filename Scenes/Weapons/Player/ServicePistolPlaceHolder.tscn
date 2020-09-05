@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Models/PlayerModels/StarterPistolPlaceHolder/Material.material" type="Material" id=1]
 
-[sub_resource type="ArrayMesh" id=1]
+[sub_resource type="ArrayMesh" id=2]
 resource_name = "Cube"
 surfaces/0 = {
 "aabb": AABB( -0.0218654, -0.0429335, -0.0162372, 0.0437407, 0.23891, 0.307808 ),
@@ -21,5 +21,5 @@ surfaces/0 = {
 
 [node name="Cube" type="MeshInstance" parent="."]
 layers = 2
-mesh = SubResource( 1 )
+mesh = SubResource( 2 )
 material/0 = null

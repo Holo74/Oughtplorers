@@ -269,6 +269,7 @@ public class PlayerAbility : BaseAttatch
 
     private void FallingJump()
     {
+        GD.Print("Regular");
         cayoteTime = PlayerOptions.cayoteMaxTime;
         if (currentState == PlayerState.fallingUp)
             controller.soundControl.PlaySoundFromFoot(PlayerState.fallingUp);
@@ -276,6 +277,7 @@ public class PlayerAbility : BaseAttatch
 
     private void UsedDoubleJump()
     {
+        GD.Print("Double");
         DoubleJumpUsed = true;
         if (currentState == PlayerState.fallingUp)
             controller.soundControl.PlaySoundFromFoot(PlayerState.fallingUp);
@@ -283,6 +285,7 @@ public class PlayerAbility : BaseAttatch
 
     private void UsedTripleJump()
     {
+        GD.Print("Triple");
         tripleJumpUsed = true;
         if (currentState == PlayerState.fallingUp)
             controller.soundControl.PlaySoundFromFoot(PlayerState.fallingUp);

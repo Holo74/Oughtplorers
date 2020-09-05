@@ -7,12 +7,21 @@ public class PlayerInput : BaseAttatch
     private float timeDelta;
     InputHandler input { get { return InputHandler.Instance; } }
     PlayerOptions options { get { return controller.options; } }
-    public PlayerInput(PlayerController controller) : base(controller, true) { }
+    public PlayerInput(PlayerController controller) : base(controller, true)
+    {
+        controller.playMovement.RegisterVerticalChange(HardLanding);
+    }
     private bool sprintToggleOn = false;
     private bool sprintLock = false;
+    private float inputLockTimer = -1f;
 
     public override void Update(float delta)
     {
+        if (inputLockTimer > 0f)
+        {
+            inputLockTimer -= delta;
+            return;
+        }
         timeDelta = delta;
         bool sprint = SprintOutput();
         bool movedForwardOrBack = false;
@@ -123,13 +132,20 @@ public class PlayerInput : BaseAttatch
 
     public void Rotating(Vector2 vec)
     {
-        if (GameManager.Instance.playing)
+        if (GameManager.Instance.playing && inputLockTimer <= 0f)
         {
             controller.bodyRotation.RotateAmount(vec.x * timeDelta * SettingsOptions.GetSetting<float>(SettingsNames.mouseXSensitivity) *
             (SettingsOptions.GetSetting<bool>(SettingsNames.invertX) ? -1 : 1));
             controller.headRotation.RotateAmount(vec.y * timeDelta * SettingsOptions.GetSetting<float>(SettingsNames.mouseYSensitivity) *
             (SettingsOptions.GetSetting<bool>(SettingsNames.invertY) ? -1 : 1));
         }
+    }
 
+    public void HardLanding(float amount)
+    {
+        if (amount < -15)
+        {
+            inputLockTimer = 1f;
+        }
     }
 }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Textures/TargetRetical.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/MenuButtons/ToggleOption.tscn" type="PackedScene" id=2]
@@ -43,7 +43,29 @@ tracks/1/keys = {
 }
 
 [sub_resource type="Animation" id=2]
-resource_name = "Walking"
+resource_name = "Jumping"
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("PlayerHud/TextureRect:rect_position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( -40, -0.25, 0, 0.25, 0, -40, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("PlayerHud/TextureRect:rect_position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( -40, -0.25, 0, 0.11, -36.1273, -65, -0.82, -10.8948, 0.25, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+
+[sub_resource type="Animation" id=3]
 length = 1.5
 loop = true
 tracks/0/type = "bezier"
@@ -63,11 +85,11 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"points": PoolRealArray( -40, -0.25, 0, 0.16, 8.57922, -16, -0.27, -0.953188, 0, -18.0537, -56, -0.3, 6.8966, 0.28, 1.67219, -40, -0.13, -8.29964, 0.26, 15.813 ),
+"points": PoolRealArray( -40, -0.25, 0, 0.16, 8.57922, -16, -0.27, -0.953188, 0, -18.0537, -50, -0.3, 6.8966, 0.28, 1.67219, -40, -0.13, -8.29964, 0.26, 15.813 ),
 "times": PoolRealArray( 0, 0.5, 1, 1.5 )
 }
 
-[sub_resource type="AnimationNodeAnimation" id=3]
+[sub_resource type="AnimationNodeAnimation" id=4]
 animation = "Idle"
 
 [node name="CanvasLayer" type="CanvasLayer"]
@@ -570,10 +592,11 @@ path = NodePath("../../BaseMenu")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="InGameMenuAndHud"]
 anims/Idle = SubResource( 1 )
-anims/Walking = SubResource( 2 )
+anims/Jumping = SubResource( 2 )
+anims/Walking = SubResource( 3 )
 
 [node name="AnimationTree" type="AnimationTree" parent="InGameMenuAndHud"]
-tree_root = SubResource( 3 )
+tree_root = SubResource( 4 )
 anim_player = NodePath("../AnimationPlayer")
 
 [node name="Upgrade" type="Control" parent="InGameMenuAndHud"]

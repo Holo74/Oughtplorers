@@ -4,7 +4,7 @@
 
 [sub_resource type="BoxShape" id=1]
 
-[node name="Spatial" type="Area"]
+[node name="MakeCurrentRoom" type="Area"]
 input_ray_pickable = false
 script = ExtResource( 1 )
 

@@ -5,7 +5,7 @@ using Godot.Collections;
 //This is such a fucking mess that I need to fix and redo when the other parts of the game start to come into play
 public class GameManager : Node
 {
-    public static string StartingLevelPath = "res://Scenes/WhiteBoxes/TreeLevelWhiteBox.tscn";
+    public static string StartingLevelPath = "res://Scenes/InGameLevels/TreeLevels/CrashLandingLevels/CrashLanding.tscn";
     private static GameManager instance;
     public static GameManager Instance { get { return instance; } }
     public Node Root { get { return GetTree().Root; } }

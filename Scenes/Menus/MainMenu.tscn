@@ -97,7 +97,6 @@ __meta__ = {
 path = NodePath("../../MainScreen")
 
 [node name="Button2" type="Button" parent="Game"]
-visible = false
 anchor_left = 0.4375
 anchor_top = 0.08
 anchor_right = 0.5625
@@ -108,12 +107,10 @@ script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": true
 }
-useDemoLevels = true
 pathwayToDemoLevel = "res://Scenes/TestingLevels/TreeTesting/AboveTheCatapillar/ATC1.tscn"
 textUsed = "ATC-1"
 
 [node name="Button3" type="Button" parent="Game"]
-visible = false
 anchor_left = 0.4375
 anchor_top = 0.186667
 anchor_right = 0.5625
@@ -125,12 +122,10 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 saveSlot = 1
-useDemoLevels = true
 pathwayToDemoLevel = "res://Scenes/TestingLevels/TreeTesting/AboveTheCatapillar/ATC2.tscn"
 textUsed = "ATC-2"
 
 [node name="Button4" type="Button" parent="Game"]
-visible = false
 anchor_left = 0.4375
 anchor_top = 0.293333
 anchor_right = 0.5625
@@ -142,48 +137,6 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 saveSlot = 2
-useDemoLevels = true
-pathwayToDemoLevel = "res://Scenes/TestingLevels/TreeTesting/AboveTheCatapillar/ATC3.tscn"
-textUsed = "ATC-3"
-
-[node name="ScrollContainer" type="ScrollContainer" parent="Game"]
-margin_left = 440.0
-margin_top = 8.0
-margin_right = 592.0
-margin_bottom = 344.0
-scroll_horizontal_enabled = false
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Game/ScrollContainer"]
-margin_right = 12.0
-margin_bottom = 68.0
-alignment = 1
-
-[node name="Button" type="Button" parent="Game/ScrollContainer/VBoxContainer"]
-margin_right = 12.0
-margin_bottom = 20.0
-script = ExtResource( 4 )
-useDemoLevels = true
-pathwayToDemoLevel = "res://Scenes/TestingLevels/TreeTesting/CrashLandingLevels/A1.tscn"
-textUsed = "A1"
-
-[node name="Button2" type="Button" parent="Game/ScrollContainer/VBoxContainer"]
-margin_top = 24.0
-margin_right = 12.0
-margin_bottom = 44.0
-script = ExtResource( 4 )
-useDemoLevels = true
-pathwayToDemoLevel = "res://Scenes/TestingLevels/TreeTesting/AboveTheCatapillar/ATC2.tscn"
-textUsed = "ATC-2"
-
-[node name="Button3" type="Button" parent="Game/ScrollContainer/VBoxContainer"]
-margin_top = 48.0
-margin_right = 12.0
-margin_bottom = 68.0
-script = ExtResource( 4 )
-useDemoLevels = true
 pathwayToDemoLevel = "res://Scenes/TestingLevels/TreeTesting/AboveTheCatapillar/ATC3.tscn"
 textUsed = "ATC-3"
 

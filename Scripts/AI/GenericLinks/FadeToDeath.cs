@@ -7,14 +7,19 @@ public class FadeToDeath : AILink
     public override void StartingLink()
     {
         started = true;
-        controller.body.CollisionLayer = 0;
+        controller.health.CollisionLayer = 0;
+        controller.health.CollisionMask = 0;
     }
     public override void LinkUpdate()
     {
-        controller.Scale = controller.Scale.LinearInterpolate(Vector3.Zero, 2 * controller.delta);
+
         if (controller.Scale.x < .01f)
         {
             controller.QueueFree();
+        }
+        else
+        {
+            controller.Scale = controller.Scale.LinearInterpolate(Vector3.Zero, 2 * controller.delta);
         }
     }
     public override bool LinkEnd()

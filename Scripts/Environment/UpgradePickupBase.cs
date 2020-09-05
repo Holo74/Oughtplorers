@@ -7,6 +7,8 @@ public class UpgradePickupBase : Spatial
     private UpgradesValues upgradeName = UpgradesValues.DoubleJump;
     [Export]
     private string name = "", description = "";
+
+    private Spatial mesh;
     public override void _Ready()
     {
         string upgrade = PlayerUpgrade.EnumToStringUpgrades(upgradeName);
@@ -19,6 +21,7 @@ public class UpgradePickupBase : Spatial
             }
         }
         GetChild<Area>(0).Connect("body_entered", this, nameof(UpgradeCollected));
+        GetChild<AnimationPlayer>(2).CurrentAnimation = "Hovering";
     }
 
     private void UpgradeCollected(Node body)

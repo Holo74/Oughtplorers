@@ -1,0 +1,6 @@
+/home/holo74/Oughtplorers/.mono/temp/bin/ExportRelease/Oughtplorers.dll
+/home/holo74/Oughtplorers/.mono/temp/bin/ExportRelease/Oughtplorers.pdb
+/home/holo74/Oughtplorers/.mono/temp/obj/ExportRelease/Oughtplorers.csprojAssemblyReference.cache
+/home/holo74/Oughtplorers/.mono/temp/obj/ExportRelease/Oughtplorers.csproj.CoreCompileInputs.cache
+/home/holo74/Oughtplorers/.mono/temp/obj/ExportRelease/Oughtplorers.dll
+/home/holo74/Oughtplorers/.mono/temp/obj/ExportRelease/Oughtplorers.pdb

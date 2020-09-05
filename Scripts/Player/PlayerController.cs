@@ -53,6 +53,7 @@ public class PlayerController : HealthKinematic
         bodyRotation = new Rotation(this, false, this);
         InputHandler.Instance.ConnectToMouseMovement(this, nameof(Rotating));
         playMovement = new Momentum(this);
+        playMovement.RegisterVerticalChange(HardLanding);
         size = new SizeHandler(this, GetChild<Spatial>(2));
         PlayerAreaSensor.GetPlayerSensor(AreaSensorDirection.Bottom).RegisterStateChange(this, nameof(GroundChanging));
         ability = new PlayerAbility(this);
@@ -130,6 +131,8 @@ public class PlayerController : HealthKinematic
 
     public void GroundChanging(bool state)
     {
+        if (playMovement.GetVerticalMove().y > 0 && state)
+            return;
         ability.Land(state);
         playMovement.LandingSignal(state);
     }
@@ -184,5 +187,13 @@ public class PlayerController : HealthKinematic
     public void ReadyWeapon()
     {
         ability.ReadyHoldingWeapon();
+    }
+
+    public void HardLanding(float amount)
+    {
+        if (amount < -15f)
+        {
+            TakeDamage((Mathf.Pow(amount + 15f, 2f)), DamageType.fall, null);
+        }
     }
 }

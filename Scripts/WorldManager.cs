@@ -93,7 +93,7 @@ public class WorldManager : Node
                     {
                         currentRoom = node;
                         loadingBar.Value = 100;
-                        waitFrame = 10f;
+                        waitFrame = 30f;
                     }
                     else
                     {

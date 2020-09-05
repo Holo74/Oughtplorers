@@ -8,7 +8,7 @@ public class Door : HealthStatic
     private string path;
     private float time;
     private AnimationTree tree;
-    private bool loaded = false, registered = false;
+    private bool loaded = false, registered = false, close = false;
     private Vector3 offset, rot;
     public override void _Ready()
     {
@@ -18,8 +18,8 @@ public class Door : HealthStatic
         path = info.pathway;
         WorldManager.instance.RegisterSwitchingRoomEvent(RoomSwitched);
         registered = true;
-        GetParent<Spatial>().Translate(Vector3.Up * 4);
-        loaded = false;
+        //GetParent<Spatial>().Translate(Vector3.Up * 4);
+        ActivateDoor(false);
         Init(-1);
         tree = GetChild(1).GetChild<AnimationTree>(0);
         tree.Active = true;
@@ -27,7 +27,7 @@ public class Door : HealthStatic
 
     public override void _Process(float delta)
     {
-        if (time > 0)
+        if (time > 0 && loaded)
         {
             if (time < 2)
             {
@@ -36,8 +36,35 @@ public class Door : HealthStatic
             time -= delta;
             if (time < 0)
             {
+                close = true;
+            }
+        }
+        if (close)
+        {
+            if (PlayerController.Instance.GlobalTransform.origin.DistanceTo(GlobalTransform.origin) > 5)
+            {
                 tree.Set("parameters/conditions/Time", true);
             }
+        }
+    }
+
+    private void ActivateDoor(bool t)
+    {
+        if (t)
+        {
+            Visible = true;
+            loaded = true;
+            CollisionLayer = 1;
+            CollisionMask = 1;
+            close = true;
+        }
+        else
+        {
+            Visible = false;
+            loaded = false;
+            CollisionLayer = 0;
+            CollisionMask = 0;
+            tree.Set("parameters/conditions/Hit", true);
         }
     }
 
@@ -67,16 +94,16 @@ public class Door : HealthStatic
         {
             if (!loaded)
             {
-                loaded = true;
-                GetParent<Spatial>().Translate(Vector3.Down * 4);
+                //GetParent<Spatial>().Translate(Vector3.Down * 4);
+                ActivateDoor(true);
             }
         }
         else
         {
             if (loaded)
             {
-                GetParent<Spatial>().Translate(Vector3.Up * 4);
-                loaded = false;
+                //GetParent<Spatial>().Translate(Vector3.Up * 4);
+                ActivateDoor(false);
             }
         }
     }

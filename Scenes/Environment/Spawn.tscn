@@ -1,7 +1,14 @@
-[gd_scene format=2]
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="CubeMesh" id=1]
 
 [node name="Spawn" type="Spatial"]
 
 [node name="Spatial" type="Spatial" parent="." groups=[
 "Spawn",
 ]]
+
+[node name="MeshInstance" type="MeshInstance" parent="Spatial"]
+layers = 524288
+mesh = SubResource( 1 )
+material/0 = null

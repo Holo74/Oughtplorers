@@ -13,6 +13,7 @@ public class SizeHandler : BaseAttatch
     {
         headPos = head;
         crouched = false;
+        controller.playMovement.RegisterVerticalChange(HardLanding);
     }
 
     public override void Update(float delta)
@@ -30,7 +31,14 @@ public class SizeHandler : BaseAttatch
                 headPos.Translation = GetNeededPos;
             }
         }
+    }
 
+    private void HardLanding(float amount)
+    {
+        if (amount < -15 && !crouched)
+        {
+            Crouch();
+        }
     }
 
     public void Crouch()

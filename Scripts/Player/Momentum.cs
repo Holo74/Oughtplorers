@@ -23,6 +23,12 @@ public class Momentum : BaseAttatch
     private float jumpTimer, jumpStrRequest;
     public delegate void JumpRequest();
     private JumpRequest JumpAccepted;
+    public delegate void VerticalChange(float amount);
+    private VerticalChange vertCha;
+    public void RegisterVerticalChange(VerticalChange function)
+    {
+        vertCha += function;
+    }
     protected override void Setup(PlayerController controller, bool needsUpdate)
     {
         this.controller = controller;
@@ -40,7 +46,7 @@ public class Momentum : BaseAttatch
     public override void Update(float delta)
     {
         base.Update(delta);
-        if (groundColliding)
+        if (groundColliding && verticalMove.y <= 0)
         {
             if (!moved)
             {
@@ -188,6 +194,7 @@ public class Momentum : BaseAttatch
         SetState(PlayerState.fallingUp);
         JumpAccepted();
         JumpAccepted = null;
+        vertCha?.Invoke(verticalMove.y);
     }
 
     public void GroundMovement(Vector3 direction, float maxSpeed, float acceleration)
@@ -295,10 +302,9 @@ public class Momentum : BaseAttatch
             return;
         if (state)
         {
-            if (verticalMove.y < -15f)
-            {
-                controller.TakeDamage((Mathf.Pow(verticalMove.y + 15f, 2f)), DamageType.fall, null);
-            }
+            if (verticalMove.y > 0)
+                return;
+            vertCha?.Invoke(verticalMove.y);
             currentSpeed = stableMove.Length() + horizontalAcc.Length();
             horizontalAcc = Vector3.Zero;
             verticalMove = Vector3.Zero;

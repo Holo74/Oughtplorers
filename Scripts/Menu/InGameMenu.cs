@@ -12,8 +12,8 @@ public class InGameMenu : MenuBase
     private static InGameMenu instance;
     public static InGameMenu Instance { get { return instance; } }
     private float timer = 4f, savingBuffer = 1f;
-    private bool saving = false;
-    public string inputMapAction = "";
+    private bool saving = false, finishAnim = false;
+    public string inputMapAction = "", finishToAnim = "";
     private AnimationPlayer animations;
     public override void _Ready()
     {
@@ -56,6 +56,14 @@ public class InGameMenu : MenuBase
             {
                 saving = false;
                 GameManager.Instance.SaveGame(WorldManager.instance.GetCurrentRoomFile());
+            }
+        }
+        if (finishAnim)
+        {
+            if (animations.CurrentAnimationLength == animations.CurrentAnimationPosition)
+            {
+                finishAnim = false;
+                animations.CurrentAnimation = finishToAnim;
             }
         }
     }
@@ -144,19 +152,30 @@ public class InGameMenu : MenuBase
 
     private void PlayerStateAnimations(PlayerState state)
     {
+        string animationName = "";
+        bool f = false;
         switch (state)
         {
             case PlayerState.standing:
-                animations.CurrentAnimation = "Idle";
+                animationName = "Idle";
                 break;
             case PlayerState.walking:
-                animations.CurrentAnimation = "Walking";
+                animationName = "Walking";
                 break;
             case PlayerState.crouch:
                 break;
             case PlayerState.fallingDown:
                 break;
+            case PlayerState.fallingUp:
+                animationName = "Jumping";
+                f = true;
+                break;
         }
+        if (finishAnim)
+            finishToAnim = animationName;
+        else
+            animations.CurrentAnimation = animationName;
+        finishAnim = f;
     }
 
     public void GetUpgrade(string name, string description)
