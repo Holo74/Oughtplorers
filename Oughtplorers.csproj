@@ -125,6 +125,7 @@
     <Compile Include="Scripts\AI\AIStarters.cs" />
     <Compile Include="Scripts\AI\GenericLinks\FadeToDeath.cs" />
     <Compile Include="Scripts\AI\TinyCreature\TinyCreatureStart.cs" />
+    <Compile Include="Scripts\Environment\Cutscene.cs" />
     <Compile Include="Scripts\Environment\DoorLoadingInfo.cs" />
     <Compile Include="Scripts\Environment\MakeCurrentRoom.cs" />
   </ItemGroup>

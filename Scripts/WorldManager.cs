@@ -171,10 +171,10 @@ public class WorldManager : Node
 
     public void LoadArea(string path, Vector3 loc, Vector3 rot)
     {
+        if (currentRoomFile == path || previousRoomFile == path || nextRoomFile == path)
+            return;
         if (nextRoom != null)
             nextRoom.QueueFree();
-        if (currentRoomFile == path || previousRoomFile == path)
-            return;
         loader = ResourceLoader.LoadInteractive(path);
         loadLocation = loc;
         loadRotation = rot;
@@ -184,7 +184,7 @@ public class WorldManager : Node
     public void LoadArea(string path, Vector3 loc, Vector3 rot, AreaLoaded load)
     {
         loadingDone += load;
-        if (currentRoomFile == path || previousRoomFile == path)
+        if (currentRoomFile == path || previousRoomFile == path || nextRoomFile == path)
         {
             load(false);
             loadingDone = null;

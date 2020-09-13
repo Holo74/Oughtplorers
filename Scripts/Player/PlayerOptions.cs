@@ -26,8 +26,8 @@ public class PlayerOptions : Node
     public const float wallJumpVerStr = 4f;
     public const float wallJumpHorStr = 4f;
     public const float wallRunStickTime = 2f;
-    public const float playerStrafeStrengthHor = 10f;
-    public const float playerStrafeStrengthVer = .5f;
+    public const float playerStrafeStrengthHor = 3f;
+    public const float playerStrafeStrengthVer = 3f;
     public const float slideStr = 2f;
     public const float slideMaxTime = 2f;
     public const float slideDeceleration = 2f;

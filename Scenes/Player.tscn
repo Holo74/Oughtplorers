@@ -273,7 +273,7 @@ shape = SubResource( 2 )
 [node name="HeadRot" type="Spatial" parent="HeadCollisionPos"]
 
 [node name="Camera" type="Camera" parent="HeadCollisionPos/HeadRot"]
-cull_mask = 1048573
+cull_mask = 524285
 current = true
 
 [node name="FiringPoint" type="Spatial" parent="HeadCollisionPos/HeadRot"]

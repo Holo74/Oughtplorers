@@ -24,3 +24,13 @@ transform = Transform( 2.04226, 0, 0, 0, 1.45395, 0, 0, 0, 2.37004, 4.73723, -8.
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, -10, -4 )
 pathway = "res://Scenes/InGameLevels/TreeLevels/GunPuzzle/GunPuzzle.tscn"
 offset = Vector3( 15, -16, 0 )
+
+[node name="Door3" parent="." index="5" instance=ExtResource( 2 )]
+transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, -7.11, 4, 6 )
+pathway = "res://Scenes/InGameLevels/TreeLevels/WormPathway/WormPathway.tscn"
+offset = Vector3( -18, 4, 0 )
+
+[node name="Door4" parent="." index="6" instance=ExtResource( 2 )]
+transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, -8, -6, -5 )
+pathway = "res://Scenes/InGameLevels/TreeLevels/EngineeringRoom/EngineeringRoom.tscn"
+offset = Vector3( -8, -6, -5 )

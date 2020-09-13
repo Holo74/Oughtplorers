@@ -24,3 +24,8 @@ offset = Vector3( 0, 10, 9 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 6, -4 )
 pathway = "res://Scenes/InGameLevels/TreeLevels/AboveTheCatapillar/AboveTheCatapillar.tscn"
 offset = Vector3( -15, 16, 0 )
+
+[node name="Door3" parent="." index="5" instance=ExtResource( 3 )]
+transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, -9, -1, -13 )
+pathway = "res://Scenes/InGameLevels/TreeLevels/FloorIsLava/FloorIsLava.tscn"
+offset = Vector3( -10, -1, -13 )

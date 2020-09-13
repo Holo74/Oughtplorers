@@ -21,3 +21,8 @@ offset = Vector3( 0, -10, -9 )
 
 [node name="MakeCurrentRoom" parent="." index="3" instance=ExtResource( 3 )]
 transform = Transform( 4.00156, 0, 0, 0, 5.95935, 0, 0, 0, 3.61274, 0, -4.97823, -3.03156 )
+
+[node name="Door3" parent="." index="4" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 2 )
+pathway = "res://Scenes/InGameLevels/TreeLevels/BossCharger/BossCharger.tscn"
+offset = Vector3( -1, -10, 9 )

@@ -19,9 +19,9 @@ public class Door : HealthStatic
         WorldManager.instance.RegisterSwitchingRoomEvent(RoomSwitched);
         registered = true;
         //GetParent<Spatial>().Translate(Vector3.Up * 4);
+        tree = GetChild(1).GetChild<AnimationTree>(0);
         ActivateDoor(false);
         Init(-1);
-        tree = GetChild(1).GetChild<AnimationTree>(0);
         tree.Active = true;
     }
 
@@ -56,6 +56,8 @@ public class Door : HealthStatic
             loaded = true;
             CollisionLayer = 1;
             CollisionMask = 1;
+            tree.Set("parameters/conditions/Time", true);
+            tree.Set("parameters/conditions/Hit", false);
             close = true;
         }
         else
@@ -64,7 +66,9 @@ public class Door : HealthStatic
             loaded = false;
             CollisionLayer = 0;
             CollisionMask = 0;
+            tree.Set("parameters/conditions/Time", false);
             tree.Set("parameters/conditions/Hit", true);
+            time = 3f;
         }
     }
 

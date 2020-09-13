@@ -6,7 +6,7 @@ public class InGameMenu : MenuBase
 {
     [Export]
     private NodePath pathToQuit, pathToHealthConatiner;
-    private Control hud, menu, healthContainer, savingRequest, savingCompleting, upgradeMenu;
+    private Control hud, menu, healthContainer, savingRequest, savingCompleting, upgradeMenu, transitionNode;
     private ProgressBar healthBar;
     private RichTextLabel displayText, upgradeName, upgradeDescription;
     private static InGameMenu instance;
@@ -15,6 +15,8 @@ public class InGameMenu : MenuBase
     private bool saving = false, finishAnim = false;
     public string inputMapAction = "", finishToAnim = "";
     private AnimationPlayer animations;
+    [Signal]
+    public delegate void TransitionCamera();
     public override void _Ready()
     {
         GameManager.Instance.currentMenu = this;
@@ -41,6 +43,7 @@ public class InGameMenu : MenuBase
         upgradeDescription = upgradeMenu.GetChild(0).GetChild<RichTextLabel>(1);
         upgradeMenu.GetChild(0).GetChild(2).Connect("pressed", GameManager.Instance, nameof(GameManager.ToggleGamePause));
         PlayerController.Instance.ability.AddToStateChange(PlayerStateAnimations);
+        transitionNode = GetChild<Control>(9);
     }
 
     public override void _Process(float delta)
@@ -184,5 +187,19 @@ public class InGameMenu : MenuBase
         upgradeName.BbcodeText = "[center]" + name + "[/center]";
         upgradeDescription.Text = description;
         GameManager.Instance.ToggleGamePause();
+    }
+
+    public void StartCameraTransition()
+    {
+        mainNode.Visible = false;
+        mainNode = transitionNode;
+        animations.Stop();
+        animations.Play("TransferingCamera");
+        transitionNode.Visible = true;
+    }
+
+    public void EmitSignalToTransition()
+    {
+        EmitSignal("TransitionCamera");
     }
 }
