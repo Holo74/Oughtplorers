@@ -19,6 +19,7 @@ curve = SubResource( 1 )
 [node name="PathFollow" type="PathFollow" parent="Path"]
 transform = Transform( -0.731361, 0.249421, 0.634746, -0.50216, -0.826712, -0.25374, 0.461463, -0.504318, 0.729873, -5.02097, -3.85556, -5.3332 )
 rotation_mode = 0
+loop = false
 
 [node name="Camera" type="Camera" parent="Path/PathFollow"]
 
@@ -26,4 +27,4 @@ rotation_mode = 0
 
 [node name="CollisionShape" type="CollisionShape" parent="Area"]
 shape = SubResource( 2 )
-[connection signal="body_entered" from="Area" to="." method="PlayerEnter" flags=6]
+[connection signal="body_entered" from="Area" to="." method="PlayerEnter"]

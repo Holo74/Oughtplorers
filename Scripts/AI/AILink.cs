@@ -1,6 +1,12 @@
-public abstract class AILink
+using Godot;
+public abstract class AILink : Resource
 {
     public AILink(MasterController controller)
+    {
+        this.controller = controller;
+    }
+    public AILink() { }
+    public void AssignController(MasterController controller)
     {
         this.controller = controller;
     }

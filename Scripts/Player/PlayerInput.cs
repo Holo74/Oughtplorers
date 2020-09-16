@@ -5,6 +5,10 @@ using System;
 public class PlayerInput : BaseAttatch
 {
     private bool acceptingInput = true;
+    public bool Inputs()
+    {
+        return acceptingInput;
+    }
     private float timeDelta;
     InputHandler input { get { return InputHandler.Instance; } }
     PlayerOptions options { get { return controller.options; } }

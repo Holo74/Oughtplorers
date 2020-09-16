@@ -18,7 +18,14 @@ anchor_bottom = 1.14667
 margin_right = 1024.0
 margin_bottom = 312.0
 text = "Get rid of the feedback button on release
-"
+Implement Sound settings
+Implement Resolution features
+On first launch, give brightness and sound settings to modify
+Spelling errors in service pistol need to be fixed
+Death trigger for the outside of the tree
+Sprint upgrade needs to have text
+Find solution for the doors being open when walking in
+Display how to equip weapon on the service pistol"
 __meta__ = {
 "_edit_use_anchors_": false
 }

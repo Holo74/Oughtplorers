@@ -3,7 +3,7 @@ using System;
 
 public class TinyCreatureStart : AILink
 {
-    public TinyCreatureStart(MasterController controller) : base(controller) { }
+    public TinyCreatureStart() { }
 
     public override void StartingLink()
     {

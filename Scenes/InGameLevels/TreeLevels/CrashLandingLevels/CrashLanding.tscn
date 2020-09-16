@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Models/TreeLevelLevelBoxes/CrashLanding/CrashLanding.escn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Environment/Spawn.tscn" type="PackedScene" id=2]
@@ -6,7 +6,6 @@
 [ext_resource path="res://Scenes/Creatures/Passive/TinyCreature/TinyCreature.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/Environment/BasicDoor.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scenes/Environment/MakeCurrentRoom.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Scenes/Environment/CutsceneTest.tscn" type="PackedScene" id=7]
 
 [node name="CrashLanding" instance=ExtResource( 1 )]
 
@@ -44,6 +43,3 @@ transform = Transform( 3.78613, 0, 0, 0, 3.12393, 0, 0, 0, 3.98356, -10.057, -10
 
 [node name="MakeCurrentRoom2" parent="." index="9" instance=ExtResource( 6 )]
 transform = Transform( 3.78613, 0, 0, 0, 3.12393, 0, 0, 0, 3.98356, 52.5436, -3.45487, -7.57168 )
-
-[node name="CutSceneRoot" parent="." index="10" instance=ExtResource( 7 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.8196, 0.876993, -5.88199 )

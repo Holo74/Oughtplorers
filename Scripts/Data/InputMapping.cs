@@ -5,11 +5,13 @@ public class InputMapping : Node
 {
     [Export]
     private string text = "";
+    private string previousText = "";
     [Export]
     private Keys input = Keys.crouch;
     private bool readingInput = false;
     private Button button;
     private float timer = 0;
+    private bool updateLock = true;
     public override void _Ready()
     {
         button = GetChild<Button>(0);
@@ -17,14 +19,17 @@ public class InputMapping : Node
         GetChild<RichTextLabel>(1).Text = text;
         button.Connect("pressed", this, nameof(ButtonPressed));
         SettingsOptions.RegisterUpdatedEvent(UpdatingKeyConfig);
+        previousText = button.Text;
     }
 
     public override void _Process(float delta)
     {
         if (timer < 0)
         {
+            if (updateLock) return;
             readingInput = false;
-            UpdatingKeyConfig();
+            updateLock = true;
+            button.Text = previousText;
         }
         else
         {
@@ -48,6 +53,7 @@ public class InputMapping : Node
                 readingInput = false;
                 string newName = OS.GetScancodeString(key.Scancode);
                 button.Text = newName;
+                previousText = button.Text;
                 SettingsOptions.UpdateKeyData(input, key);
             }
         }
@@ -58,6 +64,7 @@ public class InputMapping : Node
         InputEventKey updatedKey = SettingsOptions.GetInputFromKey(input);
         InputHandler.SetActionFromInput(InputHandler.GetNameFromKey(input), updatedKey);
         button.Text = OS.GetScancodeString(updatedKey.Scancode);
+        previousText = button.Text;
     }
 
     public override void _ExitTree()

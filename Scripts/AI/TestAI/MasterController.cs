@@ -1,9 +1,8 @@
 using Godot;
-using AIStartLinks;
 public class MasterController : Spatial
 {
     [Export]
-    private AIStartNames startingLink;
+    private Resource startLink;
     private AILink currentLink;
     [Export]
     private int kinBodyNum = -1, animChildNum = -1, healthChildNum = -1;
@@ -11,6 +10,8 @@ public class MasterController : Spatial
     public AnimationTree animation;
     public HealthKinematic health;
     public float delta;
+    [Signal]
+    public delegate void StartUpCreature(MasterController controller);
     public override void _Ready()
     {
         if (kinBodyNum >= 0)
@@ -24,8 +25,10 @@ public class MasterController : Spatial
         {
             health = GetChild<HealthKinematic>(healthChildNum);
         }
-        currentLink = AIStarters.Start(startingLink, this);
+        currentLink = (AILink)startLink;
+        currentLink.AssignController(this);
         currentLink.StartingLink();
+        EmitSignal(nameof(StartUpCreature), this);
     }
 
     public override void _Process(float delta)

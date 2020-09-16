@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/TinyCreature.glb-55fe3d9abce83e30fc022418e150cbb6.scn"
+path="res://.import/TinyCreature.escn-6d48e7049dd025768fbefd745fcd1ac7.scn"
 
 [deps]
 
-source_file="res://Models/Creatures/Passive/TinyCreature/TinyCreature.glb"
-dest_files=[ "res://.import/TinyCreature.glb-55fe3d9abce83e30fc022418e150cbb6.scn" ]
+source_file="res://Models/Creatures/Passive/TinyCreature/TinyCreature.escn"
+dest_files=[ "res://.import/TinyCreature.escn-6d48e7049dd025768fbefd745fcd1ac7.scn" ]
 
 [params]
 

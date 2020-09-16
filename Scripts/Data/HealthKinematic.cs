@@ -69,4 +69,9 @@ public class HealthKinematic : KinematicBody, Health
         health = Mathf.Clamp(health + amount, -1, maxHealth);
         return true;
     }
+
+    public void ConnectToController(MasterController controller)
+    {
+        Init(controller.health, controller.health.health);
+    }
 }

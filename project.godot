@@ -21,9 +21,13 @@ config/icon="res://icon.png"
 
 [autoload]
 
-GameManager="res://Scenes/GameManager.tscn"
-InputHandler="res://Scenes/InputHandler.tscn"
-PlayerOptions="res://Scenes/PlayerOptions.tscn"
+GameManager="*res://Scenes/GameManager.tscn"
+InputHandler="*res://Scenes/InputHandler.tscn"
+PlayerOptions="*res://Scenes/PlayerOptions.tscn"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "curve_edit" )
 
 [input]
 

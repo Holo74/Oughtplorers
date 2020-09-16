@@ -104,7 +104,7 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"points": PoolRealArray( 0, -0.25, 0, 0.32, 0.0484181, 1, -0.46, -0.0307904, 0.37, 0.0144944, 0, -0.53, -0.238386, 0.54, 0.865978 ),
+"points": PoolRealArray( 0, -0.25, 0, 0.32, 0.0484181, 1, -0.46, -0.0307904, 0.37, 0.0144944, 0, -0.37, 0.00962823, 0.54, 0.865978 ),
 "times": PoolRealArray( 0, 0.5, 1 )
 }
 tracks/4/type = "method"
@@ -150,7 +150,7 @@ tracks/1/keys = {
 animation = "Idle"
 
 [sub_resource type="StyleBoxFlat" id=6]
-bg_color = Color( 1, 1, 1, 0 )
+bg_color = Color( 1, 1, 1, 1 )
 
 [node name="CanvasLayer" type="CanvasLayer"]
 pause_mode = 2
@@ -166,20 +166,13 @@ pathToQuit = NodePath("BaseMenu/Quit")
 pathToHealthConatiner = NodePath("PlayerHud/Health")
 
 [node name="PlayerHud" type="Control" parent="InGameMenuAndHud"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -512.0
-margin_top = -300.0
-margin_right = 512.0
-margin_bottom = 300.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="FPS" type="Label" parent="InGameMenuAndHud/PlayerHud"]
-visible = false
 anchor_right = 0.0390625
 anchor_bottom = 0.0233333
 text = "FPS:"
@@ -189,7 +182,6 @@ __meta__ = {
 }
 
 [node name="Speed" type="Label" parent="InGameMenuAndHud/PlayerHud"]
-visible = false
 anchor_top = 0.0523474
 anchor_right = 0.0390626
 anchor_bottom = 0.0756807
@@ -200,7 +192,6 @@ __meta__ = {
 }
 
 [node name="State" type="Label" parent="InGameMenuAndHud/PlayerHud"]
-visible = false
 anchor_top = 0.112364
 anchor_right = 0.0458984
 anchor_bottom = 0.135697
@@ -211,19 +202,15 @@ __meta__ = {
 }
 
 [node name="Crosshair" type="TextureRect" parent="InGameMenuAndHud/PlayerHud"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -24.0005
-margin_top = -22.5
-margin_right = 24.0005
-margin_bottom = 22.5
+anchor_left = 0.476562
+anchor_top = 0.4625
+anchor_right = 0.523438
+anchor_bottom = 0.5375
 texture = ExtResource( 1 )
 expand = true
 stretch_mode = 6
 __meta__ = {
-"_edit_use_anchors_": false
+"_edit_use_anchors_": true
 }
 
 [node name="Health" type="Control" parent="InGameMenuAndHud/PlayerHud"]
@@ -262,14 +249,14 @@ __meta__ = {
 one_shot = true
 
 [node name="TextureRect" type="TextureRect" parent="InGameMenuAndHud/PlayerHud"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -552.0
-margin_top = -340.0
-margin_right = 552.0
-margin_bottom = 340.0
+anchor_left = -0.039
+anchor_top = -0.067
+anchor_right = 1.039
+anchor_bottom = 1.067
+margin_left = -0.0639992
+margin_top = 0.200001
+margin_right = 0.0639648
+margin_bottom = -0.200012
 texture = ExtResource( 16 )
 expand = true
 __meta__ = {
@@ -285,12 +272,13 @@ __meta__ = {
 }
 
 [node name="Continue" type="Button" parent="InGameMenuAndHud/BaseMenu"]
-anchor_left = 0.4375
+anchor_left = 0.5
 anchor_top = 0.426667
-anchor_right = 0.4375
-anchor_bottom = 0.426667
-margin_right = 128.0
-margin_bottom = 40.0
+anchor_right = 0.5
+anchor_bottom = 0.427
+margin_left = -64.0
+margin_right = 64.0
+margin_bottom = 39.8002
 text = "Continue"
 script = ExtResource( 14 )
 __meta__ = {
@@ -298,11 +286,12 @@ __meta__ = {
 }
 
 [node name="Button" type="Button" parent="InGameMenuAndHud/BaseMenu"]
-anchor_left = 0.4375
+anchor_left = 0.5
 anchor_top = 0.533333
-anchor_right = 0.4375
+anchor_right = 0.5
 anchor_bottom = 0.533333
-margin_right = 128.0
+margin_left = -64.0
+margin_right = 64.0
 margin_bottom = 40.0
 text = "Options"
 script = ExtResource( 6 )
@@ -312,30 +301,31 @@ __meta__ = {
 path = NodePath("../../OptionsMenu")
 
 [node name="Quit" type="Button" parent="InGameMenuAndHud/BaseMenu"]
-anchor_left = 0.437
+anchor_left = 0.5
 anchor_top = 0.64
-anchor_right = 0.437
+anchor_right = 0.5
 anchor_bottom = 0.64
-margin_left = 0.511993
-margin_right = 128.512
+margin_left = -64.0
+margin_right = 64.0
 margin_bottom = 40.0
 text = "Quit"
 script = ExtResource( 4 )
 __meta__ = {
-"_edit_use_anchors_": false
+"_edit_use_anchors_": true
 }
 
 [node name="Feedback" type="Button" parent="InGameMenuAndHud/BaseMenu"]
-anchor_left = 0.4375
+anchor_left = 0.5
 anchor_top = 0.32
-anchor_right = 0.4375
+anchor_right = 0.5
 anchor_bottom = 0.32
-margin_right = 128.0
+margin_left = -64.0
+margin_right = 64.0
 margin_bottom = 40.0
 text = "Feedback"
 script = ExtResource( 17 )
 __meta__ = {
-"_edit_use_anchors_": false
+"_edit_use_anchors_": true
 }
 
 [node name="OptionsMenu" type="Panel" parent="InGameMenuAndHud"]
@@ -516,11 +506,12 @@ __meta__ = {
 }
 
 [node name="Button2" type="Button" parent="InGameMenuAndHud/OptionsMenu"]
-anchor_left = 0.8125
+anchor_left = 0.937
 anchor_top = 0.92
-anchor_right = 0.8125
+anchor_right = 0.937
 anchor_bottom = 0.92
-margin_right = 128.0
+margin_left = -127.488
+margin_right = 0.511963
 margin_bottom = 24.0
 text = "Back"
 script = ExtResource( 11 )
@@ -609,11 +600,17 @@ margin_left = 0.511993
 margin_top = -0.200012
 margin_right = 384.512
 margin_bottom = 127.8
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="RichTextLabel" type="RichTextLabel" parent="InGameMenuAndHud/Confirm"]
+anchor_left = 0.5
 anchor_top = 0.125
+anchor_right = 0.5
 anchor_bottom = 0.125
-margin_right = 384.0
+margin_left = -192.0
+margin_right = 192.0
 margin_bottom = 24.0
 bbcode_enabled = true
 bbcode_text = "[center]Confirm Changes Made To Settings?[/center]"
@@ -637,11 +634,13 @@ __meta__ = {
 path = NodePath("../../BaseMenu")
 
 [node name="Button2" type="Button" parent="InGameMenuAndHud/Confirm"]
-anchor_left = 0.666667
-anchor_top = 0.6875
-anchor_right = 0.666667
+anchor_left = 0.833
+anchor_top = 0.687
+anchor_right = 0.833
 anchor_bottom = 0.6875
-margin_right = 64.0
+margin_left = -63.8719
+margin_top = 0.0639954
+margin_right = 0.128113
 margin_bottom = 24.0
 text = "No"
 script = ExtResource( 12 )
@@ -666,26 +665,22 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="Panel" type="Panel" parent="InGameMenuAndHud/Upgrade"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -176.0
-margin_top = -68.0
-margin_right = 176.0
-margin_bottom = 68.0
+anchor_left = 0.328125
+anchor_top = 0.386667
+anchor_right = 0.671875
+anchor_bottom = 0.613333
 __meta__ = {
-"_edit_use_anchors_": false
+"_edit_use_anchors_": true
 }
 
 [node name="RichTextLabel" type="RichTextLabel" parent="InGameMenuAndHud/Upgrade/Panel"]
-anchor_left = 0.045
+anchor_left = 0.5
 anchor_top = 0.118
-anchor_right = 0.045
+anchor_right = 0.5
 anchor_bottom = 0.118
-margin_left = 0.16
+margin_left = -160.0
 margin_top = -0.0480003
-margin_right = 320.16
+margin_right = 160.0
 margin_bottom = 15.952
 bbcode_enabled = true
 bbcode_text = "[center]Upgrade Name[/center]"
@@ -695,31 +690,34 @@ __meta__ = {
 }
 
 [node name="RichTextLabel2" type="RichTextLabel" parent="InGameMenuAndHud/Upgrade/Panel"]
-anchor_left = 0.045
-anchor_top = 0.294
-anchor_right = 0.045
-anchor_bottom = 0.294117
-margin_left = 0.16
-margin_top = 0.0159988
-margin_right = 320.16
-margin_bottom = 83.0
+anchor_left = 0.5
+anchor_top = 0.904
+anchor_right = 0.5
+anchor_bottom = 0.904
+margin_left = -160.0
+margin_top = -82.944
+margin_right = 160.0
+margin_bottom = 0.0559006
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Button" type="Button" parent="InGameMenuAndHud/Upgrade/Panel"]
-anchor_left = 0.363636
-anchor_top = 1.05882
-anchor_right = 0.363636
-anchor_bottom = 1.05882
-margin_right = 96.0
-margin_bottom = 20.0
+anchor_left = 0.5
+anchor_top = 1.206
+anchor_right = 0.5
+anchor_bottom = 1.206
+margin_left = -48.0001
+margin_top = -20.0165
+margin_right = 47.9999
+margin_bottom = -0.0164795
 text = "Continue"
 __meta__ = {
 "_edit_use_anchors_": true
 }
 
 [node name="Panel" type="Panel" parent="InGameMenuAndHud"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_styles/panel = SubResource( 6 )

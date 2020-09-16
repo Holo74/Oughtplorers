@@ -1,6 +1,6 @@
 using Godot;
 using System.Collections.Generic;
-using System;
+using System.Threading;
 
 public class WorldManager : Node
 {
@@ -23,6 +23,10 @@ public class WorldManager : Node
     private Navigation navigation;
     public delegate void SwitchCurrentRoom(Node room);
     private event SwitchCurrentRoom swapRoom;
+    private System.Threading.Thread loadingInfoThread;
+    private object lockObject = new object();
+    Queue<Node> loadedNodes = new Queue<Node>();
+    private bool startThread = false, objectInLoading = false;
 
     public void RegisterSwitchingRoomEvent(SwitchCurrentRoom function)
     {
@@ -35,6 +39,16 @@ public class WorldManager : Node
         swapRoom -= function;
     }
 
+    public void ThreadsafeAdd(in Queue<Node> list, string path)
+    {
+        lock (loadedNodes)
+        {
+            PackedScene r = ResourceLoader.Load<PackedScene>(path);
+            list.Enqueue(r.Instance());
+            r.Dispose();
+        }
+    }
+
     public override void _Ready()
     {
         instance = this;
@@ -45,14 +59,16 @@ public class WorldManager : Node
         loadingPaths.Enqueue("res://Scenes/Menus/InGameMenu.tscn");
         loadingPaths.Enqueue(GameManager.Instance.startingAreaPath);
         currentRoomFile = GameManager.Instance.startingAreaPath;
-        waitFrame = 1;
-        loader = ResourceLoader.LoadInteractive(loadingPaths.Dequeue());
+        waitFrame = 4;
+        //loader = ResourceLoader.LoadInteractive();
+        loadingInfoThread = new System.Threading.Thread(new ThreadStart(() => ThreadsafeAdd(loadedNodes, loadingPaths.Dequeue())));
         shots = new ObjectPool<PlayerProjectiles>("TempProjectile.tscn");
         enemyProjectilePool = new ObjectPool<EnemyProjectiles>("EnemyTempProj.tscn");
         loaded = 0;
         GameManager.Instance.Connect(nameof(GameManager.ReturnToTitle), this, nameof(StoppingWorld));
+        startThread = true;
+        loadingInfoThread.Start();
     }
-
     public override void _Process(float delta)
     {
         if (waitFrame > 0)
@@ -70,7 +86,7 @@ public class WorldManager : Node
                     GD.Print("No spawn detected");
                     GetTree().Quit();
                 }
-                PlayerController.Instance.ReadyPlayer(spawn.GlobalTransform.origin, spawn.Rotation);
+                PlayerController.Instance.ReadyPlayer(spawn.GlobalTransform);
                 PlayerController.Instance.UpdateCharacterSettings();
                 RemoveChild(GetChild(0));
                 InGameMenu.Instance.ReadyMenu();
@@ -78,16 +94,15 @@ public class WorldManager : Node
             }
             return;
         }
-        if (loader != null && !PlayerController.CharacterPlaying())
+        if (!loadingInfoThread.IsAlive && !PlayerController.CharacterPlaying() && startThread)
         {
-            Error error = loader.Poll();
-            switch (error)
+            lock (loadedNodes)
             {
-                case Error.FileEof:
-                    PackedScene holder = loader.GetResource().Duplicate() as PackedScene;
-                    loader.Dispose();
-                    Node node = holder.Instance();
-                    loader = null;
+                startThread = false;
+                if (loadedNodes.Count > 0)
+                {
+                    GD.Print(loadedNodes.Count);
+                    Node node = loadedNodes.Dequeue();
                     navigation.AddChild(node);
                     if (loadingPaths.Count == 0)
                     {
@@ -97,32 +112,58 @@ public class WorldManager : Node
                     }
                     else
                     {
-                        loader = ResourceLoader.LoadInteractive(loadingPaths.Dequeue());
+
+                        loadingBar.Value = (4 - loadingPaths.Count) / 4;
+                        loadingInfoThread = new System.Threading.Thread(new ThreadStart(() => ThreadsafeAdd(loadedNodes, loadingPaths.Dequeue())));
+                        startThread = true;
                     }
-                    break;
-                case Error.Ok:
-                    float temp = (loader.GetStage() / (float)loader.GetStageCount()) * 100 / (float)(loadingPaths.Count + 1);
-                    if (loaded < temp)
-                        loaded = temp;
-                    loadingBar.Value = loaded;
-                    break;
-                default:
-                    loader = null;
-                    GD.Print("Error");
-                    break;
+                }
+
             }
+            if (startThread)
+            {
+                loadingInfoThread.Start();
+            }
+            // Error error = loader.Poll();
+            // switch (error)
+            // {
+            //     case Error.FileEof:
+            //         PackedScene holder = loader.GetResource().Duplicate() as PackedScene;
+            //         loader.Dispose();
+            //         Node node = holder.Instance();
+            //         loader = null;
+            //         navigation.AddChild(node);
+            //         if (loadingPaths.Count == 0)
+            //         {
+            //             currentRoom = node;
+            //             loadingBar.Value = 100;
+            //             waitFrame = 30f;
+            //         }
+            //         else
+            //         {
+            //             loader = ResourceLoader.LoadInteractive(loadingPaths.Dequeue());
+            //         }
+            //         break;
+            //     case Error.Ok:
+            //         float temp = (loader.GetStage() / (float)loader.GetStageCount()) * 100 / (float)(loadingPaths.Count + 1);
+            //         if (loaded < temp)
+            //             loaded = temp;
+            //         loadingBar.Value = loaded;
+            //         break;
+            //     default:
+            //         loader = null;
+            //         GD.Print("Error");
+            //         break;
+            // }
         }
         else
         {
-            if (loader == null) return;
-            Error error = loader.Poll();
-            switch (error)
+            if (!objectInLoading || loadingInfoThread.IsAlive) return;
+            lock (loadedNodes)
             {
-                case Error.FileEof:
-                    PackedScene holder = loader.GetResource().Duplicate() as PackedScene;
-                    loader.Dispose();
-                    Spatial node = (Spatial)holder.Instance();
-                    loader = null;
+                if (loadedNodes.Count > 0)
+                {
+                    Spatial node = (Spatial)loadedNodes.Dequeue();
                     node.Translate(loadLocation);
                     node.Rotation = loadRotation;
                     navigation.AddChild(node);
@@ -130,13 +171,32 @@ public class WorldManager : Node
                     loadingDone?.Invoke(true);
                     loadingDone = null;
                     nextRoom = node;
-                    loader = null;
-                    break;
-                case Error.Ok:
-                    break;
-                default:
-                    break;
+                    objectInLoading = false;
+                }
             }
+            // if (!startThread) return;
+            // Error error = loader.Poll();
+            // switch (error)
+            // {
+            //     case Error.FileEof:
+            //         PackedScene holder = loader.GetResource().Duplicate() as PackedScene;
+            //         loader.Dispose();
+            //         Spatial node = (Spatial)holder.Instance();
+            //         loader = null;
+            //         node.Translate(loadLocation);
+            //         node.Rotation = loadRotation;
+            //         navigation.AddChild(node);
+            //         EmitSignal(nameof(AreaLoaded));
+            //         loadingDone?.Invoke(true);
+            //         loadingDone = null;
+            //         nextRoom = node;
+            //         loader = null;
+            //         break;
+            //     case Error.Ok:
+            //         break;
+            //     default:
+            //         break;
+            // }
         }
     }
 
@@ -175,10 +235,12 @@ public class WorldManager : Node
             return;
         if (nextRoom != null)
             nextRoom.QueueFree();
-        loader = ResourceLoader.LoadInteractive(path);
+        loadingInfoThread = new System.Threading.Thread(new ThreadStart(() => ThreadsafeAdd(loadedNodes, path)));
         loadLocation = loc;
         loadRotation = rot;
         nextRoomFile = path;
+        loadingInfoThread.Start();
+        objectInLoading = true;
     }
 
     public void LoadArea(string path, Vector3 loc, Vector3 rot, AreaLoaded load)

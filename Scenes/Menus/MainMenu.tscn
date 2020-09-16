@@ -213,6 +213,7 @@ __meta__ = {
 }
 
 [node name="Mouse Sensitivity X" parent="OptionsMenu/TabContainer/Settings" instance=ExtResource( 13 )]
+name = "Horizontal Sensitivity"
 min = 1.0
 
 [node name="Mouse Sensitivity Y" type="Control" parent="OptionsMenu/TabContainer/Settings"]
@@ -228,6 +229,7 @@ __meta__ = {
 "_edit_group_": true,
 "_edit_use_anchors_": false
 }
+name = "Horizontal Sensitivity"
 optionName = 1
 multiplier = -100.0
 min = 1.0
@@ -279,6 +281,7 @@ __meta__ = {
 "_edit_group_": true,
 "_edit_use_anchors_": false
 }
+name = "Camera FOV"
 optionName = 3
 min = 50.0
 max = 140.0

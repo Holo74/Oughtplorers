@@ -35,10 +35,9 @@ public class PlayerController : HealthKinematic
     private Spatial equipedWeapon;
     public Spatial fireFromLocations;
 
-    public void ReadyPlayer(Vector3 spawn, Vector3 rotation)
+    public void ReadyPlayer(Transform trans)
     {
-        Translate(spawn);
-        Rotation = rotation;
+        GlobalTransform = new Transform(trans.basis, trans.origin);
         characterReady = true;
     }
 
@@ -195,5 +194,11 @@ public class PlayerController : HealthKinematic
         {
             TakeDamage((Mathf.Pow(amount + 15f, 2f)), DamageType.fall, null);
         }
+    }
+
+    public void SetPosAndRot(Transform pos)
+    {
+        headRotation.LookForward(Vector3.Zero);
+        GlobalTransform = new Transform(pos.basis, pos.origin);
     }
 }

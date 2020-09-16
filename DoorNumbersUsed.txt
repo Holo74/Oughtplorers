@@ -1,6 +1,0 @@
-Door --- From --- To
-
-0 --- CrashLanding --- WormTunnel
-1 --- WormTunnel --- AboveCatapillar
-2 --- WormTunnel --- WormToRuins
-

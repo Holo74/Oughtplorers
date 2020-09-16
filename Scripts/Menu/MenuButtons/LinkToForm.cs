@@ -9,6 +9,6 @@ public class LinkToForm : Node
     }
     private void OpenForm()
     {
-        OS.ShellOpen("https://forms.gle/vtRYUNtiyY48Jy588");
+        OS.ShellOpen("https://forms.gle/UubcPpEJnVhFDCd87");
     }
 }
