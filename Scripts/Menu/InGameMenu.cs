@@ -156,7 +156,7 @@ public class InGameMenu : MenuBase
 
     private void PlayerStateAnimations(PlayerState state)
     {
-        if (!PlayerController.Instance.inputs.Inputs())
+        if (!hud.Visible)
             return;
         string animationName = "";
         bool f = false;
@@ -197,14 +197,13 @@ public class InGameMenu : MenuBase
         hud.Visible = false;
         mainNode.Visible = false;
         mainNode = transitionNode;
-        transitionNode.Visible = true;
+        mainNode.Visible = true;
         animations.Play("TransferingCamera");
 
     }
 
     public void EmitSignalToTransition()
     {
-        GD.Print("Signal");
         EmitSignal("TransitionCamera");
     }
 }

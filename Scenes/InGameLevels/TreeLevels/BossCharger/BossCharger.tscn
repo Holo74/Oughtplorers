@@ -9,10 +9,10 @@
 [ext_resource path="res://Scenes/Creatures/Bosses/ChargerBoss/FirstBoss.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Cutscene3dCurves/BossChargerIntroCutscene.tres" type="Curve3D" id=8]
 
-[sub_resource type="BoxShape" id=2]
+[sub_resource type="BoxShape" id=1]
 extents = Vector3( 9, 0.1, 6.5 )
 
-[sub_resource type="PlaneMesh" id=1]
+[sub_resource type="PlaneMesh" id=2]
 size = Vector2( 18, 13 )
 
 [node name="BossCharger" instance=ExtResource( 1 )]
@@ -44,11 +44,11 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -1, 5.5 )
 
 [node name="CollisionShape" type="CollisionShape" parent="StaticBody" index="0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0 )
-shape = SubResource( 2 )
+shape = SubResource( 1 )
 
 [node name="MeshInstance" type="MeshInstance" parent="StaticBody/CollisionShape" index="0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0 )
-mesh = SubResource( 1 )
+mesh = SubResource( 2 )
 material/0 = null
 
 [node name="CutSceneRoot" parent="." index="6" instance=ExtResource( 5 )]

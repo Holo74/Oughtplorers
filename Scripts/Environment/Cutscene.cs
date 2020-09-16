@@ -53,17 +53,16 @@ public class Cutscene : Node
     {
         EmitSignal("CutSceneEnd");
         camera.Current = false;
-        PlayerController.Instance.camera.Current = true;
         InGameMenu.Instance.ReadyMenu();
-        PlayerController.Instance.inputs.ToggleInputAccepting();
+        GameManager.ToggleCutscene();
         QueueFree();
     }
 
     public void StartCamera()
     {
         EmitSignal("CutSceneStart");
+        GameManager.ToggleCutscene();
         start = true;
-        PlayerController.Instance.camera.Current = false;
         camera.Current = true;
         InGameMenu.Instance.Connect(nameof(InGameMenu.TransitionCamera), this, "EndCutscene", null, 4u);
     }
@@ -72,7 +71,6 @@ public class Cutscene : Node
     {
         if (body is PlayerController controller)
         {
-            controller.inputs.ToggleInputAccepting();
             InGameMenu.Instance.StartCameraTransition();
             WorldManager.instance.AddToWorldInfo(GetParent().Name, true);
             GetChild(1).QueueFree();

@@ -14,6 +14,8 @@ public class GameManager : Node
     public delegate void ToggleGame(bool state);
     [Signal]
     public delegate void ReturnToTitle();
+    [Signal]
+    public delegate void CutSceneSwitch(bool cutsceneEnabled);
     //This is going to be the options menu
     private string savePath = "user://saveData", savePathEnd = ".save";
     public string startingAreaPath;
@@ -21,6 +23,18 @@ public class GameManager : Node
     public bool AllDataLoaded = false, allowInputs = true;
     public MenuBase currentMenu;
     private int dataUsed = -1;
+    private static bool inCutscene = false;
+    public static bool InCutscene()
+    {
+        return inCutscene;
+    }
+
+    public static void ToggleCutscene()
+    {
+        PlayerController.Instance.ToggleCamera(inCutscene);
+        inCutscene = !inCutscene;
+        GameManager.instance.EmitSignal("CutSceneSwitch", inCutscene);
+    }
 
     public SavedData GetDataUsed()
     {

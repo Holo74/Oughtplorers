@@ -18,7 +18,7 @@ public class PlayerController : HealthKinematic
     public CameraRotHandler camRot { get; private set; }
     public PlayerSoundControl soundControl { get; private set; }
     public PlayerUpgrade upgrades = new PlayerUpgrade();
-    public Camera camera;
+    public Camera camera, gunCamera;
     [Export]
     private NodePath headPath, headRotationPath, cameraPath, gunPath;
     [Signal]
@@ -34,6 +34,12 @@ public class PlayerController : HealthKinematic
     public PlayerAnimationController animationController { private set; get; }
     private Spatial equipedWeapon;
     public Spatial fireFromLocations;
+
+    public void ToggleCamera(bool state)
+    {
+        camera.Current = state;
+        gunCamera.Current = state;
+    }
 
     public void ReadyPlayer(Transform trans)
     {
@@ -67,6 +73,7 @@ public class PlayerController : HealthKinematic
             weapons[i].Scale = Vector3.Zero;
         }
         fireFromLocations = GetChild<Spatial>(2).GetChild<Spatial>(0).GetChild<Spatial>(1);
+        gunCamera = GetChild(8).GetChild(0).GetChild<Camera>(0);
         ability.AddToWeaponChange(WeaponChanged);
         SettingsOptions.RegisterUpdatedEvent(UpdateCharacterSettings);
         upgrades.LoadUpgrades(GameManager.Instance.GetDataUsed().upgrades.GetAllUpgrades());

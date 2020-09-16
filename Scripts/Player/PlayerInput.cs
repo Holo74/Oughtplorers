@@ -4,11 +4,11 @@ using System;
 //Filters all of the inputs and makes sure that any of the inputs are correct and then sends the request to the ability
 public class PlayerInput : BaseAttatch
 {
-    private bool acceptingInput = true;
-    public bool Inputs()
-    {
-        return acceptingInput;
-    }
+    // private bool acceptingInput = true;
+    // public bool Inputs()
+    // {
+    //     return acceptingInput;
+    // }
     private float timeDelta;
     InputHandler input { get { return InputHandler.Instance; } }
     PlayerOptions options { get { return controller.options; } }
@@ -20,14 +20,14 @@ public class PlayerInput : BaseAttatch
     private bool sprintLock = false;
     private float inputLockTimer = -1f;
 
-    public void ToggleInputAccepting()
-    {
-        acceptingInput = !acceptingInput;
-    }
+    // public void ToggleInputAccepting()
+    // {
+    //     acceptingInput = !acceptingInput;
+    // }
 
     public override void Update(float delta)
     {
-        if (!acceptingInput)
+        if (GameManager.InCutscene())
             return;
         if (inputLockTimer > 0f)
         {
@@ -144,7 +144,7 @@ public class PlayerInput : BaseAttatch
 
     public void Rotating(Vector2 vec)
     {
-        if (!acceptingInput)
+        if (GameManager.InCutscene())
             return;
         if (GameManager.Instance.playing && inputLockTimer <= 0f)
         {

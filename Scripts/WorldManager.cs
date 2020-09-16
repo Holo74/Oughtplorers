@@ -31,7 +31,6 @@ public class WorldManager : Node
     public void RegisterSwitchingRoomEvent(SwitchCurrentRoom function)
     {
         swapRoom += function;
-        GD.Print("Registerd an event");
     }
 
     public void DeregisterSwitchingRoomEvent(SwitchCurrentRoom function)
@@ -101,7 +100,6 @@ public class WorldManager : Node
                 startThread = false;
                 if (loadedNodes.Count > 0)
                 {
-                    GD.Print(loadedNodes.Count);
                     Node node = loadedNodes.Dequeue();
                     navigation.AddChild(node);
                     if (loadingPaths.Count == 0)

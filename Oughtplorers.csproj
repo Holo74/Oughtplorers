@@ -62,7 +62,7 @@
     <Compile Include="Scripts/GameManager.cs" />
     <Compile Include="Scripts/WorldManager.cs" />
     <Compile Include="Scripts/AI/AILink.cs" />
-    <Compile Include="Scripts/AI/TestAI/MasterController.cs" />
+    <Compile Include="Scripts\AI\MasterController.cs" />
     <Compile Include="Scripts/AI/TestAI/InitialStartup.cs" />
     <Compile Include="Scripts/Data/Saving/SavedData.cs" />
     <Compile Include="Scripts/Data/DamageType.cs" />
