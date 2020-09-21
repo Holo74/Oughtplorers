@@ -1,0 +1,11 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://Scripts/AI/BossAI/ChargerBoss/BossAcidSpew.cs" type="Script" id=1]
+[ext_resource path="res://AINodes/BossNodes/ChargerBoss/PhaseThreeCharge.tres" type="Resource" id=2]
+
+[resource]
+script = ExtResource( 1 )
+nextNode = ExtResource( 2 )
+resourcePath = ""
+amountToSpew = 2
+timeBetween = 3.0

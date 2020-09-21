@@ -3,19 +3,30 @@ using System;
 
 public class CutSceneStartNode : AILink
 {
+    private bool cutSceneStart = false, endFlop = false, toggleAnimation = false;
     [Export]
-    private Resource nextNode;
-    private bool cutSceneStart = false, endFlop = false;
+    private bool playAnimaion = false;
+    [Export]
+    private string animationName = "", nodeEndName = "";
     public void CutSceneSwapped(bool b)
     {
         if (b)
         {
             cutSceneStart = true;
+            if (playAnimaion)
+            {
+                controller.animation.Set("parameters/conditions/" + animationName, true);
+                toggleAnimation = true;
+            }
         }
         else
         {
             if (cutSceneStart)
+            {
                 endFlop = true;
+                controller.GlobalTransform = ((Spatial)controller.GetTree().GetNodesInGroup(nodeEndName)[0]).GlobalTransform;
+            }
+
         }
     }
     public override void StartingLink()
@@ -25,7 +36,11 @@ public class CutSceneStartNode : AILink
     }
     public override void LinkUpdate()
     {
-
+        if (toggleAnimation)
+        {
+            toggleAnimation = false;
+            controller.animation.Set("parameters/conditions/" + animationName, false);
+        }
     }
     public override bool LinkEnd()
     {
@@ -33,6 +48,6 @@ public class CutSceneStartNode : AILink
     }
     public override void Transition()
     {
-        controller.UpdateLink((AILink)nextNode);
+        controller.UpdateLink((AILink)GetNextNode());
     }
 }

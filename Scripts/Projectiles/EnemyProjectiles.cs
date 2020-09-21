@@ -8,13 +8,13 @@ public class EnemyProjectiles : Area
     [Export]
     private float speed = 1.2f;
     [Export]
-    private float damage = 1;
+    private float damage = 1, maxTime = 5;
     [Export]
     private DamageType damageType;
     private Vector3 direction;
     public override void _EnterTree()
     {
-        time = 0;
+        time = maxTime;
         direction -= Transform.basis.z;
     }
 
@@ -42,9 +42,9 @@ public class EnemyProjectiles : Area
 
     public override void _Process(float delta)
     {
-        time += delta;
+        time -= delta;
         Translation += direction * delta * speed;
-        if (time > 5)
+        if (time < 0)
         {
             Remove();
         }

@@ -23,7 +23,7 @@ public abstract class WeaponBase
         }
     }
 
-    public abstract bool FireGun(Vector3 pos, Vector3 rot);
+    public abstract bool FireGun(Vector3 pos, Basis rot);
 
     public abstract void HoldingGun(float delta);
 

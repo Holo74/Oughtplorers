@@ -1,11 +1,11 @@
 using Godot;
 using System;
 
-public class ChargerBossStartLink : AILink
+public class BossDied : AILink
 {
     public override void StartingLink()
     {
-        started = true;
+
     }
     public override void LinkUpdate()
     {
@@ -13,10 +13,10 @@ public class ChargerBossStartLink : AILink
     }
     public override bool LinkEnd()
     {
-        return true;
+        return false;
     }
     public override void Transition()
     {
-        controller.UpdateLink((AILink)GetNextNode());
+
     }
 }

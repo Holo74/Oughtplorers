@@ -335,7 +335,7 @@ public class PlayerAbility : BaseAttatch
         {
             case CurrentWeaponEquiped.first:
                 if (controller.upgrades.GetUpgrade(PlayerUpgrade.FirstWeapon))
-                    fired = weapons[0].FireGun(controller.fireFromLocations.GlobalTransform.origin, controller.fireFromLocations.GlobalTransform.basis.GetEuler());
+                    fired = weapons[0].FireGun(controller.fireFromLocations.GlobalTransform.origin, controller.fireFromLocations.GlobalTransform.basis);
                 break;
             case CurrentWeaponEquiped.second:
                 break;

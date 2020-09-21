@@ -11,7 +11,7 @@ public class ProjectileTrap : StaticBody
         if (timer > 1)
         {
             timer = 0;
-            WorldManager.instance.enemyProjectilePool.Pull(GlobalTransform.origin, GlobalTransform.basis.GetEuler());
+            WorldManager.instance.enemyProjectilePool.Pull(GlobalTransform.origin, GlobalTransform.basis);
         }
     }
 }

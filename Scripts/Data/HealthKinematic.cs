@@ -8,8 +8,9 @@ public class HealthKinematic : KinematicBody, Health
     //Used in conjunction with another body that is considered the main body
     private HealthKinematic master;
     //Needs to be formated to have a certain amount of health
-    public delegate void TakeDamageSignal(int damaged, int health);
+    public delegate void TakeDamageSignal(float damaged, float health, bool damageable);
     private TakeDamageSignal damaged;
+    public bool canTakeDamage = true;
 
     public void RegisterDamageSignal(TakeDamageSignal function)
     {
@@ -43,22 +44,25 @@ public class HealthKinematic : KinematicBody, Health
     }
     public virtual bool TakeDamage(float damage, DamageType typing, Node Source)
     {
-        if (master != null)
-        {
-            master.health -= damage;
-        }
         Damaged(damage);
-        return true;
+        return canTakeDamage;
     }
     protected void Damaged(float damage)
     {
+        damaged?.Invoke(damage, health, canTakeDamage);
         if (!init)
             GD.Print("Health has not been initiated just yet on " + Name);
+        if (!canTakeDamage)
+            return;
         if (master != null)
         {
-            master.health -= damage;
+            master.Damaged(damage);
         }
-        health -= damage;
+        else
+        {
+            health -= damage;
+            damaged?.Invoke(damage, health, true);
+        }
     }
     public virtual bool IsDead()
     {

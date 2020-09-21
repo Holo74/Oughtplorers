@@ -6,3 +6,7 @@
 [resource]
 script = ExtResource( 2 )
 nextNode = ExtResource( 1 )
+resourcePath = ""
+playAnimaion = true
+animationName = "Intro"
+nodeEndName = "Starting"

@@ -3,7 +3,7 @@ using System;
 
 public class FirstWeapon : WeaponBase
 {
-    public override bool FireGun(Vector3 pos, Vector3 rot)
+    public override bool FireGun(Vector3 pos, Basis rot)
     {
         if (canFire)
         {

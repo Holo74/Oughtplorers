@@ -35,15 +35,14 @@ public class ObjectPool<T> where T : Spatial
         return holder;
     }
 
-    public T Pull(Vector3 pos, Vector3 rot)
+    public T Pull(Vector3 pos, Basis rot)
     {
         if (parent == null)
         {
             parent = GameManager.Instance.Root;
         }
         T holder = (T)creator.Instance();
-        holder.Translation = pos;
-        holder.Rotation = rot;
+        holder.Transform = new Transform(rot, pos);
         GameManager.Instance.Root.AddChild(holder);
         holder.Owner = parent;
         return holder;

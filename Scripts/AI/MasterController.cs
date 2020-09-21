@@ -9,6 +9,8 @@ public class MasterController : Spatial
     public KinematicBody body;
     public AnimationTree animation;
     public HealthKinematic health;
+    [Export]
+    private float healthStart = 0;
     public float delta;
     [Signal]
     public delegate void StartUpCreature(MasterController controller);
@@ -24,6 +26,7 @@ public class MasterController : Spatial
         if (healthChildNum >= 0)
         {
             health = GetChild<HealthKinematic>(healthChildNum);
+            health.Init(healthStart);
         }
         currentLink = (AILink)startLink;
         currentLink.AssignController(this);
@@ -36,8 +39,13 @@ public class MasterController : Spatial
         this.delta = delta;
         if (currentLink == null)
             return;
+        if (!currentLink.LinkEstablished())
+            currentLink.AssignController(this);
         if (!currentLink.Started)
+        {
             currentLink.StartingLink();
+            currentLink.ConfirmStart();
+        }
         currentLink.LinkUpdate();
         if (currentLink.LinkEnd())
         {
@@ -48,5 +56,6 @@ public class MasterController : Spatial
     public void UpdateLink(AILink link)
     {
         currentLink = link;
+        currentLink.RestartLink();
     }
 }
