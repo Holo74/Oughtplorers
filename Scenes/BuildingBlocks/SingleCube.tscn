@@ -7,7 +7,6 @@
 [sub_resource type="CubeMesh" id=2]
 
 [node name="StaticBody30" type="StaticBody"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 5, 7 )
 __meta__ = {
 "_edit_group_": true
 }

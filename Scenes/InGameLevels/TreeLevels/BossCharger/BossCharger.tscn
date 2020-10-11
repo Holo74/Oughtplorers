@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://Models/TreeLevelLevelBoxes/BossCharger/BossCharger.escn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Environment/BasicDoor.tscn" type="PackedScene" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://Scenes/Creatures/Bosses/ChargerBoss/FirstBoss.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Scripts/Environment/LookAtObject.cs" type="Script" id=8]
 [ext_resource path="res://Scenes/Environment/Triggers/Boss/RisingPoolOfAcid.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Scripts/Environment/Small/FloorCollapse.cs" type="Script" id=10]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 9, 0.1, 6.5 )
@@ -42,23 +43,55 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 1.5 )
 }
 
-[sub_resource type="Curve3D" id=11]
+[sub_resource type="Curve3D" id=4]
 _data = {
 "points": PoolVector3Array( 0, 0, 0, 0, 0, 0, -5, 1, 2, 0, 0, 0, 0, 0, 0, -5, 1, 14 ),
 "tilts": PoolRealArray( 0, 0 )
 }
 
-[sub_resource type="BoxShape" id=4]
+[sub_resource type="BoxShape" id=13]
+extents = Vector3( 8.9456, 2.96789, 9.04089 )
 
-[sub_resource type="BoxShape" id=5]
+[sub_resource type="Animation" id=5]
+resource_name = "ChargerBoss"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Path/PathFollow/Camera:current")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("Path/PathFollow:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.84, -0.314682, 11.988, -0.7, -3.46511, 0.25, 0 ),
+"times": PoolRealArray( 0, 1.5 )
+}
 
-[sub_resource type="BoxShape" id=6]
+[sub_resource type="Animation" id=6]
+resource_name = "Default"
 
 [sub_resource type="BoxShape" id=7]
 
 [sub_resource type="BoxShape" id=8]
 
 [sub_resource type="BoxShape" id=9]
+
+[sub_resource type="BoxShape" id=10]
+
+[sub_resource type="BoxShape" id=11]
+
+[sub_resource type="BoxShape" id=12]
 
 [node name="BossCharger" instance=ExtResource( 1 )]
 
@@ -86,6 +119,7 @@ description = "Hold shift to sprint"
 
 [node name="StaticBody" type="StaticBody" parent="." index="5"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -1, 5.5 )
+script = ExtResource( 10 )
 
 [node name="CollisionShape" type="CollisionShape" parent="StaticBody" index="0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0 )
@@ -116,7 +150,7 @@ animationName = "ChargerBoss"
 anims/ChargerBoss = SubResource( 3 )
 
 [node name="Path" type="Path" parent="CutSceneRoot" index="2"]
-curve = SubResource( 11 )
+curve = SubResource( 4 )
 
 [node name="PathFollow" type="PathFollow" parent="CutSceneRoot/Path" index="0"]
 transform = Transform( 1, 7.54406e-11, 2.37655e-06, -7.54406e-11, 1, 0, -2.37655e-06, -1.79288e-16, 1, -5, 1, 14 )
@@ -129,87 +163,117 @@ cull_mask = 524287
 script = ExtResource( 8 )
 path = NodePath("../../../../FirstBoss")
 
-[node name="PlayerSetPosition" type="Spatial" parent="." index="8"]
+[node name="CutSceneRoot2" parent="." index="8" groups=[
+"movableCutscene",
+] instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8.44748, 0 )
+animationName = "ChargerBoss"
+autoConnect = false
+
+[node name="CollisionShape" parent="CutSceneRoot2/Area" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.96113, 1.8502, 2.8363 )
+shape = SubResource( 13 )
+
+[node name="AnimationPlayer" parent="CutSceneRoot2" index="1"]
+anims/ChargerBoss = SubResource( 5 )
+anims/Default = SubResource( 6 )
+
+[node name="Path" type="Path" parent="CutSceneRoot2" index="2"]
+curve = SubResource( 4 )
+
+[node name="PathFollow" type="PathFollow" parent="CutSceneRoot2/Path" index="0"]
+transform = Transform( 1, 7.54406e-11, 2.37655e-06, -7.54406e-11, 1, 0, -2.37655e-06, -1.79288e-16, 1, -5, 1, 14 )
+offset = 11.988
+rotation_mode = 0
+loop = false
+
+[node name="Camera" type="Camera" parent="CutSceneRoot2/Path/PathFollow" index="0"]
+cull_mask = 524287
+script = ExtResource( 8 )
+path = NodePath("../../../../PlayerSetPosition")
+
+[node name="PlayerSetPosition" type="Spatial" parent="." index="9"]
 transform = Transform( -1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0.989411, 0, -4.29584 )
 script = ExtResource( 6 )
 
-[node name="FirstBoss" parent="." index="9" groups=[
+[node name="FirstBoss" parent="." index="10" groups=[
 "CutscenePoint",
 ] instance=ExtResource( 7 )]
 transform = Transform( -1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 8.342, 0, 8 )
 healthStart = 3.0
 
-[node name="Holes" type="Spatial" parent="." index="10"]
+[node name="Holes" type="Spatial" parent="." index="11"]
 
 [node name="MeshInstance" type="Area" parent="Holes" index="0" groups=[
 "Targets",
 ]]
-transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -4.34601, 0, 12.9722 )
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -4.34601, 0, 17.7873 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Holes/MeshInstance" index="0"]
-shape = SubResource( 4 )
+shape = SubResource( 7 )
 
 [node name="MeshInstance2" type="Area" parent="Holes" index="1" groups=[
 "Targets",
 ]]
-transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 7.53626, 0, 12.9722 )
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 7.53626, 0, 17.7873 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Holes/MeshInstance2" index="0"]
-shape = SubResource( 5 )
+shape = SubResource( 8 )
 
 [node name="MeshInstance3" type="Area" parent="Holes" index="2" groups=[
 "Targets",
 ]]
-transform = Transform( 1.94707e-07, 0, -1, 0, 1, 0, 1, 0, 1.94707e-07, -4.34601, 0, -6.9608 )
+transform = Transform( 1.94707e-07, 0, -1, 0, 1, 0, 1, 0, 1.94707e-07, -4.34601, 0, -10.9089 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Holes/MeshInstance3" index="0"]
-shape = SubResource( 6 )
+shape = SubResource( 9 )
 
 [node name="MeshInstance4" type="Area" parent="Holes" index="3" groups=[
 "Targets",
 ]]
-transform = Transform( 1.94707e-07, 0, -1, 0, 1, 0, 1, 0, 1.94707e-07, 7.53626, 0, -6.9608 )
+transform = Transform( 1.94707e-07, 0, -1, 0, 1, 0, 1, 0, 1.94707e-07, 7.53626, 0, -10.9089 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Holes/MeshInstance4" index="0"]
-shape = SubResource( 7 )
+shape = SubResource( 10 )
 
 [node name="MeshInstance5" type="Area" parent="Holes" index="4" groups=[
 "Targets",
 ]]
-transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 11.9612, 0, -2.61436 )
+transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 16.5328, 0, -2.61436 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Holes/MeshInstance5" index="0"]
-shape = SubResource( 8 )
+shape = SubResource( 11 )
 
 [node name="MeshInstance6" type="Area" parent="Holes" index="5" groups=[
 "Targets",
 ]]
-transform = Transform( -1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 11.9612, 0, 9.26791 )
+transform = Transform( -1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 16.5328, 0, 9.26791 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Holes/MeshInstance6" index="0"]
-shape = SubResource( 9 )
+shape = SubResource( 12 )
 
 [node name="MeshInstance7" type="Area" parent="Holes" index="6" groups=[
 "Targets",
 ]]
-transform = Transform( 1, 0, -1.19209e-07, 0, 1, 0, 1.19209e-07, 0, 1, -6.90749, 0, -2.61436 )
+transform = Transform( 1, 0, -1.19209e-07, 0, 1, 0, 1.19209e-07, 0, 1, -12.6281, 0, -2.61436 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Holes/MeshInstance7" index="0"]
-shape = SubResource( 9 )
+shape = SubResource( 12 )
 
 [node name="MeshInstance8" type="Area" parent="Holes" index="7" groups=[
 "Targets",
 ]]
-transform = Transform( 1, 0, -1.19209e-07, 0, 1, 0, 1.19209e-07, 0, 1, -6.90749, 0, 9.26791 )
+transform = Transform( 1, 0, -1.19209e-07, 0, 1, 0, 1.19209e-07, 0, 1, -12.6281, 0, 9.26791 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Holes/MeshInstance8" index="0"]
-shape = SubResource( 9 )
+shape = SubResource( 12 )
 
-[node name="BossStartingLoc" type="Spatial" parent="." index="11" groups=[
+[node name="BossStartingLoc" type="Spatial" parent="." index="12" groups=[
 "Starting",
 ]]
 
-[node name="Traps" type="Spatial" parent="." index="12"]
+[node name="Traps" type="Spatial" parent="." index="13"]
+script = ExtResource( 10 )
 
 [node name="RisingPool" parent="Traps" index="0" groups=[
 "AcidPools",
@@ -231,10 +295,16 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5705, -1.66291, 0.479968 )
 ] instance=ExtResource( 9 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5705, -1.66291, 5.48935 )
 
-[node name="CeilingHole" type="Spatial" parent="." index="13" groups=[
+[node name="CeilingHole" type="Spatial" parent="." index="14" groups=[
 "CeilingHole",
 ]]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 4.54822, 3 )
 [connection signal="CutSceneStart" from="CutSceneRoot" to="PlayerSetPosition" method="StartCutscene" flags=6]
+[connection signal="CutSceneEnd" from="CutSceneRoot2" to="StaticBody" method="DeleteFloor" flags=6]
+[connection signal="CutSceneEnd" from="CutSceneRoot2" to="Traps" method="DeleteFloor" flags=6]
+[connection signal="CutSceneEnd" from="CutSceneRoot2" to="Upgrades" method="MoveUpgrade" flags=6 binds= [ Vector3( 0, 3, 0 ) ]]
+[connection signal="CutSceneStart" from="CutSceneRoot2" to="PlayerSetPosition" method="StartCutscene" flags=6]
 
 [editable path="CutSceneRoot"]
+
+[editable path="CutSceneRoot2"]

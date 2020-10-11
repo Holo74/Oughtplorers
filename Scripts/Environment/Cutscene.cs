@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class Cutscene : Node
+public class Cutscene : Spatial
 {
     [Signal]
     private delegate void CutSceneStart();
@@ -13,12 +13,12 @@ public class Cutscene : Node
     private AnimationPlayer animation;
     [Export]
     private bool autoConnect = true;
-
+    private string worldInfoName { get { return GetParent().Name + animationName; } }
     public override void _Ready()
     {
-        if (WorldManager.instance.WorldInfoHas(GetParent().Name))
+        if (WorldManager.instance.WorldInfoHas(worldInfoName))
         {
-            if (WorldManager.instance.GetWorldInfoData<bool>(GetParent().Name))
+            if (WorldManager.instance.GetWorldInfoData<bool>(worldInfoName))
             {
                 QueueFree();
                 return;
@@ -68,7 +68,7 @@ public class Cutscene : Node
         if (body is PlayerController controller)
         {
             InGameMenu.Instance.StartCameraTransition();
-            WorldManager.instance.AddToWorldInfo(GetParent().Name, true);
+            WorldManager.instance.AddToWorldInfo(worldInfoName, true);
             //GetChild(1).QueueFree();
         }
     }

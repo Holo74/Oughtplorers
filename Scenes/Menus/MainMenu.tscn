@@ -96,7 +96,7 @@ __meta__ = {
 }
 path = NodePath("../../MainScreen")
 
-[node name="Button2" type="Button" parent="Game"]
+[node name="Saves" type="Button" parent="Game"]
 anchor_left = 0.4375
 anchor_top = 0.08
 anchor_right = 0.5625
@@ -110,7 +110,7 @@ __meta__ = {
 pathwayToDemoLevel = "res://Scenes/TestingLevels/TreeTesting/AboveTheCatapillar/ATC1.tscn"
 textUsed = "ATC-1"
 
-[node name="Button3" type="Button" parent="Game"]
+[node name="Saves2" type="Button" parent="Game"]
 anchor_left = 0.4375
 anchor_top = 0.186667
 anchor_right = 0.5625
@@ -125,7 +125,7 @@ saveSlot = 1
 pathwayToDemoLevel = "res://Scenes/TestingLevels/TreeTesting/AboveTheCatapillar/ATC2.tscn"
 textUsed = "ATC-2"
 
-[node name="Button4" type="Button" parent="Game"]
+[node name="Saves3" type="Button" parent="Game"]
 anchor_left = 0.4375
 anchor_top = 0.293333
 anchor_right = 0.5625
@@ -137,8 +137,9 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 saveSlot = 2
-pathwayToDemoLevel = "res://Scenes/TestingLevels/TreeTesting/AboveTheCatapillar/ATC3.tscn"
-textUsed = "ATC-3"
+useDemoLevels = true
+pathwayToDemoLevel = "res://Scenes/TestingScenes/Leaves.tscn"
+textUsed = "Leaves"
 
 [node name="OptionsMenu" type="Panel" parent="."]
 visible = false

@@ -10,7 +10,7 @@ public class Momentum : BaseAttatch
     private Vector3 verticalMove = new Vector3(), verticalAddition = new Vector3();
     private Vector3 stableMove = new Vector3();
     private Vector3 pushing = new Vector3();
-    private Vector3 fallbackMovement = new Vector3();
+    private Vector3 fallbackMovement = new Vector3(), knockback = new Vector3();
     private float currentSpeed = 0;
     private bool moved = false;
     private float NinetyDegreesToRad = Mathf.Deg2Rad(-90);
@@ -170,6 +170,13 @@ public class Momentum : BaseAttatch
         controller.MoveAndSlide(verticalMove);
         controller.MoveAndSlide(horizontalAcc);
         controller.MoveAndSlide(pushing);
+        controller.MoveAndSlide(knockback);
+        if (knockback.Length() < .1f)
+            knockback *= 0;
+        else
+        {
+            knockback -= knockback * time * 2f;
+        }
         if (currentAccelerationTime < PlayerOptions.slideMaxTime)
         {
             currentAccelerationTime += time;
@@ -282,6 +289,11 @@ public class Momentum : BaseAttatch
         jumpStrRequest = amount;
         jumpTimer = 0;
         JumpAccepted = function;
+    }
+
+    public void SetKnockback(Vector3 k)
+    {
+        knockback = k;
     }
 
     public void ChangeStableVectorDirection(Vector3 direction)

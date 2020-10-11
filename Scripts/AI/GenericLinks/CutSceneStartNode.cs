@@ -49,5 +49,6 @@ public class CutSceneStartNode : AILink
     public override void Transition()
     {
         controller.UpdateLink((AILink)GetNextNode());
+        GameManager.Instance.Disconnect(nameof(GameManager.CutSceneSwitch), this, nameof(CutSceneSwapped));
     }
 }

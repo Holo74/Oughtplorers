@@ -75,7 +75,8 @@ public class Door : HealthStatic
     public override bool TakeDamage(float damage, DamageType typing, Node source)
     {
         //Currently the I need to figure out how the world is going to be pieced together so the doors will just open in tiny scenes with the animator
-        WorldManager.instance.LoadArea(path, GetParent().GetParent<Spatial>().GlobalTransform.origin + offset, GetParent().GetChild<Spatial>(0).Rotation + rot, DoorOpening);
+        if (!PlayerController.Instance.playerTrappedInRoom)
+            WorldManager.instance.LoadArea(path, GetParent().GetParent<Spatial>().GlobalTransform.origin + offset, GetParent().GetChild<Spatial>(0).Rotation + rot, DoorOpening);
         return true;
     }
 

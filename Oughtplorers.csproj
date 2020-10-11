@@ -64,6 +64,7 @@
     <Compile Include="Scripts/AI/AILink.cs" />
     <Compile Include="Scripts\AI\BossAI\BossDied.cs" />
     <Compile Include="Scripts\AI\BossAI\ChargerBoss\BossAcidSpew.cs" />
+    <Compile Include="Scripts\AI\BossAI\ChargerBoss\ChargerBossHealth.cs" />
     <Compile Include="Scripts\AI\BossAI\ChargerBoss\Charging.cs" />
     <Compile Include="Scripts\AI\GenericLinks\Stunned.cs" />
     <Compile Include="Scripts\AI\MasterController.cs" />
@@ -136,7 +137,10 @@
     <Compile Include="Scripts\Environment\DoorLoadingInfo.cs" />
     <Compile Include="Scripts\Environment\LookAtObject.cs" />
     <Compile Include="Scripts\Environment\MakeCurrentRoom.cs" />
+    <Compile Include="Scripts\Environment\Small\FloorCollapse.cs" />
     <Compile Include="Scripts\Environment\Triggers\Boss\Charger\AcidPool.cs" />
+    <Compile Include="Scripts\Environment\Triggers\FlowerLauncher.cs" />
+    <Compile Include="Scripts\Environment\Triggers\Knockback.cs" />
     <Compile Include="Scripts\TestResource.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

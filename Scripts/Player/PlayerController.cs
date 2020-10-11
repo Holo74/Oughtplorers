@@ -34,6 +34,7 @@ public class PlayerController : HealthKinematic
     public PlayerAnimationController animationController { private set; get; }
     private Spatial equipedWeapon;
     public Spatial fireFromLocations;
+    public bool playerTrappedInRoom = false;
 
     public void ToggleCamera(bool state)
     {
@@ -161,6 +162,7 @@ public class PlayerController : HealthKinematic
         if (IsDead())
         {
             death?.Invoke();
+            playerTrappedInRoom = false;
         }
         else
         {

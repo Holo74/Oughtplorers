@@ -1,0 +1,45 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Scenes/Environment/Spawn.tscn" type="PackedScene" id=2]
+
+[sub_resource type="SpatialMaterial" id=3]
+
+[sub_resource type="PlaneMesh" id=1]
+material = SubResource( 3 )
+size = Vector2( 10, 20 )
+subdivide_width = 10
+subdivide_depth = 10
+
+[sub_resource type="BoxShape" id=4]
+extents = Vector3( 5, 0.1, 10 )
+
+[node name="Spatial" type="Spatial"]
+
+[node name="Spawn" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.704088, 0 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.476382, -0.537671, 2.75178 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="StaticBody" type="StaticBody" parent="MeshInstance"]
+
+[node name="CollisionShape" type="CollisionShape" parent="MeshInstance/StaticBody"]
+shape = SubResource( 4 )
+
+[node name="CSGCombiner" type="CSGCombiner" parent="."]
+use_collision = true
+
+[node name="CSGBox" type="CSGBox" parent="CSGCombiner"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.579, -0.685849, 18.8448 )
+calculate_tangents = false
+use_collision = true
+width = 6.81173
+height = 0.738251
+depth = 12.6246
+
+[node name="CSGBox2" type="CSGBox" parent="CSGCombiner"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.593171, -0.363147, 18.8649 )
+operation = 2
+width = 8.30436

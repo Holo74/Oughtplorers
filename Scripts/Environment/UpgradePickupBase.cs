@@ -40,4 +40,9 @@ public class UpgradePickupBase : Spatial
             QueueFree();
         }
     }
+
+    public void MoveUpgrade(Vector3 offset)
+    {
+        GlobalTranslate(offset);
+    }
 }

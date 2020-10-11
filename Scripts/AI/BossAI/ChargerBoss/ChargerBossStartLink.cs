@@ -5,8 +5,10 @@ public class ChargerBossStartLink : AILink
 {
     public override void StartingLink()
     {
+        PlayerController.Instance.playerTrappedInRoom = true;
         started = true;
     }
+
     public override void LinkUpdate()
     {
 

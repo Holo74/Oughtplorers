@@ -5,5 +5,5 @@
 [resource]
 script = ExtResource( 1 )
 resourcePath = "res://AINodes/BossNodes/ChargerBoss/PhaseThreeCharge.tres"
-hitNodePath = ""
-waitingTime = 5.0
+hitNodePath = "res://AINodes/BossNodes/ChargerBoss/BossDied.tres"
+waitingTime = 7.0

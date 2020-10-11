@@ -1,0 +1,44 @@
+[gd_scene load_steps=5 format=2]
+
+[sub_resource type="SpatialMaterial" id=4]
+flags_use_shadow_to_opacity = true
+params_cull_mode = 1
+params_grow = true
+params_grow_amount = 0.02
+albedo_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="SpatialMaterial" id=2]
+next_pass = SubResource( 4 )
+params_diffuse_mode = 4
+params_specular_mode = 3
+albedo_color = Color( 0.156863, 0.152941, 0.34902, 1 )
+roughness = 0.0
+emission_enabled = true
+emission = Color( 0.12549, 0.231373, 0.431373, 1 )
+emission_energy = 1.0
+emission_operator = 0
+emission_on_uv2 = false
+anisotropy_enabled = true
+anisotropy = -1.0
+transmission_enabled = true
+transmission = Color( 0.419608, 0.419608, 0.419608, 1 )
+
+[sub_resource type="SphereMesh" id=1]
+material = SubResource( 2 )
+
+[sub_resource type="Environment" id=3]
+
+[node name="Spatial" type="Spatial"]
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.747682, 0.664057, 0, -0.664057, 0.747682, 0, 2.72047, 4.94214 )
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 0.382224, -0.420909, 0.822642, 0.177358, 0.907103, 0.381718, -0.90689, 0, 0.421368, 3.92864, 2.37143, 2.3184 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 3 )
