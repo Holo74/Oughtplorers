@@ -26,7 +26,7 @@ public class InGameMenu : MenuBase
                 a.Visible = false;
         }
         GameManager.Instance.Connect(nameof(GameManager.ToggleGame), this, nameof(ToggleMenu));
-        PlayerController.Instance.Connect(nameof(PlayerController.TakingDamage), this, nameof(UpdateHealth));
+        PlayerController.Instance.Connect(nameof(PlayerController.UpdateHealth), this, nameof(UpdateHealth));
         PlayerController.Instance.AttachToDeath(Dead);
         hud = GetChild<Control>(0);
         menu = GetChild<Control>(1);
@@ -104,7 +104,7 @@ public class InGameMenu : MenuBase
         instance.timer = 0f;
     }
 
-    public void UpdateHealth(float newValue)
+    public void UpdateHealth(bool damaged, float newValue)
     {
         healthBar.Value = (newValue - 1) % 100;
     }

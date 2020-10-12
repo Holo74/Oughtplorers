@@ -15,7 +15,9 @@ public class Momentum : BaseAttatch
     private bool moved = false;
     private float NinetyDegreesToRad = Mathf.Deg2Rad(-90);
     private RayInfo groundData { get { return RayCastData.SurroundingCasts[RayDirections.Bottom]; } }
-    private bool groundColliding { get { return PlayerAreaSensor.GetArea(AreaSensorDirection.Bottom) || controller.ability.GetNoCollide(); } }
+    // private bool groundColliding { get { return PlayerAreaSensor.GetArea(AreaSensorDirection.Bottom) || controller.ability.GetNoCollide(); } }
+    private bool onFloor = false;
+    private bool groundColliding { get { return onFloor || controller.ability.GetNoCollide(); } }
     private float maxSpeed = 1;
     private float maxAirSpeed = 0;
     private float accelerate = 1f, currentAccelerationTime = 6f;
@@ -112,6 +114,12 @@ public class Momentum : BaseAttatch
                 controller.MoveAndSlide(verticalAddition * currentSpeed * accelerate);
             }
             horizontalAcc -= horizontalAcc * time * .9f;
+            if (knockback.Length() < .1f)
+                knockback *= 0;
+            else
+            {
+                knockback -= knockback * time * 2f;
+            }
         }
         else
         {
@@ -171,12 +179,7 @@ public class Momentum : BaseAttatch
         controller.MoveAndSlide(horizontalAcc);
         controller.MoveAndSlide(pushing);
         controller.MoveAndSlide(knockback);
-        if (knockback.Length() < .1f)
-            knockback *= 0;
-        else
-        {
-            knockback -= knockback * time * 2f;
-        }
+
         if (currentAccelerationTime < PlayerOptions.slideMaxTime)
         {
             currentAccelerationTime += time;
@@ -189,6 +192,12 @@ public class Momentum : BaseAttatch
         if (controller.ability.GetCurrentState() != PlayerState.slide)
         {
             moved = false;
+        }
+        controller.MoveAndSlide(Vector3.Down * 0.01f, Vector3.Up);
+        if (controller.IsOnFloor() != onFloor)
+        {
+            onFloor = controller.IsOnFloor();
+            controller.GroundChanging(onFloor);
         }
 
     }
@@ -236,6 +245,7 @@ public class Momentum : BaseAttatch
         horizontalAcc = Vector3.Zero;
         stableMove = Vector3.Zero;
         pushing = Vector3.Zero;
+        knockback = Vector3.Zero;
         accelerate = 1f;
         currentSpeed = 0;
     }
@@ -293,7 +303,17 @@ public class Momentum : BaseAttatch
 
     public void SetKnockback(Vector3 k)
     {
-        knockback = k;
+        if (groundColliding)
+        {
+            knockback = k;
+            stableMove *= 0.1f;
+            verticalMove = Vector3.Zero;
+        }
+        else
+        {
+            knockback = k * (Vector3.One - Vector3.Up);
+            verticalMove = k * Vector3.Up;
+        }
     }
 
     public void ChangeStableVectorDirection(Vector3 direction)
@@ -320,6 +340,7 @@ public class Momentum : BaseAttatch
             currentSpeed = stableMove.Length() + horizontalAcc.Length();
             horizontalAcc = Vector3.Zero;
             verticalMove = Vector3.Zero;
+            knockback = Vector3.Zero;
 
             if (currentSpeed > .1f)
             {
@@ -336,6 +357,11 @@ public class Momentum : BaseAttatch
         {
             maxAirSpeed = currentSpeed;
             stableMove = stableMove.Normalized() * currentSpeed;
+            if (knockback.Length() > .1f)
+            {
+                verticalMove = knockback * Vector3.Up;
+                knockback *= (Vector3.One - Vector3.Up);
+            }
         }
     }
 }

@@ -19,8 +19,9 @@ height = 0.194701
 extents = Vector3( 0.145557, 0.314335, 0.44142 )
 
 [sub_resource type="CylinderShape" id=5]
+margin = 0.08
 radius = 0.489413
-height = 0.0836858
+height = 0.0894769
 
 [sub_resource type="Animation" id=6]
 resource_name = "DeathAnimation"
@@ -291,6 +292,7 @@ script = ExtResource( 3 )
 direction = 3
 
 [node name="CollisionShape2" type="CollisionShape" parent="HeadCollisionPos/Above"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.13357, 0 )
 shape = SubResource( 3 )
 
 [node name="HeadSpace" type="RayCast" parent="."]
@@ -319,7 +321,7 @@ script = ExtResource( 3 )
 shape = SubResource( 4 )
 
 [node name="Ground" type="Area" parent="SensorAreas"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.540842, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.539855, 0 )
 input_ray_pickable = false
 script = ExtResource( 3 )
 direction = 2
@@ -361,6 +363,7 @@ render_target_update_mode = 3
 gui_snap_controls_to_pixels = false
 
 [node name="Camera" type="Camera" parent="ViewportContainer/Viewport"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.291721, 0.427272 )
 cull_mask = 2
 current = true
 

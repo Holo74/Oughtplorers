@@ -22,7 +22,7 @@ public class PlayerController : HealthKinematic
     [Export]
     private NodePath headPath, headRotationPath, cameraPath, gunPath;
     [Signal]
-    public delegate void TakingDamage();
+    public delegate void UpdateHealth(bool damaged, float health);
     public delegate void Died();
     private Died death;
     public static PlayerController Instance { get; private set; }
@@ -61,7 +61,7 @@ public class PlayerController : HealthKinematic
         playMovement = new Momentum(this);
         playMovement.RegisterVerticalChange(HardLanding);
         size = new SizeHandler(this, GetChild<Spatial>(2));
-        PlayerAreaSensor.GetPlayerSensor(AreaSensorDirection.Bottom).RegisterStateChange(this, nameof(GroundChanging));
+        //PlayerAreaSensor.GetPlayerSensor(AreaSensorDirection.Bottom).RegisterStateChange(this, nameof(GroundChanging));
         ability = new PlayerAbility(this);
         inputs = new PlayerInput(this);
         camRot = new CameraRotHandler(this);
@@ -166,8 +166,17 @@ public class PlayerController : HealthKinematic
         }
         else
         {
-            EmitSignal(nameof(TakingDamage), GetHealth());
+            EmitSignal(nameof(UpdateHealth), true, GetHealth());
         }
+        return true;
+    }
+
+    public override bool Heal(float amount)
+    {
+        if (IsDead())
+            return false;
+        base.Heal(amount);
+        EmitSignal(nameof(UpdateHealth), false, GetHealth());
         return true;
     }
 

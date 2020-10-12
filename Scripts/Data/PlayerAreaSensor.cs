@@ -55,8 +55,6 @@ public class PlayerAreaSensor : Node
                 area[direction] = true;
                 EmitSignal(nameof(ChangedState), true);
             }
-
-
         }
     }
 

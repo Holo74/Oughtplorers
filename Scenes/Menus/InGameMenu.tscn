@@ -173,8 +173,10 @@ __meta__ = {
 }
 
 [node name="FPS" type="Label" parent="InGameMenuAndHud/PlayerHud"]
-anchor_right = 0.0390625
-anchor_bottom = 0.0233333
+anchor_left = 0.550286
+anchor_top = 0.431036
+anchor_right = 0.589349
+anchor_bottom = 0.454369
 text = "FPS:"
 script = ExtResource( 5 )
 __meta__ = {
@@ -182,9 +184,10 @@ __meta__ = {
 }
 
 [node name="Speed" type="Label" parent="InGameMenuAndHud/PlayerHud"]
-anchor_top = 0.0523474
-anchor_right = 0.0390626
-anchor_bottom = 0.0756807
+anchor_left = 0.550286
+anchor_top = 0.483383
+anchor_right = 0.596184
+anchor_bottom = 0.506717
 text = "Speed: "
 script = ExtResource( 9 )
 __meta__ = {
@@ -192,9 +195,10 @@ __meta__ = {
 }
 
 [node name="State" type="Label" parent="InGameMenuAndHud/PlayerHud"]
-anchor_top = 0.112364
-anchor_right = 0.0458984
-anchor_bottom = 0.135697
+anchor_left = 0.550286
+anchor_top = 0.5434
+anchor_right = 0.596184
+anchor_bottom = 0.566733
 text = "Speed: "
 script = ExtResource( 7 )
 __meta__ = {

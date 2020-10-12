@@ -138,6 +138,7 @@
     <Compile Include="Scripts\Environment\LookAtObject.cs" />
     <Compile Include="Scripts\Environment\MakeCurrentRoom.cs" />
     <Compile Include="Scripts\Environment\Small\FloorCollapse.cs" />
+    <Compile Include="Scripts\Environment\Small\MovingPlatform.cs" />
     <Compile Include="Scripts\Environment\Triggers\Boss\Charger\AcidPool.cs" />
     <Compile Include="Scripts\Environment\Triggers\FlowerLauncher.cs" />
     <Compile Include="Scripts\Environment\Triggers\Knockback.cs" />
