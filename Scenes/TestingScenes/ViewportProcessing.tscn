@@ -1,0 +1,55 @@
+[gd_scene load_steps=4 format=2]
+
+[sub_resource type="Shader" id=2]
+code = "shader_type canvas_item;
+
+void fragment() {
+    vec3 col = -8.0 * texture(TEXTURE, UV).xyz;
+    col += texture(TEXTURE, UV + vec2(0.0, SCREEN_PIXEL_SIZE.y)).xyz;
+    col += texture(TEXTURE, UV + vec2(0.0, -SCREEN_PIXEL_SIZE.y)).xyz;
+    col += texture(TEXTURE, UV + vec2(SCREEN_PIXEL_SIZE.x, 0.0)).xyz;
+    col += texture(TEXTURE, UV + vec2(-SCREEN_PIXEL_SIZE.x, 0.0)).xyz;
+    col += texture(TEXTURE, UV + SCREEN_PIXEL_SIZE.xy).xyz;
+    col += texture(TEXTURE, UV - SCREEN_PIXEL_SIZE.xy).xyz;
+    col += texture(TEXTURE, UV + vec2(-SCREEN_PIXEL_SIZE.x, SCREEN_PIXEL_SIZE.y)).xyz;
+    col += texture(TEXTURE, UV + vec2(SCREEN_PIXEL_SIZE.x, -SCREEN_PIXEL_SIZE.y)).xyz;
+    COLOR.xyz = col;
+}"
+custom_defines = ""
+
+[sub_resource type="ShaderMaterial" id=3]
+shader = SubResource( 2 )
+
+[sub_resource type="CubeMesh" id=1]
+
+[node name="Spatial" type="Spatial"]
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="ViewportContainer" type="ViewportContainer" parent="Node2D"]
+material = SubResource( 3 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Viewport" type="Viewport" parent="Node2D/ViewportContainer"]
+size = Vector2( 1000, 500 )
+
+[node name="Camera" type="Camera" parent="Node2D/ViewportContainer/Viewport"]
+
+[node name="MeshInstance" type="MeshInstance" parent="Node2D/ViewportContainer/Viewport"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, -14 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="MeshInstance2" type="MeshInstance" parent="Node2D/ViewportContainer/Viewport"]
+transform = Transform( 0.5, 0.5, -0.707107, 0.5, 0.5, 0.707107, 0.707107, -0.707107, -3.09086e-08, 5, -1, -14 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="MeshInstance3" type="MeshInstance" parent="Node2D/ViewportContainer/Viewport"]
+transform = Transform( 0.5, 0.5, -0.707107, 0.5, 0.5, 0.707107, 0.707107, -0.707107, -3.09086e-08, 5, 2, -18 )
+mesh = SubResource( 1 )
+material/0 = null

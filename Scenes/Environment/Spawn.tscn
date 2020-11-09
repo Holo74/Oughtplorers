@@ -11,5 +11,6 @@ size = Vector3( 1, 1, 1 )
 
 [node name="MeshInstance" type="MeshInstance" parent="Spatial"]
 layers = 524288
+cast_shadow = 0
 mesh = SubResource( 1 )
 material/0 = null

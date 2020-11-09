@@ -6,7 +6,7 @@ public class PlayerAnimationController : BaseAttatch
     public PlayerAnimationController(PlayerController controller) : base(controller, false)
     {
         controller.AttachToDeath(PlayDeathAnimation);
-        controller.animationNode.Active = true;
+        //controller.animationNode.Active = true;
         controller.ability.AddToStateChange(PlayerStateAnimations);
         controller.ability.AddToWeaponChange(WeaponSwapped);
         controller.ability.AddToFiredWeapon(WeaponShoot);
@@ -14,7 +14,7 @@ public class PlayerAnimationController : BaseAttatch
 
     private void PlayDeathAnimation()
     {
-        controller.animationNode.Set("parameters/conditions/Died", true);
+        //controller.animationNode.Set("parameters/conditions/Died", true);
     }
 
     private void PlayerStateAnimations(PlayerState state)
@@ -56,7 +56,7 @@ public class PlayerAnimationController : BaseAttatch
         switch (weapon)
         {
             case CurrentWeaponEquiped.first:
-                controller.animationNode.Set("parameters/conditions/ShootPistol", true);
+                //controller.animationNode.Set("parameters/conditions/ShootPistol", true);
                 break;
             case CurrentWeaponEquiped.second:
                 break;
@@ -69,6 +69,6 @@ public class PlayerAnimationController : BaseAttatch
 
     public void SetAnimationToFalse(string animation)
     {
-        controller.animationNode.Set("parameters/conditions/" + animation, false);
+        //controller.animationNode.Set("parameters/conditions/" + animation, false);
     }
 }

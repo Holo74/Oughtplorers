@@ -48,7 +48,7 @@ public class InGameMenu : MenuBase
 
     public override void _Process(float delta)
     {
-        if (Input.IsActionJustPressed("Quit") && PlayerController.CharacterPlaying() && GameManager.Instance.allowInputs)
+        if (Input.IsActionJustPressed("Quit") && PlayerController.CharacterPlaying() && GameManager.Instance.allowInputs && !PlayerController.Instance.IsDead())
         {
             GameManager.Instance.ToggleGamePause();
         }

@@ -1,9 +1,18 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=35 format=2]
 
 [ext_resource path="res://Scripts/Environment/Triggers/FlowerLauncher.cs" type="Script" id=1]
 [ext_resource path="res://Scenes/Environment/Spawn.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/Environment/HealthPickups.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scripts/Environment/Small/MovingPlatform.cs" type="Script" id=4]
+[ext_resource path="res://Scripts/Environment/Triggers/SetOOBS.cs" type="Script" id=5]
+[ext_resource path="res://Scenes/Environment/Triggers/OutOfBounds.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Models/Random/FlowerMesh/FlowerMesh.tres" type="CylinderMesh" id=7]
+[ext_resource path="res://Scripts/Environment/Zones/SlowFall.cs" type="Script" id=8]
+[ext_resource path="res://Scenes/Environment/Objects/FlowerLauncher.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Scenes/Environment/Objects/MovingBase.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Scenes/Environment/Triggers/SetOOBS.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Scenes/Environment/Areas/SlowFallArea.tscn" type="PackedScene" id=12]
+
 
 [sub_resource type="SpatialMaterial" id=1]
 
@@ -20,27 +29,75 @@ extents = Vector3( 5, 0.1, 10 )
 radius = 0.821528
 height = 1.12988
 
-[sub_resource type="SpatialMaterial" id=5]
+[sub_resource type="CylinderShape" id=5]
+height = 1.0
+
+[sub_resource type="SpatialMaterial" id=6]
 albedo_color = Color( 0.0117647, 1, 0.905882, 1 )
 
-[sub_resource type="Curve3D" id=7]
-_data = {
-"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, -3.636, 22.315, 27.147, 0, 0, 0, 0, 0, 0, -3.636, 22.315, 37.455 ),
-"tilts": PoolRealArray( 0, 0 )
-}
+[sub_resource type="CylinderShape" id=7]
 
-[sub_resource type="CylinderShape" id=8]
-
-[sub_resource type="SpatialMaterial" id=9]
+[sub_resource type="SpatialMaterial" id=8]
 albedo_color = Color( 0.576471, 0.0156863, 1, 1 )
 
-[sub_resource type="CylinderMesh" id=10]
-material = SubResource( 9 )
+[sub_resource type="CylinderMesh" id=9]
+material = SubResource( 8 )
+
+[sub_resource type="BoxShape" id=10]
+extents = Vector3( 3, 1, 3 )
+
+[sub_resource type="SpatialMaterial" id=11]
+albedo_color = Color( 0.501961, 0.0235294, 0.984314, 1 )
+
+[sub_resource type="CubeMesh" id=12]
+material = SubResource( 11 )
+size = Vector3( 6, 2, 6 )
+
+[sub_resource type="BoxShape" id=13]
+extents = Vector3( 5, 5, 5 )
+
+[sub_resource type="CubeMesh" id=14]
+material = SubResource( 11 )
+size = Vector3( 10, 10, 10 )
+
+[sub_resource type="BoxShape" id=15]
+extents = Vector3( 5, 5, 1 )
+
+[sub_resource type="CubeMesh" id=16]
+material = SubResource( 11 )
+size = Vector3( 10, 10, 2 )
+
+[sub_resource type="BoxShape" id=17]
+extents = Vector3( 4.40665, 3.83568, 1 )
+
+[sub_resource type="BoxShape" id=18]
+extents = Vector3( 5.5289, 4.72052, 6.52786 )
+
+[sub_resource type="Curve" id=19]
+_data = [ Vector2( 0, 0 ), 0.0, 1.4, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=20]
+curve = SubResource( 19 )
+
+[sub_resource type="ParticlesMaterial" id=21]
+trail_divisor = 4
+trail_size_modifier = SubResource( 20 )
+emission_shape = 2
+emission_box_extents = Vector3( 4, 4, 4 )
+direction = Vector3( 0, 1, 0 )
+spread = 0.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 3.0
+scale = 0.1
+scale_random = 0.05
+color = Color( 0.027451, 0.831373, 0.937255, 1 )
+
+[sub_resource type="SphereMesh" id=22]
 
 [node name="Spatial" type="Spatial"]
 
 [node name="Spawn" parent="." instance=ExtResource( 2 )]
-transform = Transform( -1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, 0.704088, 0 )
+transform = Transform( -1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, 0, 0 )
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.476382, -0.537671, 2.75178 )
@@ -67,49 +124,80 @@ depth = 12.6246
 operation = 2
 width = 8.30436
 
-[node name="FlowerLauncher2" type="CSGTorus" parent="."]
-transform = Transform( -0.997523, -0.0112109, -0.0694312, 0.0508629, 0.566815, -0.822274, 0.0485731, -0.823769, -0.564841, 2.38419e-06, 5.50998, 6.31229 )
-use_collision = true
-inner_radius = 0.142131
-outer_radius = 1.0
-smooth_faces = false
-
-[node name="Area" type="Area" parent="FlowerLauncher2"]
-transform = Transform( 1, -9.31323e-10, 0, 0, 1, 1.68657e-08, 0, -1.28493e-08, 1, 0, 0, 0 )
+[node name="FlowerLauncher5" type="KinematicBody" parent="."]
+transform = Transform( 0.999999, 0, 0, 0, 1, 0, 0, 0, 1, -8.1713, 23.1581, 68.5976 )
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
+strength = 18.0
+updateLine = false
+
+[node name="Area" type="Area" parent="FlowerLauncher5"]
+transform = Transform( 1, -7.45058e-09, -1.11759e-08, 0, 1, -2.98023e-08, -3.72529e-09, 0, 1, 0, 0, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="FlowerLauncher5/Area"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.880977, 0 )
+shape = SubResource( 4 )
+
+[node name="CollisionShape" type="CollisionShape" parent="FlowerLauncher5"]
+shape = SubResource( 5 )
+
+[node name="MeshInstance" type="MeshInstance" parent="FlowerLauncher5/CollisionShape"]
+mesh = ExtResource( 7 )
+material/0 = null
+
+[node name="FlowerLauncher" parent="." instance=ExtResource( 9 )]
+transform = Transform( 0.999999, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.852398, 10.0721 )
+
+[node name="FlowerLauncher2" type="KinematicBody" parent="."]
+transform = Transform( 0.999999, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0.239633, 4.42939, 6.2684 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
 strength = 13.0
 updateLine = false
+
+[node name="Area" type="Area" parent="FlowerLauncher2"]
+transform = Transform( 1, -7.45058e-09, -1.11759e-08, 0, 1, -2.98023e-08, -3.72529e-09, 0, 1, 0, 0, 0 )
 
 [node name="CollisionShape" type="CollisionShape" parent="FlowerLauncher2/Area"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.880977, 0 )
 shape = SubResource( 4 )
 
-[node name="FlowerLauncher4" type="CSGTorus" parent="."]
-transform = Transform( 0.997523, 0.011211, 0.0694313, 0.0365581, 0.760708, -0.648064, -0.0600824, 0.648997, 0.758415, 2.38419e-06, 6.37401, -4.6579 )
-use_collision = true
-inner_radius = 0.142131
-outer_radius = 1.0
-smooth_faces = false
+[node name="CollisionShape" type="CollisionShape" parent="FlowerLauncher2"]
+shape = SubResource( 5 )
 
-[node name="Area" type="Area" parent="FlowerLauncher4"]
-transform = Transform( 1, -3.72529e-09, -5.58794e-09, 0, 1, 2.98023e-08, -1.86265e-09, -2.98023e-08, 1, 0, 0, 0 )
+[node name="MeshInstance" type="MeshInstance" parent="FlowerLauncher2/CollisionShape"]
+mesh = ExtResource( 7 )
+material/0 = null
+
+[node name="FlowerLauncher3" type="KinematicBody" parent="."]
+transform = Transform( -0.999999, 4.37114e-08, -7.57103e-08, 0, 0.866025, 0.5, 8.74227e-08, 0.5, -0.866025, 0.239633, 6.574, -3.78917 )
 script = ExtResource( 1 )
-strength = 15.0
+__meta__ = {
+"_edit_group_": true
+}
+strength = 14.0
 updateLine = false
 
-[node name="CollisionShape" type="CollisionShape" parent="FlowerLauncher4/Area"]
+[node name="Area" type="Area" parent="FlowerLauncher3"]
+transform = Transform( 1, -7.45058e-09, -1.11759e-08, 0, 1, -2.98023e-08, -3.72529e-09, 0, 1, 0, 0, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="FlowerLauncher3/Area"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.880977, 0 )
 shape = SubResource( 4 )
 
-[node name="FlowerLauncher5" type="CSGTorus" parent="."]
-transform = Transform( 0.997523, 0.011211, 0.0694313, 0.0125259, 0.943111, -0.332244, -0.0692061, 0.33229, 0.940635, -9.80979, 16.2491, 9.42978 )
-use_collision = true
-inner_radius = 0.142131
-outer_radius = 1.0
-smooth_faces = false
+[node name="CollisionShape" type="CollisionShape" parent="FlowerLauncher3"]
+shape = SubResource( 5 )
 
-[node name="Area" type="Area" parent="FlowerLauncher5"]
-transform = Transform( 1, -7.45058e-09, -1.11759e-08, 0, 1, -2.98023e-08, -3.72529e-09, 0, 1, 0, 0, 0 )
+[node name="MeshInstance" type="MeshInstance" parent="FlowerLauncher3/CollisionShape"]
+mesh = ExtResource( 7 )
+material/0 = null
+
+[node name="FlowerLauncher4" type="KinematicBody" parent="."]
+transform = Transform( -0.999999, 4.37114e-08, -7.57103e-08, 0, 0.866025, 0.5, 8.74227e-08, 0.5, -0.866025, -9.24271, 15.2179, 8.46749 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_group_": true
@@ -117,26 +205,42 @@ __meta__ = {
 strength = 17.0
 updateLine = false
 
-[node name="CollisionShape" type="CollisionShape" parent="FlowerLauncher5/Area"]
+[node name="Area" type="Area" parent="FlowerLauncher4"]
+transform = Transform( 1, -7.45058e-09, -1.11759e-08, 0, 1, -2.98023e-08, -3.72529e-09, 0, 1, 0, 0, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="FlowerLauncher4/Area"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.880977, 0 )
 shape = SubResource( 4 )
 
-[node name="FlowerLauncher3" type="CSGTorus" parent="."]
-transform = Transform( 0.999999, 0, 0, 0, 1, 0, 0, 0, 1, 2.38419e-06, -0.530255, 10.1757 )
-use_collision = true
-inner_radius = 0.142131
-outer_radius = 1.0
-smooth_faces = false
+[node name="CollisionShape" type="CollisionShape" parent="FlowerLauncher4"]
+shape = SubResource( 5 )
 
-[node name="Area" type="Area" parent="FlowerLauncher3"]
-transform = Transform( 1, -9.31323e-10, 0, 0, 1, 1.68657e-08, 0, -1.28493e-08, 1, 0, 0, 0 )
+[node name="MeshInstance" type="MeshInstance" parent="FlowerLauncher4/CollisionShape"]
+mesh = ExtResource( 7 )
+material/0 = null
+
+[node name="FlowerLauncher6" type="KinematicBody" parent="."]
+transform = Transform( 0.999999, -8.74228e-08, 1.51421e-07, 0, 0.866025, 0.5, -1.74845e-07, -0.5, 0.866025, 87.3366, 15.2179, 23.4549 )
 script = ExtResource( 1 )
-strength = 15.0
+__meta__ = {
+"_edit_group_": true
+}
+strength = 20.0
 updateLine = false
 
-[node name="CollisionShape" type="CollisionShape" parent="FlowerLauncher3/Area"]
+[node name="Area" type="Area" parent="FlowerLauncher6"]
+transform = Transform( 1, -7.45058e-09, -1.11759e-08, 0, 1, -2.98023e-08, -3.72529e-09, 0, 1, 0, 0, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="FlowerLauncher6/Area"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.880977, 0 )
 shape = SubResource( 4 )
+
+[node name="CollisionShape" type="CollisionShape" parent="FlowerLauncher6"]
+shape = SubResource( 5 )
+
+[node name="MeshInstance" type="MeshInstance" parent="FlowerLauncher6/CollisionShape"]
+mesh = ExtResource( 7 )
+material/0 = null
 
 [node name="CSGBox" type="CSGBox" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.26624, -6.66556 )
@@ -151,7 +255,7 @@ use_collision = true
 radius = 1.28
 height = 1.34585
 cone = true
-material = SubResource( 5 )
+material = SubResource( 6 )
 
 [node name="CSGCylinder2" type="CSGCylinder" parent="."]
 transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, -5.99961, 10.4657, 15.7503 )
@@ -159,7 +263,7 @@ use_collision = true
 radius = 1.28
 height = 1.34585
 cone = true
-material = SubResource( 5 )
+material = SubResource( 6 )
 
 [node name="CSGCylinder3" type="CSGCylinder" parent="."]
 transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, -5.99961, 11.4225, 12.6393 )
@@ -167,7 +271,7 @@ use_collision = true
 radius = 1.28
 height = 1.34585
 cone = true
-material = SubResource( 5 )
+material = SubResource( 6 )
 
 [node name="CSGCylinder4" type="CSGCylinder" parent="."]
 transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, -10.1315, 12.139, 12.6393 )
@@ -175,7 +279,7 @@ use_collision = true
 radius = 1.28
 height = 1.34585
 cone = true
-material = SubResource( 5 )
+material = SubResource( 6 )
 
 [node name="CSGCylinder5" type="CSGCylinder" parent="."]
 transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, -14.164, 13.0632, 12.6393 )
@@ -183,7 +287,7 @@ use_collision = true
 radius = 1.28
 height = 1.34585
 cone = true
-material = SubResource( 5 )
+material = SubResource( 6 )
 
 [node name="CSGCylinder6" type="CSGCylinder" parent="."]
 transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, -14.164, 14.2187, 9.62228 )
@@ -191,7 +295,7 @@ use_collision = true
 radius = 1.28
 height = 1.34585
 cone = true
-material = SubResource( 5 )
+material = SubResource( 6 )
 
 [node name="CSGCylinder7" type="CSGCylinder" parent="."]
 transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, -13.0241, 15.0993, 6.51333 )
@@ -199,7 +303,7 @@ use_collision = true
 radius = 1.28
 height = 1.34585
 cone = true
-material = SubResource( 5 )
+material = SubResource( 6 )
 
 [node name="CSGCylinder8" type="CSGCylinder" parent="."]
 transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, -9.63078, 16.0169, 6.51333 )
@@ -207,7 +311,7 @@ use_collision = true
 radius = 1.28
 height = 1.34585
 cone = true
-material = SubResource( 5 )
+material = SubResource( 6 )
 
 [node name="CSGCylinder9" type="CSGCylinder" parent="."]
 transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, -16.3476, 20.0443, 27.0743 )
@@ -215,37 +319,182 @@ use_collision = true
 radius = 1.28
 height = 1.34585
 cone = true
-material = SubResource( 5 )
+material = SubResource( 6 )
 
 [node name="CSGCylinder10" type="CSGCylinder" parent="."]
-transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, -13.4923, 21.0703, 27.0743 )
+transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, -13.4923, 21.0048, 27.0743 )
 use_collision = true
 radius = 1.28
 height = 1.34585
 cone = true
-material = SubResource( 5 )
+material = SubResource( 6 )
 
 [node name="CSGCylinder11" type="CSGCylinder" parent="."]
-transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, -10.7705, 22.3152, 27.0743 )
+transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, -10.7705, 21.9747, 27.0743 )
 use_collision = true
 radius = 1.28
 height = 1.34585
 cone = true
-material = SubResource( 5 )
+material = SubResource( 6 )
 
-[node name="FallingPlatform" type="KinematicBody" parent="."]
+[node name="CSGCylinder12" type="CSGCylinder" parent="."]
+transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, -16.3476, 20.0443, 45.126 )
+use_collision = true
+radius = 1.28
+height = 1.34585
+cone = true
+material = SubResource( 6 )
+
+[node name="CSGCylinder13" type="CSGCylinder" parent="."]
+transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, -13.4923, 21.0703, 45.126 )
+use_collision = true
+radius = 1.28
+height = 1.34585
+cone = true
+material = SubResource( 6 )
+
+[node name="CSGCylinder14" type="CSGCylinder" parent="."]
+transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, -10.7705, 21.94, 45.126 )
+use_collision = true
+radius = 1.28
+height = 1.34585
+cone = true
+material = SubResource( 6 )
+
+[node name="Moving Platform" type="KinematicBody" parent="."]
 transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, -3.63636, 22.3152, 27.1202 )
 collision_layer = 2147483649
 script = ExtResource( 4 )
-path = SubResource( 7 )
+__meta__ = {
+"_edit_group_": true
+}
+path = PoolVector3Array( 0, 0, 0, 0, 0, 10 )
 
-[node name="Tween" type="Tween" parent="FallingPlatform"]
+[node name="Tween" type="Tween" parent="Moving Platform"]
 
-[node name="CollisionShape" type="CollisionShape" parent="FallingPlatform"]
-shape = SubResource( 8 )
+[node name="CollisionShape" type="CollisionShape" parent="Moving Platform"]
+shape = SubResource( 7 )
 
-[node name="MeshInstance" type="MeshInstance" parent="FallingPlatform/CollisionShape"]
-mesh = SubResource( 10 )
+[node name="MeshInstance" type="MeshInstance" parent="Moving Platform/CollisionShape"]
+mesh = SubResource( 9 )
+material/0 = null
+
+[node name="Moving Platform2" type="KinematicBody" parent="."]
+transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, -3.63636, 22.3152, 45.0857 )
+collision_layer = 2147483649
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_group_": true
+}
+path = PoolVector3Array( 0, 0, 0, 0, 0, 7.5 )
+
+[node name="Tween" type="Tween" parent="Moving Platform2"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Moving Platform2"]
+shape = SubResource( 7 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Moving Platform2/CollisionShape"]
+mesh = SubResource( 9 )
+material/0 = null
+
+[node name="Moving Platform3" type="KinematicBody" parent="."]
+transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, -7.21473, 22.3152, 59.6903 )
+collision_layer = 2147483649
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_group_": true
+}
+path = PoolVector3Array( 0, 0, 0, 0, 0, -8 )
+
+[node name="Tween" type="Tween" parent="Moving Platform3"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Moving Platform3"]
+shape = SubResource( 7 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Moving Platform3/CollisionShape"]
+mesh = SubResource( 9 )
+material/0 = null
+
+[node name="Moving Platform4" type="KinematicBody" parent="."]
+transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 7.1223, 34.0822, 66.9882 )
+collision_layer = 2147483649
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_group_": true
+}
+path = PoolVector3Array( 0, 0, 0, -20, 0, 0 )
+
+[node name="Tween" type="Tween" parent="Moving Platform4"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Moving Platform4"]
+shape = SubResource( 10 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Moving Platform4/CollisionShape"]
+mesh = SubResource( 12 )
+material/0 = null
+
+[node name="Moving Platform5" parent="." instance=ExtResource( 10 )]
+transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 49.2401, 13.625, 68.0934 )
+
+[node name="Moving Platform6" type="KinematicBody" parent="."]
+transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 67.6176, 19.5922, 50.4941 )
+collision_layer = 2147483649
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_group_": true
+}
+path = PoolVector3Array( 0, 0, 0, 40, 0, 0 )
+timeToComplete = 2.0
+delay = 3.0
+ease = 2
+
+[node name="Tween" type="Tween" parent="Moving Platform6"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Moving Platform6"]
+shape = SubResource( 13 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Moving Platform6/CollisionShape"]
+mesh = SubResource( 14 )
+material/0 = null
+
+[node name="Moving Platform7" type="KinematicBody" parent="."]
+transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 67.6176, 19.5922, 34.045 )
+collision_layer = 2147483649
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_group_": true
+}
+path = PoolVector3Array( 0, 0, 0, 40, 0, 0 )
+ease = 2
+
+[node name="Tween" type="Tween" parent="Moving Platform7"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Moving Platform7"]
+shape = SubResource( 13 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Moving Platform7/CollisionShape"]
+mesh = SubResource( 14 )
+material/0 = null
+
+[node name="Moving Platform8" type="KinematicBody" parent="."]
+transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 67.6176, 23.9191, 9.52004 )
+collision_layer = 2147483649
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_group_": true
+}
+path = PoolVector3Array( 0, 0, 0, 40, 0, 0 )
+timeToComplete = 1.0
+delay = 0.1
+ease = 2
+
+[node name="Tween" type="Tween" parent="Moving Platform8"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Moving Platform8"]
+shape = SubResource( 15 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Moving Platform8/CollisionShape"]
+mesh = SubResource( 16 )
 material/0 = null
 
 [node name="CSGCombiner2" type="CSGCombiner" parent="."]
@@ -266,11 +515,11 @@ height = 14.4209
 depth = 1.66187
 
 [node name="CSGBox4" type="CSGBox" parent="CSGCombiner2"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.085, 17.5238 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.085, 34.3382 )
 use_collision = true
 width = 24.1236
 height = 7.95357
-depth = 21.289
+depth = 54.8688
 
 [node name="CSGBox5" type="CSGBox" parent="CSGCombiner2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12.162, 19.4529 )
@@ -280,6 +529,14 @@ width = 26.5387
 height = 3.82681
 depth = 13.0697
 
+[node name="CSGBox6" type="CSGBox" parent="CSGCombiner2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12.162, 39.6038 )
+operation = 2
+use_collision = true
+width = 26.5387
+height = 3.82681
+depth = 17.2164
+
 [node name="ImmediateGeometry" type="ImmediateGeometry" parent="." groups=[
 "Lines",
 ]]
@@ -287,8 +544,222 @@ depth = 13.0697
 [node name="Health" parent="." instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.16859, 11.0075, 8.66549 )
 healAmount = 50.0
-[connection signal="body_entered" from="FlowerLauncher2/Area" to="FlowerLauncher2/Area" method="HitPlayer"]
-[connection signal="body_entered" from="FlowerLauncher4/Area" to="FlowerLauncher4/Area" method="HitPlayer"]
-[connection signal="body_entered" from="FlowerLauncher5/Area" to="FlowerLauncher5/Area" method="HitPlayer"]
-[connection signal="body_entered" from="FlowerLauncher3/Area" to="FlowerLauncher3/Area" method="HitPlayer"]
-[connection signal="tween_all_completed" from="FallingPlatform/Tween" to="FallingPlatform" method="CompleteMove"]
+
+[node name="CSGCombiner3" type="CSGCombiner" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 17.5628, 34.2233, 67.8162 )
+use_collision = true
+
+[node name="CSGBox" type="CSGBox" parent="CSGCombiner3"]
+width = 14.2109
+depth = 13.43
+
+[node name="CSGBox2" type="CSGBox" parent="CSGCombiner3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 42.5847, -20.5459, 0 )
+width = 71.2897
+depth = 13.43
+
+[node name="CSGBox5" type="CSGBox" parent="CSGCombiner3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 69.0423, -20.5459, -26.8548 )
+width = 17.9352
+depth = 41.262
+
+[node name="CSGBox6" type="CSGBox" parent="CSGCombiner3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 69.0565, -20.5791, -28.3457 )
+operation = 2
+width = 18.4654
+height = 2.69731
+depth = 2.31855
+
+[node name="CSGBox7" type="CSGBox" parent="CSGCombiner3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 69.0565, -20.5791, -37.8737 )
+operation = 2
+width = 18.4654
+height = 2.69731
+depth = 2.31855
+
+[node name="CSGBox4" type="CSGBox" parent="CSGCombiner3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 42.9063, -20.5459, 0 )
+operation = 2
+width = 28.7188
+height = 4.51453
+depth = 17.8835
+
+[node name="CSGBox3" type="CSGBox" parent="CSGCombiner3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8.71492, -9.60454, 0 )
+width = 3.25661
+height = 21.1757
+depth = 13.43
+
+[node name="SpawnPoint" type="Spatial" parent="." groups=[
+"OutOfBoundsSpawn",
+]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.26307, 1.50922 )
+
+[node name="OutOfBounds" parent="." instance=ExtResource( 6 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, 27 )
+
+[node name="SetOOBS" parent="." instance=ExtResource( 11 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13, 7 )
+
+[node name="SetOOBS2" type="Area" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8.99577, 25.6928, 19.3144 )
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_group_": true,
+"_editor_description_": "OOBS = Out of bounds spawn"
+}
+
+[node name="CollisionShape" type="CollisionShape" parent="SetOOBS2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.09201, 0 )
+shape = SubResource( 17 )
+
+[node name="Point" type="Spatial" parent="SetOOBS2"]
+transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0, 0, 2.44627 )
+
+[node name="SetOOBS3" type="Area" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.68123, 25.6928, 39.1585 )
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_group_": true,
+"_editor_description_": "OOBS = Out of bounds spawn"
+}
+
+[node name="CollisionShape" type="CollisionShape" parent="SetOOBS3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.09201, 0 )
+shape = SubResource( 17 )
+
+[node name="Point" type="Spatial" parent="SetOOBS3"]
+transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0, 0, 1.79195 )
+
+[node name="SetOOBS4" type="Area" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6.22552, 24.3678, 62.479 )
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_group_": true,
+"_editor_description_": "OOBS = Out of bounds spawn"
+}
+
+[node name="CollisionShape" type="CollisionShape" parent="SetOOBS4"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.09201, 0 )
+shape = SubResource( 17 )
+
+[node name="Point" type="Spatial" parent="SetOOBS4"]
+transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0, 0, 1.79195 )
+
+[node name="SetOOBS5" type="Area" parent="."]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 11.3897, 37.8335, 67.1726 )
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_group_": true,
+"_editor_description_": "OOBS = Out of bounds spawn"
+}
+
+[node name="CollisionShape" type="CollisionShape" parent="SetOOBS5"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.09201, 0 )
+shape = SubResource( 17 )
+
+[node name="Point" type="Spatial" parent="SetOOBS5"]
+transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0, 0, 1.79195 )
+
+[node name="SetOOBS6" type="Area" parent="."]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 44.489, 16.1237, 67.1726 )
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_group_": true,
+"_editor_description_": "OOBS = Out of bounds spawn"
+}
+
+[node name="CollisionShape" type="CollisionShape" parent="SetOOBS6"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.09201, 0 )
+shape = SubResource( 17 )
+
+[node name="Point" type="Spatial" parent="SetOOBS6"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.44841 )
+
+[node name="SetOOBS7" type="Area" parent="."]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 77.5419, 16.1237, 67.1726 )
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_group_": true,
+"_editor_description_": "OOBS = Out of bounds spawn"
+}
+
+[node name="CollisionShape" type="CollisionShape" parent="SetOOBS7"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.09201, 0 )
+shape = SubResource( 17 )
+
+[node name="Point" type="Spatial" parent="SetOOBS7"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.964035 )
+
+[node name="SetOOBS8" type="Area" parent="."]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 86.4668, 16.1237, 27.178 )
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_group_": true,
+"_editor_description_": "OOBS = Out of bounds spawn"
+}
+
+[node name="CollisionShape" type="CollisionShape" parent="SetOOBS8"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.09201, 0 )
+shape = SubResource( 17 )
+
+[node name="Point" type="Spatial" parent="SetOOBS8"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0.964035 )
+
+[node name="SlowFallArea" parent="." instance=ExtResource( 12 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 30.5167, 17.149, 67.9053 )
+
+[node name="SlowFallArea2" type="Area" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 87.3353, 11.3023, -9.60737 )
+script = ExtResource( 8 )
+__meta__ = {
+"_edit_group_": true
+}
+duration = 0.01
+
+[node name="CollisionShape" type="CollisionShape" parent="SlowFallArea2"]
+shape = SubResource( 18 )
+
+[node name="Particles" type="Particles" parent="SlowFallArea2"]
+amount = 100
+visibility_aabb = AABB( -5.32062, -4, -6.68426, 10.6412, 8, 13.3685 )
+process_material = SubResource( 21 )
+draw_pass_1 = SubResource( 22 )
+
+[node name="CSGCombiner4" type="CSGCombiner" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 87.6403, 3.94844, -9.53005 )
+use_collision = true
+
+[node name="CSGBox2" type="CSGBox" parent="CSGCombiner4"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -21.0219, 0, 0 )
+use_collision = true
+width = 61.2032
+depth = 19.237
+
+[node name="CSGBox3" type="CSGBox" parent="CSGCombiner4"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.37686, -9.70897 )
+use_collision = true
+width = 19.4799
+height = 14.6375
+depth = 2.48147
+[connection signal="body_entered" from="FlowerLauncher5/Area" to="FlowerLauncher5" method="HitPlayer"]
+[connection signal="body_entered" from="FlowerLauncher2/Area" to="FlowerLauncher2" method="HitPlayer"]
+[connection signal="body_entered" from="FlowerLauncher3/Area" to="FlowerLauncher3" method="HitPlayer"]
+[connection signal="body_entered" from="FlowerLauncher4/Area" to="FlowerLauncher4" method="HitPlayer"]
+[connection signal="body_entered" from="FlowerLauncher6/Area" to="FlowerLauncher6" method="HitPlayer"]
+[connection signal="tween_all_completed" from="Moving Platform/Tween" to="Moving Platform" method="CompleteMove"]
+[connection signal="tween_all_completed" from="Moving Platform2/Tween" to="Moving Platform2" method="CompleteMove"]
+[connection signal="tween_all_completed" from="Moving Platform3/Tween" to="Moving Platform3" method="CompleteMove"]
+[connection signal="tween_all_completed" from="Moving Platform4/Tween" to="Moving Platform4" method="CompleteMove"]
+[connection signal="tween_all_completed" from="Moving Platform6/Tween" to="Moving Platform6" method="CompleteMove"]
+[connection signal="tween_all_completed" from="Moving Platform7/Tween" to="Moving Platform7" method="CompleteMove"]
+[connection signal="tween_all_completed" from="Moving Platform8/Tween" to="Moving Platform8" method="CompleteMove"]
+[connection signal="body_entered" from="SetOOBS2" to="SetOOBS2" method="PlayerEntered"]
+[connection signal="body_entered" from="SetOOBS3" to="SetOOBS3" method="PlayerEntered"]
+[connection signal="body_entered" from="SetOOBS4" to="SetOOBS4" method="PlayerEntered"]
+[connection signal="body_entered" from="SetOOBS5" to="SetOOBS5" method="PlayerEntered"]
+[connection signal="body_entered" from="SetOOBS6" to="SetOOBS6" method="PlayerEntered"]
+[connection signal="body_entered" from="SetOOBS7" to="SetOOBS7" method="PlayerEntered"]
+[connection signal="body_entered" from="SetOOBS8" to="SetOOBS8" method="PlayerEntered"]
+[connection signal="body_entered" from="SlowFallArea2" to="SlowFallArea2" method="PlayerEntered"]
+[connection signal="body_exited" from="SlowFallArea2" to="SlowFallArea2" method="PlayerExit"]

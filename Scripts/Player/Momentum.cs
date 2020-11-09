@@ -17,11 +17,11 @@ public class Momentum : BaseAttatch
     private RayInfo groundData { get { return RayCastData.SurroundingCasts[RayDirections.Bottom]; } }
     // private bool groundColliding { get { return PlayerAreaSensor.GetArea(AreaSensorDirection.Bottom) || controller.ability.GetNoCollide(); } }
     private bool onFloor = false;
-    private bool groundColliding { get { return onFloor || controller.ability.GetNoCollide(); } }
+    public bool groundColliding { get { return onFloor || controller.ability.GetNoCollide(); } }
     private float maxSpeed = 1;
     private float maxAirSpeed = 0;
     private float accelerate = 1f, currentAccelerationTime = 6f;
-    private bool jumpRequest = false;
+    private bool jumpRequest = false, passThrough = false;
     private float jumpTimer, jumpStrRequest;
     public delegate void JumpRequest();
     private JumpRequest JumpAccepted;
@@ -148,7 +148,7 @@ public class Momentum : BaseAttatch
                     break;
             }
         }
-        if (jumpRequest && jumpTimer < .3f)
+        if (jumpRequest && jumpTimer < PlayerOptions.jumpRegisterTime)
         {
             jumpTimer += time;
             if (!PlayerAreaSensor.GetArea(AreaSensorDirection.Above))
@@ -204,11 +204,12 @@ public class Momentum : BaseAttatch
 
     private void JumpFinished()
     {
-        if (groundColliding)
+        if (groundColliding || passThrough)
             verticalMove = (Vector3.Up * jumpStrRequest) + verticalAddition * Vector3.Up;
         jumpRequest = false;
+        passThrough = false;
         SetState(PlayerState.fallingUp);
-        JumpAccepted();
+        JumpAccepted?.Invoke();
         JumpAccepted = null;
         vertCha?.Invoke(verticalMove.y);
     }
@@ -248,6 +249,7 @@ public class Momentum : BaseAttatch
         knockback = Vector3.Zero;
         accelerate = 1f;
         currentSpeed = 0;
+        controller.soundRequest.StopOneSound(PlayerSoundFrom.feet);
     }
 
     public void Accelerate(float amount = 1)
@@ -293,12 +295,18 @@ public class Momentum : BaseAttatch
         return horizontalAcc.Length();
     }
 
-    public void VerticalIncrease(float amount, JumpRequest function)
+    public void VerticalIncrease(float amount, JumpRequest function, bool passThrough = true)
     {
         jumpRequest = true;
+        this.passThrough = passThrough;
         jumpStrRequest = amount;
         jumpTimer = 0;
         JumpAccepted = function;
+    }
+
+    public void AddVer(Vector3 additive)
+    {
+        verticalMove += additive;
     }
 
     public void SetKnockback(Vector3 k)

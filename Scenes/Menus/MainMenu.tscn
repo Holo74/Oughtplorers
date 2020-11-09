@@ -107,8 +107,9 @@ script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": true
 }
-pathwayToDemoLevel = "res://Scenes/TestingLevels/TreeTesting/AboveTheCatapillar/ATC1.tscn"
-textUsed = "ATC-1"
+useDemoLevels = true
+pathwayToDemoLevel = "res://WorldsFromMinecraft/Scenes/TempleOfNotch.tscn"
+textUsed = "Minecraft"
 
 [node name="Saves2" type="Button" parent="Game"]
 anchor_left = 0.4375
@@ -122,8 +123,9 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 saveSlot = 1
-pathwayToDemoLevel = "res://Scenes/TestingLevels/TreeTesting/AboveTheCatapillar/ATC2.tscn"
-textUsed = "ATC-2"
+useDemoLevels = true
+pathwayToDemoLevel = "res://Scenes/TestingScenes/LeavesBranching.tscn"
+textUsed = "Leaves Branching"
 
 [node name="Saves3" type="Button" parent="Game"]
 anchor_left = 0.4375

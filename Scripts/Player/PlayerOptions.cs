@@ -18,7 +18,7 @@ public class PlayerOptions : Node
     public const float playerMaxSprintSpeed = 8f;
     public const float playerSprintAcceleration = 5f;
     public const float playerDeccelerationAboveMax = 20.1f;
-    public const float cayoteMaxTime = .2f;
+    public const float cayoteMaxTime = .35f;
     public const float doubleJumpStr = 5f;
     public const float tripleJumpStr = 5f;
     public const float wallRunningAngleAllowance = .65f;
@@ -33,6 +33,9 @@ public class PlayerOptions : Node
     public const float slideDeceleration = 2f;
     public const float glidePull = 13f;
     public const float glideFallSpeed = .5f;
+    public const float level1Zoom = 20f;
+    public const float level2Zoom = 10f;
+    public const float jumpRegisterTime = .15f;
 
     public override void _Ready()
     {

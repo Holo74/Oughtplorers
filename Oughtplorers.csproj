@@ -140,9 +140,17 @@
     <Compile Include="Scripts\Environment\Small\FloorCollapse.cs" />
     <Compile Include="Scripts\Environment\Small\MovingPlatform.cs" />
     <Compile Include="Scripts\Environment\Triggers\Boss\Charger\AcidPool.cs" />
+    <Compile Include="Scripts\Environment\Triggers\FalloutOfBounds.cs" />
     <Compile Include="Scripts\Environment\Triggers\FlowerLauncher.cs" />
     <Compile Include="Scripts\Environment\Triggers\Knockback.cs" />
+    <Compile Include="Scripts\Environment\Triggers\SetOOBS.cs" />
+    <Compile Include="Scripts\Environment\Zones\SlowFall.cs" />
+    <Compile Include="Scripts\Player\AnimationController.cs" />
+    <Compile Include="Scripts\Player\SoundManager.cs" />
+    <Compile Include="Scripts\Player\WeaponController.cs" />
+    <Compile Include="Scripts\Player\Weapons\Scanner.cs" />
     <Compile Include="Scripts\TestResource.cs" />
+    <Compile Include="Scripts\ViewportTexture.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

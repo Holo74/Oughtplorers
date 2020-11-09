@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scripts/Environment/Triggers/SetOOBS.cs" type="Script" id=1]
+
+[sub_resource type="BoxShape" id=1]
+extents = Vector3( 5, 4, 1 )
+
+[node name="SetOOBS" type="Area"]
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true,
+"_editor_description_": "OOBS = Out of bounds spawn"
+}
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+shape = SubResource( 1 )
+
+[node name="Point" type="Spatial" parent="." groups=[
+"OutOfBoundsSpawn",
+]]
+[connection signal="body_entered" from="." to="." method="PlayerEntered"]

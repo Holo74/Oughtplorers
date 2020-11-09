@@ -7,7 +7,7 @@ public class PlayerController : HealthKinematic
     private float timeDelta;
     public delegate void Updating(float delta);
     private event Updating update, physicsUpdate;
-    private Spatial[] weapons = new Spatial[4];
+    private Spatial[] weapons = new Spatial[5];
     public PlayerOptions options { get; private set; }
     public Rotation headRotation { get; private set; }
     public Rotation bodyRotation { get; private set; }
@@ -16,11 +16,10 @@ public class PlayerController : HealthKinematic
     public PlayerAbility ability { get; private set; }
     public PlayerInput inputs { get; private set; }
     public CameraRotHandler camRot { get; private set; }
-    public PlayerSoundControl soundControl { get; private set; }
     public PlayerUpgrade upgrades = new PlayerUpgrade();
     public Camera camera, gunCamera;
     [Export]
-    private NodePath headPath, headRotationPath, cameraPath, gunPath;
+    private NodePath gunPath;
     [Signal]
     public delegate void UpdateHealth(bool damaged, float health);
     public delegate void Died();
@@ -29,12 +28,12 @@ public class PlayerController : HealthKinematic
     public delegate void PlayerDamaged(float amount, DamageType type, EnemyProjectiles projectile);
     private PlayerDamaged playerTookDamage;
     private bool characterReady = false;
-    public AudioStreamPlayer playerSound { private set; get; }
-    public AnimationTree animationNode { private set; get; }
-    public PlayerAnimationController animationController { private set; get; }
     private Spatial equipedWeapon;
     public Spatial fireFromLocations;
     public bool playerTrappedInRoom = false;
+    public SpotLight headLamp;
+    public SoundManager soundRequest;
+    public AnimationController anim;
 
     public void ToggleCamera(bool state)
     {
@@ -54,28 +53,28 @@ public class PlayerController : HealthKinematic
         options = PlayerOptions.Instance;
         headRotation = new Rotation(this, true, GetChild<Spatial>(2).GetChild<Spatial>(0), true, -80, 85);
         camera = GetChild<Spatial>(2).GetChild<Spatial>(0).GetChild<Camera>(0);
-        playerSound = GetChild<AudioStreamPlayer>(5);
-        animationNode = GetChild<AnimationTree>(7);
+        headLamp = camera.GetParent().GetChild<SpotLight>(2);
         bodyRotation = new Rotation(this, false, this);
+        soundRequest = GetChild<SoundManager>(5);
         InputHandler.Instance.ConnectToMouseMovement(this, nameof(Rotating));
         playMovement = new Momentum(this);
         playMovement.RegisterVerticalChange(HardLanding);
+        anim = GetChild<AnimationController>(8);
         size = new SizeHandler(this, GetChild<Spatial>(2));
-        //PlayerAreaSensor.GetPlayerSensor(AreaSensorDirection.Bottom).RegisterStateChange(this, nameof(GroundChanging));
         ability = new PlayerAbility(this);
         inputs = new PlayerInput(this);
         camRot = new CameraRotHandler(this);
-        soundControl = new PlayerSoundControl(this);
-        animationController = new PlayerAnimationController(this);
         Init(100);
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 5; i++)
         {
             weapons[i] = GetNode(gunPath).GetChild<Spatial>(i);
             weapons[i].Scale = Vector3.Zero;
         }
-        fireFromLocations = GetChild<Spatial>(2).GetChild<Spatial>(0).GetChild<Spatial>(1);
-        gunCamera = GetChild(8).GetChild(0).GetChild<Camera>(0);
+        fireFromLocations = GetChild(2).GetChild(0).GetChild<Spatial>(1);
+        gunCamera = GetChild(6).GetChild(0).GetChild<Camera>(0);
         ability.AddToWeaponChange(WeaponChanged);
+        //Load in previously held weapon rather than the scanner
+        WeaponChanged(CurrentWeaponEquiped.none);
         SettingsOptions.RegisterUpdatedEvent(UpdateCharacterSettings);
         upgrades.LoadUpgrades(GameManager.Instance.GetDataUsed().upgrades.GetAllUpgrades());
     }
@@ -198,7 +197,7 @@ public class PlayerController : HealthKinematic
 
     public void FinishAnimation(string name)
     {
-        animationController.SetAnimationToFalse(name);
+        //animationController.SetAnimationToFalse(name);
     }
 
     public void ReadyWeapon()
@@ -218,5 +217,10 @@ public class PlayerController : HealthKinematic
     {
         headRotation.LookForward(Vector3.Zero);
         GlobalTransform = new Transform(pos.basis, pos.origin);
+    }
+
+    public void ToggleMenuFromDeath()
+    {
+        GameManager.Instance.ToggleGamePause();
     }
 }

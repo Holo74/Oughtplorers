@@ -99,6 +99,10 @@ public class PlayerInput : BaseAttatch
         {
             controller.ability.Throw();
         }
+        if (Input.IsActionJustPressed("Hit"))
+        {
+            controller.ability.ZoomIn();
+        }
         if (Input.IsActionJustPressed("Weapon1"))
         {
             controller.ability.SwapWeapon(CurrentWeaponEquiped.first);
@@ -117,15 +121,21 @@ public class PlayerInput : BaseAttatch
         }
         if (Input.IsActionJustPressed("Holster"))
         {
+            GD.Print("Scanner equiped");
             controller.ability.SwapWeapon(CurrentWeaponEquiped.none);
         }
-        if (Input.IsActionJustReleased("CycleWeaponUp"))
+        //This is broken and crashes the game when calling the functions.  Probably an infinite loop or something is happening
+        // if (Input.IsActionJustReleased("CycleWeaponUp"))
+        // {
+        //     controller.ability.SwapWeapon(true);
+        // }
+        // if (Input.IsActionJustReleased("CycleWeaponDown"))
+        // {
+        //     controller.ability.SwapWeapon(false);
+        // }
+        if (Input.IsActionJustPressed("ActivateLight"))
         {
-            controller.ability.SwapWeapon(true);
-        }
-        if (Input.IsActionJustReleased("CycleWeaponDown"))
-        {
-            controller.ability.SwapWeapon(false);
+            controller.ability.ToggleLight();
         }
     }
 
@@ -149,9 +159,11 @@ public class PlayerInput : BaseAttatch
         if (GameManager.Instance.playing && inputLockTimer <= 0f)
         {
             controller.bodyRotation.RotateAmount(vec.x * timeDelta * SettingsOptions.GetSetting<float>(SettingsNames.mouseXSensitivity) *
-            (SettingsOptions.GetSetting<bool>(SettingsNames.invertX) ? -1 : 1));
+                (SettingsOptions.GetSetting<bool>(SettingsNames.invertX) ? -1 : 1) *
+                controller.ability.ZoomRatio);
             controller.headRotation.RotateAmount(vec.y * timeDelta * SettingsOptions.GetSetting<float>(SettingsNames.mouseYSensitivity) *
-            (SettingsOptions.GetSetting<bool>(SettingsNames.invertY) ? -1 : 1));
+                (SettingsOptions.GetSetting<bool>(SettingsNames.invertY) ? -1 : 1) *
+                controller.ability.ZoomRatio);
         }
     }
 

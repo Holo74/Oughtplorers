@@ -34,6 +34,7 @@ public class PlayerAbility : BaseAttatch
         weapons[1] = new FirstWeapon();
         weapons[2] = new FirstWeapon();
         weapons[3] = new FirstWeapon();
+        weapons[4] = new Scanner();
     }
 
     public bool DoubleJumpUsed = false, tripleJumpUsed = false;
@@ -52,7 +53,16 @@ public class PlayerAbility : BaseAttatch
     public WeaponChanged firedWeapon;
     private Vector3 strafeDirectionRequest;
     private CurrentWeaponEquiped weapon = CurrentWeaponEquiped.none;
-    private WeaponBase[] weapons = new WeaponBase[4];
+    private WeaponBase[] weapons = new WeaponBase[5];
+    public enum ZoomLevel
+    {
+        normal,
+        zoom1,
+        zoom2
+    }
+    private ZoomLevel currentZoom = ZoomLevel.normal;
+    private float zoomRatio = 1;
+    public float ZoomRatio { get { return zoomRatio; } }
 
     public void AddToStateChange(StateChange function)
     {
@@ -72,7 +82,7 @@ public class PlayerAbility : BaseAttatch
     public override void Update(float delta)
     {
         base.Update(delta);
-        if (!PlayerAreaSensor.GetArea(AreaSensorDirection.Bottom) && cayoteTime < PlayerOptions.cayoteMaxTime)
+        if (!controller.playMovement.groundColliding && cayoteTime < PlayerOptions.cayoteMaxTime)
         {
             cayoteTime += time;
         }
@@ -92,6 +102,7 @@ public class PlayerAbility : BaseAttatch
         weapons[1].UpdateGun(delta);
         weapons[2].UpdateGun(delta);
         weapons[3].UpdateGun(delta);
+        weapons[4].UpdateGun(delta);
     }
 
     public void Move(Vector3 direction, bool sprint, bool wallRun = false)
@@ -108,12 +119,18 @@ public class PlayerAbility : BaseAttatch
                 {
                     acceleration = PlayerOptions.playerSprintAcceleration;
                     maxSpeed = PlayerOptions.playerMaxSprintSpeed;
+                    controller.soundRequest.PlayerRequestedSound("Running", true);
+                }
+                else
+                {
+                    controller.soundRequest.PlayerRequestedSound("Walking", true);
                 }
                 if (controller.playMovement.GetCurrentSpeed() > controller.playMovement.GetMaxSpeed())
                 {
                     acceleration = 0;
                 }
                 controller.playMovement.GroundMovement(direction, maxSpeed, acceleration);
+
                 break;
             case PlayerState.crouch:
                 float acc = PlayerOptions.playerCrouchSpeed;
@@ -122,6 +139,7 @@ public class PlayerAbility : BaseAttatch
                     acc = 0;
                 }
                 controller.playMovement.GroundMovement(direction, PlayerOptions.playerMaxCrouchSpeed, acc);
+                controller.soundRequest.PlayerRequestedSound("Walking", true);
                 break;
             case PlayerState.wallRunning:
             case PlayerState.fallingDown:
@@ -171,6 +189,7 @@ public class PlayerAbility : BaseAttatch
     private void StrafeJumpUsed()
     {
         controller.playMovement.HorizontalAccelerationSet(strafeDirectionRequest * PlayerOptions.playerStrafeStrengthHor);
+        controller.soundRequest.PlayerRequestedSound("Jumping");
     }
 
     private bool WallRun(bool continuing)
@@ -224,7 +243,7 @@ public class PlayerAbility : BaseAttatch
             case PlayerState.sprinting:
             case PlayerState.walking:
             case PlayerState.crouch:
-                controller.playMovement.VerticalIncrease(PlayerOptions.jumpStr, RegularJumpUsed);
+                controller.playMovement.VerticalIncrease(PlayerOptions.jumpStr, RegularJumpUsed, false);
                 break;
             case PlayerState.wallRunning:
                 controller.playMovement.VerticalIncrease(PlayerOptions.wallJumpVerStr, WallRunningJumpUsed);
@@ -256,8 +275,7 @@ public class PlayerAbility : BaseAttatch
     private void RegularJumpUsed()
     {
         cayoteTime = PlayerOptions.cayoteMaxTime;
-        if (controller.size.crouched)
-            controller.size.Crouch();
+        controller.soundRequest.PlayerRequestedSound("Jumping");
     }
 
     public void WallRunningJumpUsed()
@@ -265,27 +283,25 @@ public class PlayerAbility : BaseAttatch
         if (RunningOnRightWall || left.Sensed())
             controller.playMovement.HorizontalAccelerationSet(PlayerOptions.wallJumpHorStr * attachedTo.Normals());
         ResetJumps();
+        controller.soundRequest.PlayerRequestedSound("Jumping");
     }
 
     private void FallingJump()
     {
         cayoteTime = PlayerOptions.cayoteMaxTime;
-        if (currentState == PlayerState.fallingUp)
-            controller.soundControl.PlaySoundFromFoot(PlayerState.fallingUp);
+        controller.soundRequest.PlayerRequestedSound("Jumping");
     }
 
     private void UsedDoubleJump()
     {
         DoubleJumpUsed = true;
-        if (currentState == PlayerState.fallingUp)
-            controller.soundControl.PlaySoundFromFoot(PlayerState.fallingUp);
+        controller.soundRequest.PlayerRequestedSound("Jumping");
     }
 
     private void UsedTripleJump()
     {
         tripleJumpUsed = true;
-        if (currentState == PlayerState.fallingUp)
-            controller.soundControl.PlaySoundFromFoot(PlayerState.fallingUp);
+        controller.soundRequest.PlayerRequestedSound("Jumping");
     }
 
     private void ResetJumps()
@@ -481,9 +497,47 @@ public class PlayerAbility : BaseAttatch
         }
     }
 
+    public void ZoomIn()
+    {
+        switch (currentZoom)
+        {
+            case ZoomLevel.normal:
+                SetZoom(ZoomLevel.zoom1);
+                break;
+            case ZoomLevel.zoom1:
+                SetZoom(ZoomLevel.zoom2);
+                break;
+            case ZoomLevel.zoom2:
+                SetZoom(ZoomLevel.normal);
+                break;
+        }
+    }
+
+    private void SetZoom(ZoomLevel level)
+    {
+        currentZoom = level;
+        float newValue = 0f;
+        switch (currentZoom)
+        {
+            case ZoomLevel.normal:
+                newValue = SettingsOptions.GetSetting<float>(SettingsNames.cameraFOV);
+                break;
+            case ZoomLevel.zoom1:
+                newValue = PlayerOptions.level1Zoom;
+                break;
+            case ZoomLevel.zoom2:
+                newValue = PlayerOptions.level2Zoom;
+                break;
+        }
+        controller.anim.ZoomCamera(newValue, controller.camera.Fov);
+        zoomRatio = newValue / SettingsOptions.GetSetting<float>(SettingsNames.cameraFOV);
+    }
+
     public bool CanJump()
     {
-        return (controller.upgrades.GetUpgrade(PlayerUpgrade.DoubleJump) && !DoubleJumpUsed) || (controller.upgrades.GetUpgrade(PlayerUpgrade.TripleJump) && !tripleJumpUsed);
+        return (controller.upgrades.GetUpgrade(PlayerUpgrade.DoubleJump) && !DoubleJumpUsed)
+                || (controller.upgrades.GetUpgrade(PlayerUpgrade.TripleJump) && !tripleJumpUsed)
+                || cayoteTime < PlayerOptions.cayoteMaxTime;
     }
 
     public void ReadyHoldingWeapon()
@@ -497,6 +551,19 @@ public class PlayerAbility : BaseAttatch
         weapons[1].Equiped = false;
         weapons[2].Equiped = false;
         weapons[3].Equiped = false;
+        weapons[4].Equiped = false;
+    }
+
+    public void ToggleLight()
+    {
+        if (controller.headLamp.LightEnergy == 1)
+        {
+            controller.headLamp.LightEnergy = 0;
+        }
+        else
+        {
+            controller.headLamp.LightEnergy = 1;
+        }
     }
 }
 

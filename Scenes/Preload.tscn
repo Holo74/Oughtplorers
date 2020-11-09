@@ -25,7 +25,8 @@ Spelling errors in service pistol need to be fixed
 Death trigger for the outside of the tree
 Sprint upgrade needs to have text
 Find solution for the doors being open when walking in
-Display how to equip weapon on the service pistol"
+Display how to equip weapon on the service pistol
+Cayote time is not working properly"
 __meta__ = {
 "_edit_use_anchors_": false
 }
