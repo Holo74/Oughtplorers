@@ -30,11 +30,11 @@ public class PlayerAbility : BaseAttatch
     //Needs to be update with the actual weapons
     public PlayerAbility(PlayerController controller) : base(controller, true)
     {
-        weapons[0] = new FirstWeapon();
-        weapons[1] = new FirstWeapon();
-        weapons[2] = new FirstWeapon();
-        weapons[3] = new FirstWeapon();
-        weapons[4] = new Scanner();
+        // weapons[0] = new FirstWeapon();
+        // weapons[1] = new FirstWeapon();
+        // weapons[2] = new FirstWeapon();
+        // weapons[3] = new FirstWeapon();
+        // weapons[4] = new Scanner();
     }
 
     public bool DoubleJumpUsed = false, tripleJumpUsed = false;
@@ -48,12 +48,12 @@ public class PlayerAbility : BaseAttatch
     private float currentWallRunTime = 0f;
     public delegate void StateChange(PlayerState state);
     private StateChange stateChange;
-    public delegate void WeaponChanged(CurrentWeaponEquiped newWeapon);
-    private WeaponChanged weaponChanged;
-    public WeaponChanged firedWeapon;
+    // public delegate void WeaponChanged(CurrentWeaponEquiped newWeapon);
+    // private WeaponChanged weaponChanged;
+    // public WeaponChanged firedWeapon;
     private Vector3 strafeDirectionRequest;
-    private CurrentWeaponEquiped weapon = CurrentWeaponEquiped.none;
-    private WeaponBase[] weapons = new WeaponBase[5];
+    //private CurrentWeaponEquiped weapon = CurrentWeaponEquiped.none;
+    //private WeaponBase[] weapons = new WeaponBase[5];
     public enum ZoomLevel
     {
         normal,
@@ -69,15 +69,15 @@ public class PlayerAbility : BaseAttatch
         stateChange += function;
     }
 
-    public void AddToWeaponChange(WeaponChanged function)
-    {
-        weaponChanged += function;
-    }
+    // public void AddToWeaponChange(WeaponChanged function)
+    // {
+    //     weaponChanged += function;
+    // }
 
-    public void AddToFiredWeapon(WeaponChanged function)
-    {
-        firedWeapon += function;
-    }
+    // public void AddToFiredWeapon(WeaponChanged function)
+    // {
+    //     firedWeapon += function;
+    // }
 
     public override void Update(float delta)
     {
@@ -98,11 +98,11 @@ public class PlayerAbility : BaseAttatch
             }
         }
         glideLock = false;
-        weapons[0].UpdateGun(delta);
-        weapons[1].UpdateGun(delta);
-        weapons[2].UpdateGun(delta);
-        weapons[3].UpdateGun(delta);
-        weapons[4].UpdateGun(delta);
+        // weapons[0].UpdateGun(delta);
+        // weapons[1].UpdateGun(delta);
+        // weapons[2].UpdateGun(delta);
+        // weapons[3].UpdateGun(delta);
+        // weapons[4].UpdateGun(delta);
     }
 
     public void Move(Vector3 direction, bool sprint, bool wallRun = false)
@@ -345,25 +345,25 @@ public class PlayerAbility : BaseAttatch
 
     public void Throw()
     {
-        bool fired = false;
+        // bool fired = false;
         //Program in a way to swap weapons or to hostler a weapon
-        switch (weapon)
-        {
-            case CurrentWeaponEquiped.first:
-                if (controller.upgrades.GetUpgrade(PlayerUpgrade.FirstWeapon))
-                    fired = weapons[0].FireGun(controller.fireFromLocations.GlobalTransform.origin, controller.fireFromLocations.GlobalTransform.basis);
-                break;
-            case CurrentWeaponEquiped.second:
-                break;
-            case CurrentWeaponEquiped.third:
-                break;
-            case CurrentWeaponEquiped.fourth:
-                break;
-            case CurrentWeaponEquiped.none:
-                break;
-        }
-        if (fired)
-            firedWeapon?.Invoke(weapon);
+        // switch (weapon)
+        // {
+        //     case CurrentWeaponEquiped.first:
+        //         // if (controller.upgrades.GetUpgrade(PlayerUpgrade.FirstWeapon))
+        //         //     fired = weapons[0].FireGun(controller.fireFromLocations.GlobalTransform.origin, controller.fireFromLocations.GlobalTransform.basis);
+        //         break;
+        //     case CurrentWeaponEquiped.second:
+        //         break;
+        //     case CurrentWeaponEquiped.third:
+        //         break;
+        //     case CurrentWeaponEquiped.fourth:
+        //         break;
+        //     case CurrentWeaponEquiped.none:
+        //         break;
+        // }
+        // if (fired)
+        //     firedWeapon?.Invoke(weapon);
     }
 
     public void SwapWeapon(CurrentWeaponEquiped request)
@@ -384,97 +384,90 @@ public class PlayerAbility : BaseAttatch
                 requested = PlayerUpgrade.FourthWeapon;
                 break;
             case CurrentWeaponEquiped.none:
-                WeaponSwapped(CurrentWeaponEquiped.none);
+                controller.gunCamera.EquipWeapon(request);
                 return;
         }
         if (controller.upgrades.GetUpgrade(requested))
-            WeaponSwapped(request);
+            controller.gunCamera.EquipWeapon(request);
     }
 
     //Used for the scroll wheel switching
-    public void SwapWeapon(bool forward)
-    {
-        ResetGunsEquipState();
-        if (forward)
-        {
-            switch (weapon)
-            {
-                case CurrentWeaponEquiped.none:
-                    if (controller.upgrades.GetUpgrade(PlayerUpgrade.FirstWeapon))
-                        WeaponSwapped(CurrentWeaponEquiped.first);
-                    else
-                        goto case CurrentWeaponEquiped.first;
-                    break;
-                case CurrentWeaponEquiped.first:
-                    if (controller.upgrades.GetUpgrade(PlayerUpgrade.SecondWeapon))
-                        WeaponSwapped(CurrentWeaponEquiped.second);
-                    else
-                        goto case CurrentWeaponEquiped.second;
-                    break;
-                case CurrentWeaponEquiped.second:
-                    if (controller.upgrades.GetUpgrade(PlayerUpgrade.ThirdWeapon))
-                        WeaponSwapped(CurrentWeaponEquiped.third);
-                    else
-                        goto case CurrentWeaponEquiped.third;
-                    break;
-                case CurrentWeaponEquiped.third:
-                    if (controller.upgrades.GetUpgrade(PlayerUpgrade.FourthWeapon))
-                        WeaponSwapped(CurrentWeaponEquiped.fourth);
-                    else
-                        goto case CurrentWeaponEquiped.fourth;
-                    break;
-                case CurrentWeaponEquiped.fourth:
-                    if (controller.upgrades.GetUpgrade(PlayerUpgrade.FirstWeapon))
-                        WeaponSwapped(CurrentWeaponEquiped.first);
-                    else
-                        goto case CurrentWeaponEquiped.first;
-                    break;
-            }
-        }
-        else
-        {
-            switch (weapon)
-            {
-                case CurrentWeaponEquiped.none:
-                    if (controller.upgrades.GetUpgrade(PlayerUpgrade.FirstWeapon))
-                        WeaponSwapped(CurrentWeaponEquiped.first);
-                    else
-                        goto case CurrentWeaponEquiped.first;
-                    break;
-                case CurrentWeaponEquiped.first:
-                    if (controller.upgrades.GetUpgrade(PlayerUpgrade.FourthWeapon))
-                        WeaponSwapped(CurrentWeaponEquiped.fourth);
-                    else
-                        goto case CurrentWeaponEquiped.fourth;
-                    break;
-                case CurrentWeaponEquiped.second:
-                    if (controller.upgrades.GetUpgrade(PlayerUpgrade.FirstWeapon))
-                        WeaponSwapped(CurrentWeaponEquiped.first);
-                    else
-                        goto case CurrentWeaponEquiped.first;
-                    break;
-                case CurrentWeaponEquiped.third:
-                    if (controller.upgrades.GetUpgrade(PlayerUpgrade.SecondWeapon))
-                        WeaponSwapped(CurrentWeaponEquiped.second);
-                    else
-                        goto case CurrentWeaponEquiped.second;
-                    break;
-                case CurrentWeaponEquiped.fourth:
-                    if (controller.upgrades.GetUpgrade(PlayerUpgrade.ThirdWeapon))
-                        WeaponSwapped(CurrentWeaponEquiped.third);
-                    else
-                        goto case CurrentWeaponEquiped.third;
-                    break;
-            }
-        }
-    }
-
-    public void WeaponSwapped(CurrentWeaponEquiped newWeapon)
-    {
-        weapon = newWeapon;
-        weapons[(int)weapon].Equiped = true;
-        weaponChanged?.Invoke(weapon);
-    }
+    // public void SwapWeapon(bool forward)
+    // {
+    //     ResetGunsEquipState();
+    //     if (forward)
+    //     {
+    //         switch (weapon)
+    //         {
+    //             case CurrentWeaponEquiped.none:
+    //                 if (controller.upgrades.GetUpgrade(PlayerUpgrade.FirstWeapon))
+    //                     WeaponSwapped(CurrentWeaponEquiped.first);
+    //                 else
+    //                     goto case CurrentWeaponEquiped.first;
+    //                 break;
+    //             case CurrentWeaponEquiped.first:
+    //                 if (controller.upgrades.GetUpgrade(PlayerUpgrade.SecondWeapon))
+    //                     WeaponSwapped(CurrentWeaponEquiped.second);
+    //                 else
+    //                     goto case CurrentWeaponEquiped.second;
+    //                 break;
+    //             case CurrentWeaponEquiped.second:
+    //                 if (controller.upgrades.GetUpgrade(PlayerUpgrade.ThirdWeapon))
+    //                     WeaponSwapped(CurrentWeaponEquiped.third);
+    //                 else
+    //                     goto case CurrentWeaponEquiped.third;
+    //                 break;
+    //             case CurrentWeaponEquiped.third:
+    //                 if (controller.upgrades.GetUpgrade(PlayerUpgrade.FourthWeapon))
+    //                     WeaponSwapped(CurrentWeaponEquiped.fourth);
+    //                 else
+    //                     goto case CurrentWeaponEquiped.fourth;
+    //                 break;
+    //             case CurrentWeaponEquiped.fourth:
+    //                 if (controller.upgrades.GetUpgrade(PlayerUpgrade.FirstWeapon))
+    //                     WeaponSwapped(CurrentWeaponEquiped.first);
+    //                 else
+    //                     goto case CurrentWeaponEquiped.first;
+    //                 break;
+    //         }
+    //     }
+    //     else
+    //     {
+    //         switch (weapon)
+    //         {
+    //             case CurrentWeaponEquiped.none:
+    //                 if (controller.upgrades.GetUpgrade(PlayerUpgrade.FirstWeapon))
+    //                     WeaponSwapped(CurrentWeaponEquiped.first);
+    //                 else
+    //                     goto case CurrentWeaponEquiped.first;
+    //                 break;
+    //             case CurrentWeaponEquiped.first:
+    //                 if (controller.upgrades.GetUpgrade(PlayerUpgrade.FourthWeapon))
+    //                     WeaponSwapped(CurrentWeaponEquiped.fourth);
+    //                 else
+    //                     goto case CurrentWeaponEquiped.fourth;
+    //                 break;
+    //             case CurrentWeaponEquiped.second:
+    //                 if (controller.upgrades.GetUpgrade(PlayerUpgrade.FirstWeapon))
+    //                     WeaponSwapped(CurrentWeaponEquiped.first);
+    //                 else
+    //                     goto case CurrentWeaponEquiped.first;
+    //                 break;
+    //             case CurrentWeaponEquiped.third:
+    //                 if (controller.upgrades.GetUpgrade(PlayerUpgrade.SecondWeapon))
+    //                     WeaponSwapped(CurrentWeaponEquiped.second);
+    //                 else
+    //                     goto case CurrentWeaponEquiped.second;
+    //                 break;
+    //             case CurrentWeaponEquiped.fourth:
+    //                 if (controller.upgrades.GetUpgrade(PlayerUpgrade.ThirdWeapon))
+    //                     WeaponSwapped(CurrentWeaponEquiped.third);
+    //                 else
+    //                     goto case CurrentWeaponEquiped.third;
+    //                 break;
+    //         }
+    //     }
+    // }
 
     public PlayerState GetCurrentState()
     {
@@ -540,20 +533,6 @@ public class PlayerAbility : BaseAttatch
                 || cayoteTime < PlayerOptions.cayoteMaxTime;
     }
 
-    public void ReadyHoldingWeapon()
-    {
-        weapons[(int)weapon].ReadyGun();
-    }
-
-    private void ResetGunsEquipState()
-    {
-        weapons[0].Equiped = false;
-        weapons[1].Equiped = false;
-        weapons[2].Equiped = false;
-        weapons[3].Equiped = false;
-        weapons[4].Equiped = false;
-    }
-
     public void ToggleLight()
     {
         if (controller.headLamp.LightEnergy == 1)
@@ -586,15 +565,6 @@ public class WallRunningData
     {
         return RayCastData.SurroundingCasts[ray].colliding && PlayerAreaSensor.GetArea(sensorDirection);
     }
-}
-
-public enum CurrentWeaponEquiped
-{
-    first,
-    second,
-    third,
-    fourth,
-    none
 }
 
 public enum PlayerState

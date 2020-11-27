@@ -17,7 +17,8 @@ public class PlayerController : HealthKinematic
     public PlayerInput inputs { get; private set; }
     public CameraRotHandler camRot { get; private set; }
     public PlayerUpgrade upgrades = new PlayerUpgrade();
-    public Camera camera, gunCamera;
+    public Camera camera;
+    public WeaponController gunCamera;
     [Export]
     private NodePath gunPath;
     [Signal]
@@ -45,6 +46,7 @@ public class PlayerController : HealthKinematic
     {
         GlobalTransform = new Transform(trans.basis, trans.origin);
         characterReady = true;
+        gunCamera.SetCurrentWeapon(CurrentWeaponEquiped.none);
     }
 
     public override void _Ready()
@@ -71,21 +73,21 @@ public class PlayerController : HealthKinematic
             weapons[i].Scale = Vector3.Zero;
         }
         fireFromLocations = GetChild(2).GetChild(0).GetChild<Spatial>(1);
-        gunCamera = GetChild(6).GetChild(0).GetChild<Camera>(0);
-        ability.AddToWeaponChange(WeaponChanged);
+        gunCamera = GetChild(6).GetChild(0).GetChild<WeaponController>(0);
+        //ability.AddToWeaponChange(WeaponChanged);
         //Load in previously held weapon rather than the scanner
-        WeaponChanged(CurrentWeaponEquiped.none);
+        //WeaponChanged(CurrentWeaponEquiped.none);
         SettingsOptions.RegisterUpdatedEvent(UpdateCharacterSettings);
         upgrades.LoadUpgrades(GameManager.Instance.GetDataUsed().upgrades.GetAllUpgrades());
     }
 
-    private void WeaponChanged(CurrentWeaponEquiped weapon)
-    {
-        if (equipedWeapon != null)
-            equipedWeapon.Scale = Vector3.Zero;
-        equipedWeapon = weapons[(int)weapon];
-        equipedWeapon.Scale = Vector3.One;
-    }
+    // private void WeaponChanged(CurrentWeaponEquiped weapon)
+    // {
+    //     if (equipedWeapon != null)
+    //         equipedWeapon.Scale = Vector3.Zero;
+    //     equipedWeapon = weapons[(int)weapon];
+    //     equipedWeapon.Scale = Vector3.One;
+    // }
 
     public void UpdateCharacterSettings()
     {
@@ -200,10 +202,10 @@ public class PlayerController : HealthKinematic
         //animationController.SetAnimationToFalse(name);
     }
 
-    public void ReadyWeapon()
-    {
-        ability.ReadyHoldingWeapon();
-    }
+    // public void ReadyWeapon()
+    // {
+    //     ability.ReadyHoldingWeapon();
+    // }
 
     public void HardLanding(float amount)
     {

@@ -146,6 +146,7 @@
     <Compile Include="Scripts\Environment\Triggers\SetOOBS.cs" />
     <Compile Include="Scripts\Environment\Zones\SlowFall.cs" />
     <Compile Include="Scripts\Player\AnimationController.cs" />
+    <Compile Include="Scripts\Player\RetrieveAnimationPlayer.cs" />
     <Compile Include="Scripts\Player\SoundManager.cs" />
     <Compile Include="Scripts\Player\WeaponController.cs" />
     <Compile Include="Scripts\Player\Weapons\Scanner.cs" />

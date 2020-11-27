@@ -56,6 +56,7 @@ public class PlayerSoundControl : AudioStreamPlayer
 
     public void FinishedSound()
     {
+        current = "";
         EmitSignal(nameof(SoundFinishedSignal), this);
     }
 

@@ -121,7 +121,6 @@ public class PlayerInput : BaseAttatch
         }
         if (Input.IsActionJustPressed("Holster"))
         {
-            GD.Print("Scanner equiped");
             controller.ability.SwapWeapon(CurrentWeaponEquiped.none);
         }
         //This is broken and crashes the game when calling the functions.  Probably an infinite loop or something is happening

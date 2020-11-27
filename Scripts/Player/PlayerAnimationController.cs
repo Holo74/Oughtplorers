@@ -8,8 +8,8 @@ public class PlayerAnimationController : BaseAttatch
         controller.AttachToDeath(PlayDeathAnimation);
         //controller.animationNode.Active = true;
         controller.ability.AddToStateChange(PlayerStateAnimations);
-        controller.ability.AddToWeaponChange(WeaponSwapped);
-        controller.ability.AddToFiredWeapon(WeaponShoot);
+        //controller.ability.AddToWeaponChange(WeaponSwapped);
+        // controller.ability.AddToFiredWeapon(WeaponShoot);
     }
 
     private void PlayDeathAnimation()

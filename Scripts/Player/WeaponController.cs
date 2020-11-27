@@ -3,19 +3,74 @@ using System;
 
 public class WeaponController : Camera
 {
-    // Declare member variables here. Examples:
-    // private int a = 2;
-    // private string b = "text";
-
-    // Called when the node enters the scene tree for the first time.
-    public override void _Ready()
+    private AnimationController anim
     {
-
+        get { return controller.anim; }
     }
 
-    //  // Called every frame. 'delta' is the elapsed time since the previous frame.
-    //  public override void _Process(float delta)
-    //  {
-    //      
-    //  }
+    [Signal]
+    public delegate void WeaponEquiped(CurrentWeaponEquiped previous, CurrentWeaponEquiped tool);
+    [Signal]
+    public delegate void WeaponFired(CurrentWeaponEquiped tool);
+    public WeaponBase[] tools = new WeaponBase[5];
+    public WeaponBase currentTool;
+    public CurrentWeaponEquiped currentToolEnum;
+    private PlayerController controller;
+    private Spatial nCurrentTool;
+    public override void _Ready()
+    {
+        controller = GetParent().GetParent().GetParent<PlayerController>();
+        CallDeferred(nameof(FinishingUp));
+    }
+
+    public void FinishingUp()
+    {
+        anim.Connect(nameof(AnimationController.GunAnimationFinished), this, nameof(WeaponAnimationFinished));
+    }
+
+    public void WeaponAnimationFinished(string name)
+    {
+        if (name.Equals("Holstering"))
+        {
+            nCurrentTool.Scale = Vector3.Zero;
+            WeaponHolstered();
+        }
+    }
+
+    public void EquipWeapon(CurrentWeaponEquiped request)
+    {
+        if (currentToolEnum == request)
+            return;
+        anim.PlayGunAnimation("Holstering");
+        currentToolEnum = request;
+    }
+
+    public void SetCurrentWeapon(CurrentWeaponEquiped set)
+    {
+        currentToolEnum = set;
+        WeaponHolstered();
+    }
+
+    public void WeaponHolstered()
+    {
+        anim.SwapGunAnimationPlayer(currentToolEnum);
+        currentTool = tools[(int)currentToolEnum];
+        nCurrentTool = GetChild<Spatial>((int)currentToolEnum);
+        nCurrentTool.Scale = Vector3.One;
+        anim.PlayGunAnimation("Idle");
+    }
+
+    public void UseCurrentWeapon(bool force)
+    {
+        anim.PlayGunAnimation("Writing");
+    }
+}
+
+public enum CurrentWeaponEquiped
+{
+    first,
+    second,
+    third,
+    fourth,
+    none
 }

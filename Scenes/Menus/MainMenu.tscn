@@ -140,8 +140,8 @@ __meta__ = {
 }
 saveSlot = 2
 useDemoLevels = true
-pathwayToDemoLevel = "res://Scenes/TestingScenes/Leaves.tscn"
-textUsed = "Leaves"
+pathwayToDemoLevel = "res://Scenes/TestingScenes/Tree.tscn"
+textUsed = "Tree"
 
 [node name="OptionsMenu" type="Panel" parent="."]
 visible = false
