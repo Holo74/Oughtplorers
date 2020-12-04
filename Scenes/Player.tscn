@@ -222,7 +222,6 @@ transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, -0.0676
 [node name="W4" type="Spatial" parent="GunView/Viewport/Camera"]
 
 [node name="PaperAndPen" parent="GunView/Viewport/Camera/W4" instance=ExtResource( 5 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0263607, -0.225992, -0.980905 )
 
 [node name="Scan" type="Spatial" parent="GunView/Viewport/Camera"]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.635589, -0.279489, -0.750112 )

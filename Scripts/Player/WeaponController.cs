@@ -12,14 +12,16 @@ public class WeaponController : Camera
     public delegate void WeaponEquiped(CurrentWeaponEquiped previous, CurrentWeaponEquiped tool);
     [Signal]
     public delegate void WeaponFired(CurrentWeaponEquiped tool);
-    public WeaponBase[] tools = new WeaponBase[5];
-    public WeaponBase currentTool;
-    public CurrentWeaponEquiped currentToolEnum;
+    private WeaponBase[] tools = new WeaponBase[5];
+    private WeaponBase currentTool;
+    private CurrentWeaponEquiped currentToolEnum;
     private PlayerController controller;
     private Spatial nCurrentTool;
     public override void _Ready()
     {
         controller = GetParent().GetParent().GetParent<PlayerController>();
+        tools[0] = new FirstWeapon();
+        tools[4] = new Scanner();
         CallDeferred(nameof(FinishingUp));
     }
 
@@ -28,12 +30,22 @@ public class WeaponController : Camera
         anim.Connect(nameof(AnimationController.GunAnimationFinished), this, nameof(WeaponAnimationFinished));
     }
 
+    public WeaponBase CurrentWeapon()
+    {
+        return currentTool;
+    }
+
     public void WeaponAnimationFinished(string name)
     {
-        if (name.Equals("Holstering"))
+        switch (name)
         {
-            nCurrentTool.Scale = Vector3.Zero;
-            WeaponHolstered();
+            case "Holstering":
+                nCurrentTool.Scale = Vector3.Zero;
+                WeaponHolstered();
+                break;
+            case "Equiping":
+                anim.PlayGunAnimation("Idle");
+                break;
         }
     }
 
@@ -57,7 +69,7 @@ public class WeaponController : Camera
         currentTool = tools[(int)currentToolEnum];
         nCurrentTool = GetChild<Spatial>((int)currentToolEnum);
         nCurrentTool.Scale = Vector3.One;
-        anim.PlayGunAnimation("Idle");
+        anim.PlayGunAnimation("Equiping");
     }
 
     public void UseCurrentWeapon(bool force)

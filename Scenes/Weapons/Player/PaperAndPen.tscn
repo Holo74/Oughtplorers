@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Models/PlayerModels/PaperAndPen/Material.material" type="Material" id=1]
 [ext_resource path="res://Scripts/Player/RetrieveAnimationPlayer.cs" type="Script" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Models/PlayerModels/PaperAndPen/Holstering.tres" type="Animation" id=4]
 [ext_resource path="res://Models/PlayerModels/PaperAndPen/Writing.tres" type="Animation" id=5]
 [ext_resource path="res://Models/PlayerModels/PaperAndPen/Idle.tres" type="Animation" id=6]
+[ext_resource path="res://Models/PlayerModels/PaperAndPen/Equiping.tres" type="Animation" id=7]
 
 [sub_resource type="ArrayMesh" id=1]
 resource_name = "Book"
@@ -47,22 +48,22 @@ path = NodePath("AnimationPlayer")
 [node name="Skeleton" type="Skeleton" parent="Armature"]
 bones/0/name = "bone_2"
 bones/0/parent = -1
-bones/0/rest = Transform( -0.0065434, 0.999979, -1.2284e-09, -0.999979, -0.0065434, -2.32659e-07, -2.32662e-07, -2.94001e-10, 1, -0.190819, 0.0531006, -0.226697 )
+bones/0/rest = Transform( -0.998952, 0.0457828, -2.32455e-07, -0.0457828, -0.998952, -3.70195e-09, -2.32381e-07, 6.94439e-09, 1, 0.171003, -0.191637, -0.561031 )
 bones/0/enabled = true
 bones/0/bound_children = [  ]
 bones/1/name = "bone_3"
 bones/1/parent = -1
-bones/1/rest = Transform( 0.00922251, 0.999958, -7.39259e-10, -0.999958, 0.00922251, 5.97924e-08, 5.97967e-08, 1.87791e-10, 1, -0.217418, -0.015512, -0.000800014 )
+bones/1/rest = Transform( 0.00922251, 0.999958, -7.39259e-10, -0.999958, 0.00922251, 5.97924e-08, 5.97967e-08, 1.87791e-10, 1, 0.148593, -0.518485, -0.000800014 )
 bones/1/enabled = true
 bones/1/bound_children = [  ]
 bones/2/name = "bone"
 bones/2/parent = 1
-bones/2/rest = Transform( 1, -1.12757e-17, 6.24717e-16, 1.12757e-17, 1, 3.52206e-33, -6.24717e-16, 3.52206e-33, 1, -0.0422121, 0.000389341, 0.172803 )
+bones/2/rest = Transform( 1, -1.12757e-17, 3.3609e-16, 1.12757e-17, 1, 1.89483e-33, -6.24717e-16, 3.52206e-33, 0.537988, -0.162791, 0.00150144, 0.160168 )
 bones/2/enabled = true
 bones/2/bound_children = [  ]
 bones/3/name = "bone_1"
 bones/3/parent = 1
-bones/3/rest = Transform( 1, -1.12757e-17, 6.24717e-16, 1.12757e-17, 1, 3.52206e-33, -6.24717e-16, 3.52206e-33, 1, -0.0422121, 0.000389341, -0.199361 )
+bones/3/rest = Transform( 1, -1.12757e-17, 3.3609e-16, 1.12757e-17, 1, 1.89483e-33, -6.24717e-16, 3.52206e-33, 0.537988, -0.162791, 0.00150144, -0.186726 )
 bones/3/enabled = true
 bones/3/bound_children = [  ]
 
@@ -73,6 +74,7 @@ skin = SubResource( 2 )
 material/0 = null
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/Equiping = ExtResource( 7 )
 anims/Falling = ExtResource( 3 )
 anims/Holstering = ExtResource( 4 )
 anims/Idle = ExtResource( 6 )
