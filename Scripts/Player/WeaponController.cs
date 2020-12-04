@@ -43,6 +43,7 @@ public class WeaponController : Camera
                 nCurrentTool.Scale = Vector3.Zero;
                 WeaponHolstered();
                 break;
+            case "Writing":
             case "Equiping":
                 anim.PlayGunAnimation("Idle");
                 break;
@@ -72,7 +73,7 @@ public class WeaponController : Camera
         anim.PlayGunAnimation("Equiping");
     }
 
-    public void UseCurrentWeapon(bool force)
+    public void UseCurrentWeapon(bool force = false)
     {
         anim.PlayGunAnimation("Writing");
     }

@@ -7,8 +7,8 @@ public class SettingsOptions
     private static float mouseXSensitivity = -.2f;
     private static float mouseYSensitivity = -.2f;
     private static bool toggleSprint = false;
-    private static bool invertX = false, invertY = false;
-    private static float cameraFOV = 70f;
+    private static bool invertX = false, invertY = false, vSync = true;
+    private static float cameraFOV = 70f, FPS = 60;
     public static bool leanWhileRunning = true;
     private static Dictionary SettingsData, NewSettings;
     public delegate void UpdateSettings();
@@ -47,6 +47,8 @@ public class SettingsOptions
             SettingsData[SettingsNames.cameraFOV.ToString()] = cameraFOV;
             SettingsData[SettingsNames.invertX.ToString()] = invertX;
             SettingsData[SettingsNames.invertY.ToString()] = invertY;
+            SettingsData[SettingsNames.FPS.ToString()] = FPS;
+            SettingsData[SettingsNames.VSync.ToString()] = vSync;
             for (int i = 0; i < 17; i++)
             {
                 if (i > 6 && i < 10)
@@ -64,6 +66,8 @@ public class SettingsOptions
             SettingsData.Add(SettingsNames.cameraFOV.ToString(), cameraFOV);
             SettingsData.Add(SettingsNames.invertX.ToString(), invertX);
             SettingsData.Add(SettingsNames.invertY.ToString(), invertY);
+            SettingsData.Add(SettingsNames.FPS.ToString(), FPS);
+            SettingsData.Add(SettingsNames.VSync.ToString(), vSync);
             for (int i = 0; i < 17; i++)
             {
                 if (i > 6 && i < 10)
@@ -132,5 +136,7 @@ public enum SettingsNames
     toggleSprint,
     cameraFOV,
     invertX,
-    invertY
+    invertY,
+    FPS,
+    VSync
 }

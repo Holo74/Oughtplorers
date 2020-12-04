@@ -345,25 +345,10 @@ public class PlayerAbility : BaseAttatch
 
     public void Throw()
     {
-        // bool fired = false;
-        //Program in a way to swap weapons or to hostler a weapon
-        // switch (weapon)
-        // {
-        //     case CurrentWeaponEquiped.first:
-        //         // if (controller.upgrades.GetUpgrade(PlayerUpgrade.FirstWeapon))
-        //         //     fired = weapons[0].FireGun(controller.fireFromLocations.GlobalTransform.origin, controller.fireFromLocations.GlobalTransform.basis);
-        //         break;
-        //     case CurrentWeaponEquiped.second:
-        //         break;
-        //     case CurrentWeaponEquiped.third:
-        //         break;
-        //     case CurrentWeaponEquiped.fourth:
-        //         break;
-        //     case CurrentWeaponEquiped.none:
-        //         break;
-        // }
-        // if (fired)
-        //     firedWeapon?.Invoke(weapon);
+        if (controller.gunCamera.CurrentWeapon().WeaponReady())
+        {
+            controller.gunCamera.UseCurrentWeapon();
+        }
     }
 
     public void SwapWeapon(CurrentWeaponEquiped request)

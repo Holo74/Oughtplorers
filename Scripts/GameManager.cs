@@ -51,6 +51,7 @@ public class GameManager : Node
         datas[2] = SavingAndLoading.LoadingGameSaveData(savePath + "3" + savePathEnd);
         SavingAndLoading.LoadingOptionsSaveData("user://Option.save");
         AllDataLoaded = true;
+        SettingsOptions.RegisterUpdatedEvent(UpdateGameSettings);
     }
 
     public void StartGame(int i)
@@ -63,6 +64,12 @@ public class GameManager : Node
     {
         startingAreaPath = loadArea;
         GetTree().ChangeScene("res://Scenes/WorldManager.tscn");
+    }
+
+    public void UpdateGameSettings()
+    {
+        Engine.TargetFps = Mathf.RoundToInt(SettingsOptions.GetSetting<float>(SettingsNames.FPS));
+        OS.VsyncEnabled = SettingsOptions.GetSetting<bool>(SettingsNames.VSync);
     }
 
     //Needs to be checked if in an actual game or can be done on the player as a call

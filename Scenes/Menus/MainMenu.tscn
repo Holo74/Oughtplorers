@@ -107,9 +107,6 @@ script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": true
 }
-useDemoLevels = true
-pathwayToDemoLevel = "res://WorldsFromMinecraft/Scenes/TempleOfNotch.tscn"
-textUsed = "Minecraft"
 
 [node name="Saves2" type="Button" parent="Game"]
 anchor_left = 0.4375
@@ -140,11 +137,10 @@ __meta__ = {
 }
 saveSlot = 2
 useDemoLevels = true
-pathwayToDemoLevel = "res://Scenes/TestingScenes/Tree.tscn"
-textUsed = "Tree"
+pathwayToDemoLevel = "res://Scenes/TestingScenes/Leaves.tscn"
+textUsed = "Test"
 
 [node name="OptionsMenu" type="Panel" parent="."]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 __meta__ = {
@@ -168,6 +164,12 @@ margin_bottom = -4.0
 
 [node name="ToggleSprint" parent="OptionsMenu/TabContainer/Settings" instance=ExtResource( 12 )]
 text = "Toggle Sprint"
+
+[node name="ToggleSprint2" parent="OptionsMenu/TabContainer/Settings" instance=ExtResource( 12 )]
+margin_left = 186.0
+margin_right = 362.0
+text = "V Sync"
+optionName = 7
 
 [node name="Invert X" type="Control" parent="OptionsMenu/TabContainer/Settings"]
 anchor_left = 0.0393701
@@ -218,6 +220,15 @@ __meta__ = {
 [node name="Mouse Sensitivity X" parent="OptionsMenu/TabContainer/Settings" instance=ExtResource( 13 )]
 name = "Horizontal Sensitivity"
 min = 1.0
+
+[node name="Mouse Sensitivity X2" parent="OptionsMenu/TabContainer/Settings" instance=ExtResource( 13 )]
+margin_top = 168.0
+margin_bottom = 216.0
+name = "FPS"
+optionName = 6
+multiplier = 1.0
+min = 10.0
+max = 120.0
 
 [node name="Mouse Sensitivity Y" type="Control" parent="OptionsMenu/TabContainer/Settings"]
 anchor_left = 0.0393701

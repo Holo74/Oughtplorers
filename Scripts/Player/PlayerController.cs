@@ -101,6 +101,7 @@ public class PlayerController : HealthKinematic
             if (!IsDead())
             {
                 update?.Invoke(delta);
+                timeDelta = delta;
             }
         }
     }
@@ -143,6 +144,7 @@ public class PlayerController : HealthKinematic
             return;
         ability.Land(state);
         playMovement.LandingSignal(state);
+        GD.Print(state);
     }
 
     public override bool TakeDamage(float damage, DamageType typing, Node source)
@@ -224,5 +226,10 @@ public class PlayerController : HealthKinematic
     public void ToggleMenuFromDeath()
     {
         GameManager.Instance.ToggleGamePause();
+    }
+
+    public float GetProcessTime()
+    {
+        return timeDelta;
     }
 }

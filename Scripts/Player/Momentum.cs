@@ -98,10 +98,6 @@ public class Momentum : BaseAttatch
                         SetState(PlayerState.sprinting);
                     }
                 }
-                if (currentSpeed > maxSpeed)
-                {
-                    currentSpeed = Mathf.Clamp(currentSpeed - time * PlayerOptions.playerDeccelerationAboveMax, maxSpeed, currentSpeed);
-                }
             }
             if (!groundData.colliding || controller.ability.GetNoCollide())
             {
@@ -175,11 +171,12 @@ public class Momentum : BaseAttatch
         }
         if (PlayerAreaSensor.GetArea(AreaSensorDirection.Above) && verticalMove.y > 0)
             verticalMove = Vector3.Zero;
-        controller.MoveAndSlide(verticalMove);
-        controller.MoveAndSlide(horizontalAcc);
-        controller.MoveAndSlide(pushing);
-        controller.MoveAndSlide(knockback);
-
+        controller.MoveAndSlide(horizontalAcc + verticalMove + pushing + knockback + Vector3.Down * 0.01f, Vector3.Up);
+        if (controller.IsOnFloor() != onFloor)
+        {
+            onFloor = controller.IsOnFloor();
+            controller.GroundChanging(onFloor);
+        }
         if (currentAccelerationTime < PlayerOptions.slideMaxTime)
         {
             currentAccelerationTime += time;
@@ -192,12 +189,6 @@ public class Momentum : BaseAttatch
         if (controller.ability.GetCurrentState() != PlayerState.slide)
         {
             moved = false;
-        }
-        controller.MoveAndSlide(Vector3.Down * 0.01f, Vector3.Up);
-        if (controller.IsOnFloor() != onFloor)
-        {
-            onFloor = controller.IsOnFloor();
-            controller.GroundChanging(onFloor);
         }
 
     }
@@ -226,7 +217,7 @@ public class Momentum : BaseAttatch
         {
             stableMove += direction;
             this.maxSpeed = maxSpeed;
-            currentSpeed = Mathf.Clamp(direction.Length() * time * acceleration + currentSpeed, 0, 100);
+            currentSpeed = Mathf.Clamp(direction.Length() * controller.GetProcessTime() * acceleration + currentSpeed, 0, 100);
         }
     }
 

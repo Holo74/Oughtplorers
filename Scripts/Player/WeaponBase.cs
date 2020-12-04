@@ -33,4 +33,9 @@ public abstract class WeaponBase
     {
         canFire = true;
     }
+
+    public bool WeaponReady()
+    {
+        return canFire;
+    }
 }

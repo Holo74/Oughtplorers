@@ -18,7 +18,7 @@
 [ext_resource path="res://Textures/Hud.png" type="Texture" id=16]
 [ext_resource path="res://Scripts/Menu/MenuButtons/LinkToForm.cs" type="Script" id=17]
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=1]
 loop = true
 tracks/0/type = "bezier"
 tracks/0/path = NodePath("PlayerHud/TextureRect:rect_position:x")
@@ -41,7 +41,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 0.5, 1 )
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=2]
 tracks/0/type = "bezier"
 tracks/0/path = NodePath("PlayerHud/TextureRect:rect_position:x")
 tracks/0/interp = 1
@@ -63,7 +63,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 1 )
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=3]
 tracks/0/type = "bezier"
 tracks/0/path = NodePath("Panel:custom_styles/panel:bg_color:r")
 tracks/0/interp = 1
@@ -119,7 +119,7 @@ tracks/4/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=4]
 length = 1.5
 loop = true
 tracks/0/type = "bezier"
@@ -143,10 +143,10 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 0.5, 1, 1.5 )
 }
 
-[sub_resource type="AnimationNodeAnimation" id=7]
+[sub_resource type="AnimationNodeAnimation" id=5]
 animation = "Idle"
 
-[sub_resource type="StyleBoxFlat" id=8]
+[sub_resource type="StyleBoxFlat" id=6]
 bg_color = Color( 1, 1, 1, 0.971615 )
 
 [node name="CanvasLayer" type="CanvasLayer"]
@@ -330,7 +330,6 @@ __meta__ = {
 }
 
 [node name="OptionsMenu" type="Panel" parent="InGameMenuAndHud"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 __meta__ = {
@@ -383,6 +382,19 @@ anchor_right = 0.0118111
 anchor_bottom = 0.257834
 name = "Horizontal Sensitivity"
 min = 1.0
+
+[node name="Mouse Sensitivity X2" parent="InGameMenuAndHud/OptionsMenu/Actual Control Settings/Settings" instance=ExtResource( 8 )]
+anchor_left = 0.011811
+anchor_top = 0.257834
+anchor_right = 0.0118111
+anchor_bottom = 0.257834
+margin_top = 190.582
+margin_bottom = 238.582
+name = "FPS"
+optionName = 6
+multiplier = 1.0
+min = 10.0
+max = 120.0
 
 [node name="Mouse Sensitivity Y" parent="InGameMenuAndHud/OptionsMenu/Actual Control Settings/Settings" instance=ExtResource( 8 )]
 anchor_left = 0.011811
@@ -651,13 +663,13 @@ __meta__ = {
 path = NodePath("../../BaseMenu")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="InGameMenuAndHud"]
-anims/Idle = SubResource( 3 )
-anims/Jumping = SubResource( 4 )
-anims/TransferingCamera = SubResource( 5 )
-anims/Walking = SubResource( 6 )
+anims/Idle = SubResource( 1 )
+anims/Jumping = SubResource( 2 )
+anims/TransferingCamera = SubResource( 3 )
+anims/Walking = SubResource( 4 )
 
 [node name="AnimationTree" type="AnimationTree" parent="InGameMenuAndHud"]
-tree_root = SubResource( 7 )
+tree_root = SubResource( 5 )
 anim_player = NodePath("../AnimationPlayer")
 
 [node name="Upgrade" type="Control" parent="InGameMenuAndHud"]
@@ -721,7 +733,7 @@ __meta__ = {
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_styles/panel = SubResource( 8 )
+custom_styles/panel = SubResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
