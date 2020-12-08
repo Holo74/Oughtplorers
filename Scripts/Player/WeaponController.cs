@@ -77,6 +77,11 @@ public class WeaponController : Camera
     {
         anim.PlayGunAnimation("Writing");
     }
+
+    public void UseCurrentSecondary()
+    {
+
+    }
 }
 
 public enum CurrentWeaponEquiped

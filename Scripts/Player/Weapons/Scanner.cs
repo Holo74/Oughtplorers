@@ -7,6 +7,10 @@ public class Scanner : WeaponBase
     {
         return true;
     }
+    public override void Secondary()
+    {
+
+    }
 
     public override void HoldingGun(float delta)
     {

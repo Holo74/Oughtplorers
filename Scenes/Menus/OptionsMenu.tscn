@@ -1,0 +1,246 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Scenes/MenuButtons/ChangingInputButton.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scripts/Menu/MenuButtons/SwapFromSettings.cs" type="Script" id=3]
+[ext_resource path="res://Scenes/MenuButtons/ToggleOption.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/MenuButtons/SliderOption.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Scripts/Menu/MenuButtons/ApplySettings.cs" type="Script" id=6]
+
+[node name="OptionsMenu" type="Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Actual Control Settings" type="TabContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Settings" type="Tabs" parent="Actual Control Settings"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+rect_pivot_offset = Vector2( -508, 208 )
+
+[node name="ToggleSprint" parent="Actual Control Settings/Settings" instance=ExtResource( 4 )]
+anchor_left = 0.208661
+anchor_top = 0.212766
+anchor_right = 0.208661
+anchor_bottom = 0.297582
+margin_bottom = 0.164055
+text = "Toggle Sprint"
+
+[node name="Invert x" parent="Actual Control Settings/Settings" instance=ExtResource( 4 )]
+anchor_left = 0.011811
+anchor_right = 0.012
+anchor_bottom = 0.153301
+margin_right = 175.808
+margin_bottom = 1.53841
+text = "Invert X"
+optionName = 4
+
+[node name="VSync" parent="Actual Control Settings/Settings" instance=ExtResource( 4 )]
+anchor_left = 0.208661
+anchor_right = 0.20885
+anchor_bottom = 0.153301
+margin_right = 175.808
+margin_bottom = 1.53841
+text = "V-Sync"
+optionName = 7
+
+[node name="Invert Y" parent="Actual Control Settings/Settings" instance=ExtResource( 4 )]
+anchor_left = 0.011811
+anchor_top = 0.212766
+anchor_right = 0.012
+anchor_bottom = 0.295038
+margin_right = 175.808
+margin_bottom = 1.59859
+text = "Invert Y"
+optionName = 5
+
+[node name="Mouse Sensitivity X" parent="Actual Control Settings/Settings" instance=ExtResource( 5 )]
+anchor_left = 0.011811
+anchor_top = 0.35461
+anchor_right = 0.012
+anchor_bottom = 0.439776
+margin_right = 255.808
+margin_bottom = -0.033844
+name = "Horizontal Sensitivity"
+min = 1.0
+
+[node name="Mouse Sensitivity X2" parent="Actual Control Settings/Settings" instance=ExtResource( 5 )]
+anchor_left = 0.011811
+anchor_top = 0.780397
+anchor_right = 0.012
+anchor_bottom = 0.865397
+margin_top = -0.143646
+margin_right = 255.808
+margin_bottom = -0.0836792
+name = "FPS"
+optionName = 6
+multiplier = 1.0
+min = 10.0
+max = 120.0
+
+[node name="Mouse Sensitivity Y" parent="Actual Control Settings/Settings" instance=ExtResource( 5 )]
+anchor_left = 0.011811
+anchor_top = 0.496454
+anchor_right = 0.012
+anchor_bottom = 0.581659
+margin_right = 255.808
+margin_bottom = -0.0558167
+name = "Vertical sensitivity"
+min = 1.0
+
+[node name="Mouse Sensitivity Y2" parent="Actual Control Settings/Settings" instance=ExtResource( 5 )]
+anchor_left = 0.011811
+anchor_top = 0.638298
+anchor_right = 0.012
+anchor_bottom = 0.723844
+margin_top = -0.000183105
+margin_right = 255.808
+margin_bottom = -0.248138
+name = "Camera FOV"
+optionName = 3
+multiplier = 1.0
+min = 50.0
+max = 140.0
+
+[node name="Inputs" type="Tabs" parent="Actual Control Settings"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="JumpButton" parent="Actual Control Settings/Inputs" instance=ExtResource( 1 )]
+anchor_bottom = 0.113
+margin_right = 240.0
+margin_bottom = 0.268005
+text = "Move Forward"
+input = 0
+
+[node name="JumpButton2" parent="Actual Control Settings/Inputs" instance=ExtResource( 1 )]
+anchor_top = 0.12766
+anchor_bottom = 0.17
+margin_right = 240.0
+margin_bottom = 0.120247
+text = "Move Back"
+input = 1
+
+[node name="JumpButton3" parent="Actual Control Settings/Inputs" instance=ExtResource( 1 )]
+anchor_top = 0.184397
+anchor_bottom = 0.227
+margin_right = 240.0
+margin_bottom = -0.0280914
+text = "Strafe Left"
+input = 2
+
+[node name="JumpButton4" parent="Actual Control Settings/Inputs" instance=ExtResource( 1 )]
+anchor_top = 0.241135
+anchor_bottom = 0.284
+margin_right = 240.0
+margin_bottom = -0.175873
+text = "Strafe Right"
+input = 3
+
+[node name="JumpButton5" parent="Actual Control Settings/Inputs" instance=ExtResource( 1 )]
+anchor_top = 0.297872
+anchor_bottom = 0.34
+margin_right = 240.0
+margin_bottom = 0.239822
+text = "Jump"
+input = 4
+
+[node name="JumpButton6" parent="Actual Control Settings/Inputs" instance=ExtResource( 1 )]
+anchor_top = 0.35461
+anchor_bottom = 0.397
+margin_right = 240.0
+margin_bottom = 0.0920258
+text = "Crouch"
+
+[node name="JumpButton7" parent="Actual Control Settings/Inputs" instance=ExtResource( 1 )]
+anchor_top = 0.411348
+anchor_bottom = 0.454
+margin_right = 240.0
+margin_bottom = -0.0557556
+text = "Sprint"
+input = 6
+
+[node name="JumpButton8" parent="Actual Control Settings/Inputs" instance=ExtResource( 1 )]
+anchor_top = 0.468085
+anchor_bottom = 0.511
+margin_right = 240.0
+margin_bottom = -0.204071
+text = "Weapon Slot 1"
+input = 12
+
+[node name="JumpButton9" parent="Actual Control Settings/Inputs" instance=ExtResource( 1 )]
+anchor_top = 0.524823
+anchor_bottom = 0.567
+margin_right = 240.0
+margin_bottom = 0.212158
+text = "Weapon Slot 2"
+input = 13
+
+[node name="JumpButton10" parent="Actual Control Settings/Inputs" instance=ExtResource( 1 )]
+anchor_top = 0.58156
+anchor_bottom = 0.624
+margin_right = 240.0
+margin_bottom = 0.0638428
+text = "Weapon Slot 3"
+input = 14
+
+[node name="JumpButton11" parent="Actual Control Settings/Inputs" instance=ExtResource( 1 )]
+anchor_top = 0.638298
+anchor_bottom = 0.681
+margin_right = 240.0
+margin_bottom = -0.0839844
+text = "Weapon Slot 4"
+input = 15
+
+[node name="JumpButton12" parent="Actual Control Settings/Inputs" instance=ExtResource( 1 )]
+anchor_top = 0.695035
+anchor_bottom = 0.738
+margin_right = 240.0
+margin_bottom = -0.2323
+text = "Holster"
+input = 16
+
+[node name="Button" type="Button" parent="."]
+anchor_left = 0.0625
+anchor_top = 0.92
+anchor_right = 0.062875
+anchor_bottom = 0.92
+margin_right = 127.616
+margin_bottom = 24.0
+text = "Apply"
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button2" type="Button" parent="."]
+anchor_left = 0.937
+anchor_top = 0.92
+anchor_right = 0.937
+anchor_bottom = 0.92
+margin_left = -127.488
+margin_right = 0.511963
+margin_bottom = 24.0
+text = "Back"
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+path = NodePath("../../BaseMenu")
+confirmPath = NodePath("../../Confirm")

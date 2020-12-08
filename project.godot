@@ -25,6 +25,10 @@ GameManager="*res://Scenes/GameManager.tscn"
 InputHandler="*res://Scenes/InputHandler.tscn"
 PlayerOptions="*res://Scenes/PlayerOptions.tscn"
 
+[display]
+
+window/size/resizable=false
+
 [editor_plugins]
 
 enabled=PoolStringArray( "curve_edit" )
@@ -129,6 +133,16 @@ Debug={
 ActivateLight={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":70,"unicode":0,"echo":false,"script":null)
+ ]
+}
+Zoom={
+"deadzone": 0.5,
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":3,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
+BookMenu={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777218,"unicode":0,"echo":false,"script":null)
  ]
 }
 

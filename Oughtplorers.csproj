@@ -148,6 +148,7 @@
     <Compile Include="Scripts\Player\AnimationController.cs" />
     <Compile Include="Scripts\Player\RetrieveAnimationPlayer.cs" />
     <Compile Include="Scripts\Player\SoundManager.cs" />
+    <Compile Include="Scripts\Player\TestBook.cs" />
     <Compile Include="Scripts\Player\WeaponController.cs" />
     <Compile Include="Scripts\Player\Weapons\Scanner.cs" />
     <Compile Include="Scripts\TestResource.cs" />

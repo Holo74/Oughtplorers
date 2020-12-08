@@ -10,6 +10,7 @@ public class PlayerInput : BaseAttatch
     //     return acceptingInput;
     // }
     private float timeDelta;
+    public bool moved = false;
     InputHandler input { get { return InputHandler.Instance; } }
     PlayerOptions options { get { return controller.options; } }
     public PlayerInput(PlayerController controller) : base(controller, true)
@@ -27,11 +28,20 @@ public class PlayerInput : BaseAttatch
 
     public override void Update(float delta)
     {
+        bool move = false;
         if (GameManager.InCutscene())
             return;
         if (inputLockTimer > 0f)
         {
             inputLockTimer -= delta;
+            return;
+        }
+        if (!GameManager.Instance.allowInputs)
+        {
+            if (Input.IsActionJustPressed("BookMenu"))
+            {
+                controller.ability.BookMenu();
+            }
             return;
         }
         timeDelta = delta;
@@ -66,23 +76,27 @@ public class PlayerInput : BaseAttatch
         {
             controller.ability.Move(-controller.Transform.basis.z, sprint, true);
             movedForwardOrBack = true;
+            move = true;
         }
         if (Input.IsActionPressed("MoveBack"))
         {
             controller.ability.Move(controller.Transform.basis.z, sprint);
             movedForwardOrBack = true;
+            move = true;
         }
         if (Input.IsActionPressed("MoveLeft"))
         {
             controller.ability.Move(-controller.Transform.basis.x, sprint);
             if (Input.IsActionJustPressed("Strafe") && !movedForwardOrBack)
                 controller.ability.Strafe(-controller.Transform.basis.x);
+            move = true;
         }
         if (Input.IsActionPressed("MoveRight"))
         {
             controller.ability.Move(controller.Transform.basis.x, sprint);
             if (Input.IsActionJustPressed("Strafe") && !movedForwardOrBack)
                 controller.ability.Strafe(controller.Transform.basis.x);
+            move = true;
         }
         if (Input.IsActionJustPressed("Jump"))
         {
@@ -99,7 +113,15 @@ public class PlayerInput : BaseAttatch
         {
             controller.ability.Throw();
         }
+        if (Input.IsActionJustPressed("BookMenu"))
+        {
+            controller.ability.BookMenu();
+        }
         if (Input.IsActionJustPressed("Hit"))
+        {
+            controller.ability.UseSecondary();
+        }
+        if (Input.IsActionJustPressed("Zoom"))
         {
             controller.ability.ZoomIn();
         }
@@ -135,6 +157,14 @@ public class PlayerInput : BaseAttatch
         if (Input.IsActionJustPressed("ActivateLight"))
         {
             controller.ability.ToggleLight();
+        }
+        if (move == false)
+        {
+            moved = false;
+        }
+        else
+        {
+            moved = true;
         }
     }
 

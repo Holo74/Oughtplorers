@@ -15,6 +15,11 @@ public class FirstWeapon : WeaponBase
         return false;
     }
 
+    public override void Secondary()
+    {
+
+    }
+
     public override void HoldingGun(float delta)
     {
     }

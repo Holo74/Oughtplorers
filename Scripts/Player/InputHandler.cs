@@ -6,73 +6,6 @@ public class InputHandler : Node
 {
     [Signal]
     public delegate void MouseMoved(Vector2 inputting);
-    public delegate void inputting();
-    private inputting MF, MB, ML, MR, J, C, S, T, H, G, St, Q, W1, W2, W3, W4, Ho, CWU, CWD;
-    public void RegisterToInputEvent(Keys key, inputting function)
-    {
-        switch (key)
-        {
-            case Keys.moveForward:
-                MF += function;
-                break;
-            case Keys.moveBack:
-                MB += function;
-                break;
-            case Keys.moveLeft:
-                ML += function;
-                break;
-            case Keys.moveRight:
-                MR += function;
-                break;
-            case Keys.jump:
-                J += function;
-                break;
-            case Keys.crouch:
-                C += function;
-                break;
-            case Keys.sprint:
-                S += function;
-                break;
-            case Keys.throwing:
-                T += function;
-                break;
-            case Keys.hitting:
-                H += function;
-                break;
-            case Keys.gliding:
-                G += function;
-                break;
-            case Keys.strafe:
-                St += function;
-                break;
-            case Keys.escapeButton:
-                Q += function;
-                break;
-            case Keys.weapon1:
-                W1 += function;
-                break;
-            case Keys.weapon2:
-                W2 += function;
-                break;
-            case Keys.weapon3:
-                W3 += function;
-                break;
-            case Keys.weapon4:
-                W4 += function;
-                break;
-            case Keys.hostler:
-                Ho += function;
-                break;
-            case Keys.cycleUp:
-                CWU += function;
-                break;
-            case Keys.cycleDown:
-                CWD += function;
-                break;
-            default:
-                break;
-        }
-    }
     private bool[] inputs = new bool[19];
     public static InputHandler Instance { get; private set; }
     private static string[] ActionNames =
@@ -83,7 +16,7 @@ public class InputHandler : Node
         "Jump", "Strafe", "Quit",
         "Weapon1", "Weapon2", "Weapon3",
         "Weapon4", "Holster", "CycleWeaponUp",
-        "CycleWeaponDown"
+        "CycleWeaponDown", "Zoom"
     };
 
     public static string GetNameFromKey(Keys key)
@@ -163,5 +96,6 @@ public enum Keys
     weapon4,
     hostler,
     cycleUp,
-    cycleDown
+    cycleDown,
+    zoom
 }

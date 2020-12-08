@@ -27,18 +27,12 @@ public class PlayerAbility : BaseAttatch
             ChangeState(PlayerState.empty);
         }
     }
-    //Needs to be update with the actual weapons
     public PlayerAbility(PlayerController controller) : base(controller, true)
     {
-        // weapons[0] = new FirstWeapon();
-        // weapons[1] = new FirstWeapon();
-        // weapons[2] = new FirstWeapon();
-        // weapons[3] = new FirstWeapon();
-        // weapons[4] = new Scanner();
     }
 
-    public bool DoubleJumpUsed = false, tripleJumpUsed = false;
-    public float cayoteTime = 0f;
+    public bool DoubleJumpUsed = false, tripleJumpUsed = false, requestGroundJump = false;
+    public float cayoteTime = 0f, requestGroundJumpTimer = 0f;
     private PlayerState currentState = PlayerState.standing;
     private WallRunningData right = new WallRunningData(RayDirections.Right, AreaSensorDirection.Right);
     private WallRunningData left = new WallRunningData(RayDirections.Left, AreaSensorDirection.Left);
@@ -48,12 +42,7 @@ public class PlayerAbility : BaseAttatch
     private float currentWallRunTime = 0f;
     public delegate void StateChange(PlayerState state);
     private StateChange stateChange;
-    // public delegate void WeaponChanged(CurrentWeaponEquiped newWeapon);
-    // private WeaponChanged weaponChanged;
-    // public WeaponChanged firedWeapon;
     private Vector3 strafeDirectionRequest;
-    //private CurrentWeaponEquiped weapon = CurrentWeaponEquiped.none;
-    //private WeaponBase[] weapons = new WeaponBase[5];
     public enum ZoomLevel
     {
         normal,
@@ -68,16 +57,6 @@ public class PlayerAbility : BaseAttatch
     {
         stateChange += function;
     }
-
-    // public void AddToWeaponChange(WeaponChanged function)
-    // {
-    //     weaponChanged += function;
-    // }
-
-    // public void AddToFiredWeapon(WeaponChanged function)
-    // {
-    //     firedWeapon += function;
-    // }
 
     public override void Update(float delta)
     {
@@ -97,12 +76,13 @@ public class PlayerAbility : BaseAttatch
                 ChangeState(PlayerState.empty);
             }
         }
+        if (requestGroundJump)
+        {
+            requestGroundJumpTimer += time;
+            if (requestGroundJumpTimer > PlayerOptions.jumpRegisterTime)
+                requestGroundJump = false;
+        }
         glideLock = false;
-        // weapons[0].UpdateGun(delta);
-        // weapons[1].UpdateGun(delta);
-        // weapons[2].UpdateGun(delta);
-        // weapons[3].UpdateGun(delta);
-        // weapons[4].UpdateGun(delta);
     }
 
     public void Move(Vector3 direction, bool sprint, bool wallRun = false)
@@ -179,17 +159,13 @@ public class PlayerAbility : BaseAttatch
             case PlayerState.empty:
                 if (controller.upgrades.GetUpgrade(PlayerUpgrade.StrafeJump) && controller.playMovement.GetCurrentSpeed() < controller.playMovement.GetMaxSpeed() + 1f)
                 {
-                    controller.playMovement.VerticalIncrease(PlayerOptions.playerStrafeStrengthVer, StrafeJumpUsed);
+                    controller.playMovement.VerticalIncrease(PlayerOptions.playerStrafeStrengthVer);
+                    controller.playMovement.HorizontalAccelerationSet(strafeDirectionRequest * PlayerOptions.playerStrafeStrengthHor);
+                    controller.soundRequest.PlayerRequestedSound("Jumping");
                     strafeDirectionRequest = direction;
                 }
                 break;
         }
-    }
-
-    private void StrafeJumpUsed()
-    {
-        controller.playMovement.HorizontalAccelerationSet(strafeDirectionRequest * PlayerOptions.playerStrafeStrengthHor);
-        controller.soundRequest.PlayerRequestedSound("Jumping");
     }
 
     private bool WallRun(bool continuing)
@@ -236,6 +212,8 @@ public class PlayerAbility : BaseAttatch
 
     public void Jump()
     {
+        if (!CanJump())
+            return;
         switch (currentState)
         {
             case PlayerState.slide:
@@ -243,64 +221,40 @@ public class PlayerAbility : BaseAttatch
             case PlayerState.sprinting:
             case PlayerState.walking:
             case PlayerState.crouch:
-                controller.playMovement.VerticalIncrease(PlayerOptions.jumpStr, RegularJumpUsed, false);
+                controller.playMovement.VerticalIncrease(PlayerOptions.jumpStr);
+                cayoteTime = PlayerOptions.cayoteMaxTime;
                 break;
             case PlayerState.wallRunning:
-                controller.playMovement.VerticalIncrease(PlayerOptions.wallJumpVerStr, WallRunningJumpUsed);
+                controller.playMovement.VerticalIncrease(PlayerOptions.wallJumpVerStr);
+                if (RunningOnRightWall || left.Sensed())
+                    controller.playMovement.HorizontalAccelerationSet(PlayerOptions.wallJumpHorStr * attachedTo.Normals());
+                ResetJumps();
                 break;
             case PlayerState.fallingUp:
             case PlayerState.fallingDown:
                 if (cayoteTime < PlayerOptions.cayoteMaxTime)
                 {
-                    controller.playMovement.VerticalIncrease(PlayerOptions.jumpStr, FallingJump);
-                    return;
+                    controller.playMovement.VerticalIncrease(PlayerOptions.jumpStr);
+                    cayoteTime = PlayerOptions.cayoteMaxTime;
+                    break;
                 }
                 if (controller.upgrades.GetUpgrade(PlayerUpgrade.DoubleJump) && !DoubleJumpUsed)
                 {
-                    controller.playMovement.VerticalIncrease(PlayerOptions.doubleJumpStr, UsedDoubleJump);
-                    return;
+                    controller.playMovement.VerticalIncrease(PlayerOptions.doubleJumpStr);
+                    DoubleJumpUsed = true;
+                    break;
                 }
                 if (controller.upgrades.GetUpgrade(PlayerUpgrade.TripleJump) && !tripleJumpUsed)
                 {
-                    controller.playMovement.VerticalIncrease(PlayerOptions.tripleJumpStr, UsedTripleJump);
-                    return;
+                    controller.playMovement.VerticalIncrease(PlayerOptions.tripleJumpStr);
+                    tripleJumpUsed = true;
+                    break;
                 }
-                controller.playMovement.VerticalIncrease(PlayerOptions.jumpStr, RegularJumpUsed);
+                //Jump right as you land
                 break;
             default:
                 break;
         }
-    }
-
-    private void RegularJumpUsed()
-    {
-        cayoteTime = PlayerOptions.cayoteMaxTime;
-        controller.soundRequest.PlayerRequestedSound("Jumping");
-    }
-
-    public void WallRunningJumpUsed()
-    {
-        if (RunningOnRightWall || left.Sensed())
-            controller.playMovement.HorizontalAccelerationSet(PlayerOptions.wallJumpHorStr * attachedTo.Normals());
-        ResetJumps();
-        controller.soundRequest.PlayerRequestedSound("Jumping");
-    }
-
-    private void FallingJump()
-    {
-        cayoteTime = PlayerOptions.cayoteMaxTime;
-        controller.soundRequest.PlayerRequestedSound("Jumping");
-    }
-
-    private void UsedDoubleJump()
-    {
-        DoubleJumpUsed = true;
-        controller.soundRequest.PlayerRequestedSound("Jumping");
-    }
-
-    private void UsedTripleJump()
-    {
-        tripleJumpUsed = true;
         controller.soundRequest.PlayerRequestedSound("Jumping");
     }
 
@@ -317,6 +271,12 @@ public class PlayerAbility : BaseAttatch
         {
             ResetJumps();
             cayoteTime = 0f;
+            if (requestGroundJump && requestGroundJumpTimer < PlayerOptions.jumpRegisterTime)
+            {
+                Jump();
+            }
+            requestGroundJumpTimer = 0f;
+            requestGroundJump = false;
         }
     }
 
@@ -351,6 +311,19 @@ public class PlayerAbility : BaseAttatch
         }
     }
 
+    public void UseSecondary()
+    {
+        if (controller.gunCamera.CurrentWeapon().WeaponReady())
+        {
+            controller.gunCamera.UseCurrentSecondary();
+        }
+    }
+
+    public void BookMenu()
+    {
+        controller.bookMenu.ActivateBook();
+    }
+
     public void SwapWeapon(CurrentWeaponEquiped request)
     {
         string requested = "";
@@ -375,84 +348,6 @@ public class PlayerAbility : BaseAttatch
         if (controller.upgrades.GetUpgrade(requested))
             controller.gunCamera.EquipWeapon(request);
     }
-
-    //Used for the scroll wheel switching
-    // public void SwapWeapon(bool forward)
-    // {
-    //     ResetGunsEquipState();
-    //     if (forward)
-    //     {
-    //         switch (weapon)
-    //         {
-    //             case CurrentWeaponEquiped.none:
-    //                 if (controller.upgrades.GetUpgrade(PlayerUpgrade.FirstWeapon))
-    //                     WeaponSwapped(CurrentWeaponEquiped.first);
-    //                 else
-    //                     goto case CurrentWeaponEquiped.first;
-    //                 break;
-    //             case CurrentWeaponEquiped.first:
-    //                 if (controller.upgrades.GetUpgrade(PlayerUpgrade.SecondWeapon))
-    //                     WeaponSwapped(CurrentWeaponEquiped.second);
-    //                 else
-    //                     goto case CurrentWeaponEquiped.second;
-    //                 break;
-    //             case CurrentWeaponEquiped.second:
-    //                 if (controller.upgrades.GetUpgrade(PlayerUpgrade.ThirdWeapon))
-    //                     WeaponSwapped(CurrentWeaponEquiped.third);
-    //                 else
-    //                     goto case CurrentWeaponEquiped.third;
-    //                 break;
-    //             case CurrentWeaponEquiped.third:
-    //                 if (controller.upgrades.GetUpgrade(PlayerUpgrade.FourthWeapon))
-    //                     WeaponSwapped(CurrentWeaponEquiped.fourth);
-    //                 else
-    //                     goto case CurrentWeaponEquiped.fourth;
-    //                 break;
-    //             case CurrentWeaponEquiped.fourth:
-    //                 if (controller.upgrades.GetUpgrade(PlayerUpgrade.FirstWeapon))
-    //                     WeaponSwapped(CurrentWeaponEquiped.first);
-    //                 else
-    //                     goto case CurrentWeaponEquiped.first;
-    //                 break;
-    //         }
-    //     }
-    //     else
-    //     {
-    //         switch (weapon)
-    //         {
-    //             case CurrentWeaponEquiped.none:
-    //                 if (controller.upgrades.GetUpgrade(PlayerUpgrade.FirstWeapon))
-    //                     WeaponSwapped(CurrentWeaponEquiped.first);
-    //                 else
-    //                     goto case CurrentWeaponEquiped.first;
-    //                 break;
-    //             case CurrentWeaponEquiped.first:
-    //                 if (controller.upgrades.GetUpgrade(PlayerUpgrade.FourthWeapon))
-    //                     WeaponSwapped(CurrentWeaponEquiped.fourth);
-    //                 else
-    //                     goto case CurrentWeaponEquiped.fourth;
-    //                 break;
-    //             case CurrentWeaponEquiped.second:
-    //                 if (controller.upgrades.GetUpgrade(PlayerUpgrade.FirstWeapon))
-    //                     WeaponSwapped(CurrentWeaponEquiped.first);
-    //                 else
-    //                     goto case CurrentWeaponEquiped.first;
-    //                 break;
-    //             case CurrentWeaponEquiped.third:
-    //                 if (controller.upgrades.GetUpgrade(PlayerUpgrade.SecondWeapon))
-    //                     WeaponSwapped(CurrentWeaponEquiped.second);
-    //                 else
-    //                     goto case CurrentWeaponEquiped.second;
-    //                 break;
-    //             case CurrentWeaponEquiped.fourth:
-    //                 if (controller.upgrades.GetUpgrade(PlayerUpgrade.ThirdWeapon))
-    //                     WeaponSwapped(CurrentWeaponEquiped.third);
-    //                 else
-    //                     goto case CurrentWeaponEquiped.third;
-    //                 break;
-    //         }
-    //     }
-    // }
 
     public PlayerState GetCurrentState()
     {
@@ -513,9 +408,9 @@ public class PlayerAbility : BaseAttatch
 
     public bool CanJump()
     {
-        return (controller.upgrades.GetUpgrade(PlayerUpgrade.DoubleJump) && !DoubleJumpUsed)
+        return ((controller.upgrades.GetUpgrade(PlayerUpgrade.DoubleJump) && !DoubleJumpUsed)
                 || (controller.upgrades.GetUpgrade(PlayerUpgrade.TripleJump) && !tripleJumpUsed)
-                || cayoteTime < PlayerOptions.cayoteMaxTime;
+                || cayoteTime < PlayerOptions.cayoteMaxTime) && !PlayerAreaSensor.GetArea(AreaSensorDirection.Above);
     }
 
     public void ToggleLight()

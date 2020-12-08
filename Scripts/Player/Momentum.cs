@@ -11,8 +11,10 @@ public class Momentum : BaseAttatch
     private Vector3 stableMove = new Vector3();
     private Vector3 pushing = new Vector3();
     private Vector3 fallbackMovement = new Vector3(), knockback = new Vector3();
+    private Vector3 floorMovement = new Vector3();
     private float currentSpeed = 0;
     private bool moved = false;
+    private float movedBuffer = 0f;
     private float NinetyDegreesToRad = Mathf.Deg2Rad(-90);
     private RayInfo groundData { get { return RayCastData.SurroundingCasts[RayDirections.Bottom]; } }
     // private bool groundColliding { get { return PlayerAreaSensor.GetArea(AreaSensorDirection.Bottom) || controller.ability.GetNoCollide(); } }
@@ -48,9 +50,13 @@ public class Momentum : BaseAttatch
     public override void Update(float delta)
     {
         base.Update(delta);
-        if (groundColliding && verticalMove.y <= 0)
+        Vector3 finalMove = Vector3.Zero;
+        Vector3 snapDown = Vector3.Zero;
+        //All things that happen when the player is on the ground
+        if (groundColliding)
         {
-            if (!moved)
+            //For when the player stops moving.
+            if (!controller.inputs.moved)
             {
                 if (currentSpeed < .1f)
                 {
@@ -74,8 +80,9 @@ public class Momentum : BaseAttatch
                         currentSpeed -= currentSpeed * time * PlayerOptions.walkingDeceleration;
                 }
             }
-            else
+            else //This is what happens when they do move
             {
+                //This section is for changing the players state
                 if (controller.size.crouched)
                 {
                     if (accelerate > 1.1f)
@@ -99,26 +106,39 @@ public class Momentum : BaseAttatch
                     }
                 }
             }
+
+            //Testing whether we need to modify the angle that the player walks
             if (!groundData.colliding || controller.ability.GetNoCollide())
             {
-                controller.MoveAndSlide(stableMove.Normalized() * currentSpeed * accelerate);
+                finalMove += stableMove.Normalized() * currentSpeed * accelerate;
+                //This is the mod that allows walking up slopes needs to be zero'd out when not in use
                 verticalAddition *= 0;
             }
             else
             {
+                //The mod being calculated
                 verticalAddition = groundData.normal.Cross(stableMove.Rotated(Vector3.Up, NinetyDegreesToRad)).Normalized();
-                controller.MoveAndSlide(verticalAddition * currentSpeed * accelerate);
+                finalMove += verticalAddition * currentSpeed * accelerate;
             }
+            //Used primarely quick bursts of speed but drops when on the ground
             horizontalAcc -= horizontalAcc * time * .9f;
+
+            //Universal knockback that only starts to slow when on the ground
             if (knockback.Length() < .1f)
                 knockback *= 0;
             else
             {
                 knockback -= knockback * time * 2f;
             }
+
+            if (verticalMove.Length() < 0.01f)
+            {
+                snapDown = Vector3.Down;
+            }
         }
-        else
+        else //No longer on the ground
         {
+            //This sets the state to falling up and down so long as the player isnt' wall running or gliding
             if (controller.ability.GetCurrentState() != PlayerState.wallRunning && controller.ability.GetCurrentState() != PlayerState.glide)
             {
                 if (verticalMove.y > 0)
@@ -130,7 +150,10 @@ public class Momentum : BaseAttatch
                     SetState(PlayerState.fallingDown);
                 }
             }
-            controller.MoveAndSlide(stableMove * accelerate);
+            //For when the player is in the air and is moving
+            finalMove += stableMove * accelerate;
+
+            //Controlling the vertical movement of the player depending on the state they are currently in
             switch (controller.ability.GetCurrentState())
             {
                 case PlayerState.wallRunning:
@@ -144,38 +167,18 @@ public class Momentum : BaseAttatch
                     break;
             }
         }
-        if (jumpRequest && jumpTimer < PlayerOptions.jumpRegisterTime)
-        {
-            jumpTimer += time;
-            if (!PlayerAreaSensor.GetArea(AreaSensorDirection.Above))
-            {
-                switch (controller.ability.GetCurrentState())
-                {
-                    case PlayerState.fallingDown:
-                    case PlayerState.fallingUp:
-                    case PlayerState.glide:
-                        if (controller.ability.CanJump())
-                        {
-                            JumpFinished();
-                        }
-                        break;
-                    case PlayerState.wallRunning:
-                        JumpFinished();
-                        controller.ability.WallRunningJumpUsed();
-                        break;
-                    default:
-                        JumpFinished();
-                        break;
-                }
-            }
-        }
+        //Some edge cases where the player is on the ground and gets hit with knockback or something that modifies vertical move
         if (PlayerAreaSensor.GetArea(AreaSensorDirection.Above) && verticalMove.y > 0)
             verticalMove = Vector3.Zero;
-        controller.MoveAndSlide(horizontalAcc + verticalMove + pushing + knockback + Vector3.Down * 0.01f, Vector3.Up);
+        finalMove += horizontalAcc + verticalMove + pushing + knockback;
+        //Moves the player finally
+        controller.MoveAndSlideWithSnap(finalMove, snapDown, Vector3.Up);
+        //Will only work if you have a force applying downward to the character?
         if (controller.IsOnFloor() != onFloor)
         {
             onFloor = controller.IsOnFloor();
             controller.GroundChanging(onFloor);
+            floorMovement.y = controller.GetFloorVelocity().y;
         }
         if (currentAccelerationTime < PlayerOptions.slideMaxTime)
         {
@@ -188,21 +191,17 @@ public class Momentum : BaseAttatch
         pushing = Vector3.Zero;
         if (controller.ability.GetCurrentState() != PlayerState.slide)
         {
-            moved = false;
+            if (moved)
+            {
+                movedBuffer += 1;
+                if (movedBuffer > 60f - Engine.GetFramesPerSecond())
+                {
+                    moved = false;
+                    movedBuffer = 0f;
+                }
+            }
         }
 
-    }
-
-    private void JumpFinished()
-    {
-        if (groundColliding || passThrough)
-            verticalMove = (Vector3.Up * jumpStrRequest) + verticalAddition * Vector3.Up;
-        jumpRequest = false;
-        passThrough = false;
-        SetState(PlayerState.fallingUp);
-        JumpAccepted?.Invoke();
-        JumpAccepted = null;
-        vertCha?.Invoke(verticalMove.y);
     }
 
     public void GroundMovement(Vector3 direction, float maxSpeed, float acceleration)
@@ -286,13 +285,15 @@ public class Momentum : BaseAttatch
         return horizontalAcc.Length();
     }
 
-    public void VerticalIncrease(float amount, JumpRequest function, bool passThrough = true)
+    public void VerticalIncrease(float amount)
     {
-        jumpRequest = true;
-        this.passThrough = passThrough;
-        jumpStrRequest = amount;
-        jumpTimer = 0;
-        JumpAccepted = function;
+        verticalMove = (Vector3.Up * amount) + verticalAddition * Vector3.Up;
+        if (onFloor)
+        {
+            verticalMove += controller.GetFloorVelocity();
+        }
+        SetState(PlayerState.fallingUp);
+        vertCha?.Invoke(verticalMove.y);
     }
 
     public void AddVer(Vector3 additive)
@@ -337,13 +338,13 @@ public class Momentum : BaseAttatch
                 return;
             vertCha?.Invoke(verticalMove.y);
             currentSpeed = stableMove.Length() + horizontalAcc.Length();
-            horizontalAcc = Vector3.Zero;
-            verticalMove = Vector3.Zero;
-            knockback = Vector3.Zero;
 
             if (currentSpeed > .1f)
             {
                 SetState(PlayerState.walking);
+                horizontalAcc = Vector3.Zero;
+                verticalMove = Vector3.Zero;
+                knockback = Vector3.Zero;
             }
             else
             {

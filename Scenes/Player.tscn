@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://Scripts/Player/PlayerController.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/RayCastData.cs" type="Script" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://Scripts/Player/PlayerSoundControl.cs" type="Script" id=8]
 [ext_resource path="res://Scripts/Player/AnimationController.cs" type="Script" id=9]
 [ext_resource path="res://Animations/PlayerAnimations/DeathAnimation.tres" type="Animation" id=10]
+[ext_resource path="res://Scripts/Player/TestBook.cs" type="Script" id=11]
 
 [sub_resource type="SphereShape" id=1]
 radius = 0.5
@@ -17,19 +18,28 @@ radius = 0.5
 [sub_resource type="SphereShape" id=2]
 radius = 0.5
 
-[sub_resource type="CylinderShape" id=3]
+[sub_resource type="CubeMesh" id=3]
+size = Vector3( 0.1, 0.1, 0.1 )
+
+[sub_resource type="SpatialMaterial" id=13]
+flags_unshaded = true
+
+[sub_resource type="BoxShape" id=12]
+extents = Vector3( 0.05, 0.05, 0.05 )
+
+[sub_resource type="CylinderShape" id=4]
 radius = 0.489413
 height = 0.194701
 
-[sub_resource type="BoxShape" id=4]
+[sub_resource type="BoxShape" id=5]
 extents = Vector3( 0.145557, 0.314335, 0.44142 )
 
-[sub_resource type="CylinderShape" id=5]
+[sub_resource type="CylinderShape" id=6]
 margin = 0.08
 radius = 0.489413
 height = 0.0894769
 
-[sub_resource type="Shader" id=6]
+[sub_resource type="Shader" id=7]
 code = "shader_type spatial;
 
 varying mat4 CAMERA;
@@ -57,19 +67,19 @@ void fragment() {
 	ALBEDO.rgb = c;
 }"
 
-[sub_resource type="ShaderMaterial" id=7]
-shader = SubResource( 6 )
+[sub_resource type="ShaderMaterial" id=8]
+shader = SubResource( 7 )
 shader_param/size_x = 0.006
 shader_param/size_y = 0.006
 
-[sub_resource type="QuadMesh" id=8]
-material = SubResource( 7 )
+[sub_resource type="QuadMesh" id=9]
+material = SubResource( 8 )
 size = Vector2( 2, 2 )
 
-[sub_resource type="AnimationNodeStateMachine" id=9]
+[sub_resource type="AnimationNodeStateMachine" id=10]
 graph_offset = Vector2( -161, -45 )
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=10]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=11]
 
 [node name="Player" type="KinematicBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0820016, 0, 0 )
@@ -106,15 +116,29 @@ shape = SubResource( 2 )
 
 [node name="Camera" type="Camera" parent="HeadCollisionPos/HeadRot"]
 cull_mask = 524285
+doppler_tracking = 2
 current = true
 
 [node name="FiringPoint" type="Spatial" parent="HeadCollisionPos/HeadRot"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0595741, -0.030191, -0.974782 )
 
 [node name="SpotLight" type="SpotLight" parent="HeadCollisionPos/HeadRot"]
+light_energy = 0.0
 light_bake_mode = 0
 spot_range = 11.0
 spot_angle = 17.5647
+
+[node name="TestBook" type="MeshInstance" parent="HeadCollisionPos/HeadRot"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.417493, -0.439251, -1.35479 )
+mesh = SubResource( 3 )
+material/0 = SubResource( 13 )
+script = ExtResource( 11 )
+
+[node name="KinematicBody" type="Area" parent="HeadCollisionPos/HeadRot/TestBook"]
+input_capture_on_drag = true
+
+[node name="CollisionShape" type="CollisionShape" parent="HeadCollisionPos/HeadRot/TestBook/KinematicBody"]
+shape = SubResource( 12 )
 
 [node name="HeadCast" type="RayCast" parent="HeadCollisionPos"]
 cast_to = Vector3( 0, 0.524, 0 )
@@ -129,7 +153,7 @@ direction = 3
 
 [node name="CollisionShape2" type="CollisionShape" parent="HeadCollisionPos/Above"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.13357, 0 )
-shape = SubResource( 3 )
+shape = SubResource( 4 )
 
 [node name="HeadSpace" type="RayCast" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.279173, 0 )
@@ -146,7 +170,7 @@ script = ExtResource( 3 )
 direction = 1
 
 [node name="CollisionShape" type="CollisionShape" parent="SensorAreas/Right"]
-shape = SubResource( 4 )
+shape = SubResource( 5 )
 
 [node name="Left" type="Area" parent="SensorAreas"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, 0.281, 0 )
@@ -154,7 +178,7 @@ input_ray_pickable = false
 script = ExtResource( 3 )
 
 [node name="CollisionShape" type="CollisionShape" parent="SensorAreas/Left"]
-shape = SubResource( 4 )
+shape = SubResource( 5 )
 
 [node name="Ground" type="Area" parent="SensorAreas"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.539855, 0 )
@@ -163,7 +187,7 @@ script = ExtResource( 3 )
 direction = 2
 
 [node name="CollisionShape" type="CollisionShape" parent="SensorAreas/Ground"]
-shape = SubResource( 5 )
+shape = SubResource( 6 )
 
 [node name="Sound" type="Node" parent="."]
 script = ExtResource( 7 )
@@ -183,6 +207,7 @@ names = PoolStringArray(  )
 [node name="GunView" type="ViewportContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 stretch = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -233,7 +258,7 @@ transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -7.4505
 visible = false
 layers = 262144
 extra_cull_margin = 16384.0
-mesh = SubResource( 8 )
+mesh = SubResource( 9 )
 material/0 = null
 
 [node name="AnimationParent" type="Node" parent="."]
@@ -242,11 +267,14 @@ script = ExtResource( 9 )
 [node name="CameraTween" type="Tween" parent="AnimationParent"]
 
 [node name="GunAnimationTree" type="AnimationTree" parent="AnimationParent"]
-tree_root = SubResource( 9 )
-parameters/playback = SubResource( 10 )
+tree_root = SubResource( 10 )
+parameters/playback = SubResource( 11 )
 
 [node name="PlayerHeadAnimations" type="AnimationPlayer" parent="AnimationParent"]
 anims/DeathAnimation = ExtResource( 10 )
+[connection signal="input_event" from="HeadCollisionPos/HeadRot/TestBook/KinematicBody" to="HeadCollisionPos/HeadRot/TestBook" method="MouseEvent"]
+[connection signal="mouse_entered" from="HeadCollisionPos/HeadRot/TestBook/KinematicBody" to="HeadCollisionPos/HeadRot/TestBook" method="MouseEnter" binds= [ true ]]
+[connection signal="mouse_exited" from="HeadCollisionPos/HeadRot/TestBook/KinematicBody" to="HeadCollisionPos/HeadRot/TestBook" method="MouseEnter" binds= [ false ]]
 [connection signal="finished" from="Sound/Feet" to="Sound/Feet" method="FinishedSound"]
 [connection signal="finished" from="Sound/Speaking" to="Sound/Speaking" method="FinishedSound"]
 [connection signal="finished" from="Sound/Gun" to="Sound/Gun" method="FinishedSound"]

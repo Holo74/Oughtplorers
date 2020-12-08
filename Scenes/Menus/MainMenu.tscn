@@ -1,19 +1,13 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Scripts/Menu/TitleScreen.cs" type="Script" id=1]
 [ext_resource path="res://Textures/Oughtplorers.png" type="Texture" id=2]
 [ext_resource path="res://Scripts/Menu/MenuButtons/SwapToMenu.cs" type="Script" id=3]
 [ext_resource path="res://Scripts/Menu/MenuButtons/StartGameAs.cs" type="Script" id=4]
-[ext_resource path="res://Scripts/Menu/MenuButtons/ToggleOptions.cs" type="Script" id=5]
-[ext_resource path="res://Scripts/Menu/MenuButtons/SettingFloatValues.cs" type="Script" id=6]
+[ext_resource path="res://Scenes/Menus/OptionsMenu.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scripts/Menu/MenuButtons/QuitButton.cs" type="Script" id=7]
-[ext_resource path="res://Scripts/Menu/MenuButtons/ApplySettings.cs" type="Script" id=8]
-[ext_resource path="res://Scripts/Menu/MenuButtons/SwapFromSettings.cs" type="Script" id=9]
 [ext_resource path="res://Scripts/Menu/MenuButtons/ConfirmButton.cs" type="Script" id=10]
 [ext_resource path="res://Scripts/Menu/MenuButtons/RegectSettings.cs" type="Script" id=11]
-[ext_resource path="res://Scenes/MenuButtons/ToggleOption.tscn" type="PackedScene" id=12]
-[ext_resource path="res://Scenes/MenuButtons/SliderOption.tscn" type="PackedScene" id=13]
-[ext_resource path="res://Scenes/MenuButtons/ChangingInputButton.tscn" type="PackedScene" id=14]
 
 [node name="TitleScreen" type="Control"]
 anchor_right = 1.0
@@ -78,6 +72,7 @@ __meta__ = {
 }
 
 [node name="Game" type="Panel" parent="."]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 __meta__ = {
@@ -140,326 +135,11 @@ useDemoLevels = true
 pathwayToDemoLevel = "res://Scenes/TestingScenes/Leaves.tscn"
 textUsed = "Test"
 
-[node name="OptionsMenu" type="Panel" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="OptionsMenu" parent="." instance=ExtResource( 5 )]
 
-[node name="TabContainer" type="TabContainer" parent="OptionsMenu"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Settings" type="Tabs" parent="OptionsMenu/TabContainer"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
-
-[node name="ToggleSprint" parent="OptionsMenu/TabContainer/Settings" instance=ExtResource( 12 )]
-text = "Toggle Sprint"
-
-[node name="ToggleSprint2" parent="OptionsMenu/TabContainer/Settings" instance=ExtResource( 12 )]
-margin_left = 186.0
-margin_right = 362.0
-text = "V Sync"
-optionName = 7
-
-[node name="Invert X" type="Control" parent="OptionsMenu/TabContainer/Settings"]
-anchor_left = 0.0393701
-anchor_top = 0.156028
-anchor_right = 0.0393701
-anchor_bottom = 0.156028
-margin_right = 176.0
-margin_bottom = 48.0
-script = ExtResource( 5 )
-__meta__ = {
-"_edit_group_": true,
-"_edit_use_anchors_": false
-}
-text = "Invert X"
-optionName = 4
-
-[node name="CheckButton" type="CheckButton" parent="OptionsMenu/TabContainer/Settings/Invert X"]
-margin_right = 176.0
-margin_bottom = 48.0
-text = "Invert X"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Invert Y" type="Control" parent="OptionsMenu/TabContainer/Settings"]
-anchor_left = 0.0393701
-anchor_top = 0.241135
-anchor_right = 0.0393701
-anchor_bottom = 0.241135
-margin_right = 176.0
-margin_bottom = 48.0
-script = ExtResource( 5 )
-__meta__ = {
-"_edit_group_": true,
-"_edit_use_anchors_": false
-}
-text = "Invert Y"
-optionName = 5
-
-[node name="CheckButton" type="CheckButton" parent="OptionsMenu/TabContainer/Settings/Invert Y"]
-margin_right = 176.0
-margin_bottom = 48.0
-text = "Invert Y"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Mouse Sensitivity X" parent="OptionsMenu/TabContainer/Settings" instance=ExtResource( 13 )]
-name = "Horizontal Sensitivity"
-min = 1.0
-
-[node name="Mouse Sensitivity X2" parent="OptionsMenu/TabContainer/Settings" instance=ExtResource( 13 )]
-margin_top = 168.0
-margin_bottom = 216.0
-name = "FPS"
-optionName = 6
-multiplier = 1.0
-min = 10.0
-max = 120.0
-
-[node name="Mouse Sensitivity Y" type="Control" parent="OptionsMenu/TabContainer/Settings"]
-anchor_left = 0.0393701
-anchor_top = 0.426
-anchor_right = 0.0393701
-anchor_bottom = 0.426
-margin_top = -0.264023
-margin_right = 256.0
-margin_bottom = 47.736
-script = ExtResource( 6 )
-__meta__ = {
-"_edit_group_": true,
-"_edit_use_anchors_": false
-}
-name = "Horizontal Sensitivity"
-optionName = 1
-multiplier = -100.0
-min = 1.0
-
-[node name="SpinBox" type="SpinBox" parent="OptionsMenu/TabContainer/Settings/Mouse Sensitivity Y"]
-margin_right = 74.0
-margin_bottom = 24.0
-value = 20.0
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HSlider" type="HSlider" parent="OptionsMenu/TabContainer/Settings/Mouse Sensitivity Y"]
-anchor_top = 0.5
-anchor_bottom = 0.5
-margin_right = 256.0
-margin_bottom = 24.0
-__meta__ = {
-"_edit_use_anchors_": true
-}
-
-[node name="RichTextLabel" type="RichTextLabel" parent="OptionsMenu/TabContainer/Settings/Mouse Sensitivity Y"]
-anchor_left = 0.289062
-anchor_top = 4.13259e-06
-anchor_right = 0.289062
-anchor_bottom = 4.13259e-06
-margin_left = -7.62939e-06
-margin_top = -0.000198364
-margin_right = 182.0
-margin_bottom = 23.9998
-bbcode_enabled = true
-bbcode_text = "[center]Vertical sensitivity[/center]"
-text = "Vertical sensitivity"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Camera FOV" type="Control" parent="OptionsMenu/TabContainer/Settings"]
-anchor_left = 0.0393701
-anchor_top = 0.525291
-anchor_right = 0.0393701
-anchor_bottom = 0.525291
-margin_top = -0.264023
-margin_right = 256.0
-margin_bottom = 47.736
-script = ExtResource( 6 )
-__meta__ = {
-"_edit_group_": true,
-"_edit_use_anchors_": false
-}
-name = "Camera FOV"
-optionName = 3
-min = 50.0
-max = 140.0
-
-[node name="SpinBox" type="SpinBox" parent="OptionsMenu/TabContainer/Settings/Camera FOV"]
-margin_right = 74.0
-margin_bottom = 24.0
-min_value = 50.0
-max_value = 140.0
-value = 50.0
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HSlider" type="HSlider" parent="OptionsMenu/TabContainer/Settings/Camera FOV"]
-anchor_top = 0.5
-anchor_bottom = 0.5
-margin_right = 256.0
-margin_bottom = 24.0
-min_value = 50.0
-max_value = 140.0
-value = 50.0
-__meta__ = {
-"_edit_use_anchors_": true
-}
-
-[node name="RichTextLabel" type="RichTextLabel" parent="OptionsMenu/TabContainer/Settings/Camera FOV"]
-anchor_left = 0.289062
-anchor_top = 4.13259e-06
-anchor_right = 0.289062
-anchor_bottom = 4.13259e-06
-margin_left = -7.62939e-06
-margin_top = -0.000198364
-margin_right = 182.0
-margin_bottom = 23.9998
-bbcode_enabled = true
-bbcode_text = "[center]Camera FOV[/center]"
-text = "Camera FOV"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Inputs" type="Tabs" parent="OptionsMenu/TabContainer"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
-
-[node name="MoveForward" parent="OptionsMenu/TabContainer/Inputs" instance=ExtResource( 14 )]
-margin_right = 240.0
-text = "Move Forward"
-input = 0
-
-[node name="MoveBack" parent="OptionsMenu/TabContainer/Inputs" instance=ExtResource( 14 )]
-anchor_top = 0.12766
-anchor_bottom = 0.12766
-margin_right = 240.0
-text = "Move Back"
-input = 1
-
-[node name="Strafe Left" parent="OptionsMenu/TabContainer/Inputs" instance=ExtResource( 14 )]
-anchor_top = 0.184397
-anchor_bottom = 0.184397
-margin_right = 240.0
-text = "Strafe Left"
-input = 2
-
-[node name="Strafe Right" parent="OptionsMenu/TabContainer/Inputs" instance=ExtResource( 14 )]
-anchor_top = 0.241134
-anchor_bottom = 0.241134
-margin_right = 240.0
-text = "Strafe Right"
-input = 3
-
-[node name="Jump" parent="OptionsMenu/TabContainer/Inputs" instance=ExtResource( 14 )]
-anchor_top = 0.297872
-anchor_bottom = 0.297872
-margin_right = 240.0
-text = "Jump"
-input = 4
-
-[node name="Crouch" parent="OptionsMenu/TabContainer/Inputs" instance=ExtResource( 14 )]
-anchor_top = 0.35461
-anchor_bottom = 0.35461
-margin_right = 240.0
-text = "Crouch"
-
-[node name="Sprint" parent="OptionsMenu/TabContainer/Inputs" instance=ExtResource( 14 )]
-anchor_top = 0.411348
-anchor_bottom = 0.411348
-margin_right = 240.0
-text = "Sprint"
-input = 6
-
-[node name="Weapon Slot 1" parent="OptionsMenu/TabContainer/Inputs" instance=ExtResource( 14 )]
-anchor_top = 0.468085
-anchor_bottom = 0.468085
-margin_right = 240.0
-text = "Weapon Slot 1"
-input = 12
-
-[node name="Weapon Slot 2" parent="OptionsMenu/TabContainer/Inputs" instance=ExtResource( 14 )]
-anchor_top = 0.524823
-anchor_bottom = 0.524823
-margin_right = 240.0
-text = "Weapon Slot 2"
-input = 13
-
-[node name="Weapon Slot 3" parent="OptionsMenu/TabContainer/Inputs" instance=ExtResource( 14 )]
-anchor_top = 0.581561
-anchor_bottom = 0.581561
-margin_right = 240.0
-text = "Weapon Slot 3"
-input = 14
-
-[node name="Weapon Slot 4" parent="OptionsMenu/TabContainer/Inputs" instance=ExtResource( 14 )]
-anchor_top = 0.638298
-anchor_bottom = 0.638298
-margin_right = 240.0
-text = "Weapon Slot 4"
-input = 15
-
-[node name="Holster" parent="OptionsMenu/TabContainer/Inputs" instance=ExtResource( 14 )]
-anchor_top = 0.695036
-anchor_bottom = 0.695036
-margin_right = 240.0
-text = "Holster"
-input = 16
-
-[node name="Button" type="Button" parent="OptionsMenu"]
-anchor_left = 0.814992
-anchor_top = 0.921986
-anchor_right = 0.814992
-anchor_bottom = 0.921986
-margin_left = -2.55157
-margin_top = -1.19159
-margin_right = 125.448
-margin_bottom = 22.8084
-text = "Back"
-script = ExtResource( 9 )
-__meta__ = {
-"_edit_use_anchors_": true
-}
+[node name="Button2" parent="OptionsMenu" index="2"]
 path = NodePath("../../MainScreen")
 confirmPath = NodePath("../../Confirm Settings")
-
-[node name="Button2" type="Button" parent="OptionsMenu"]
-anchor_left = 0.062
-anchor_top = 0.921986
-anchor_right = 0.062
-anchor_bottom = 0.921986
-margin_left = 0.511997
-margin_top = -1.19159
-margin_right = 128.512
-margin_bottom = 22.8084
-text = "Apply"
-script = ExtResource( 8 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Confirm Settings" type="Panel" parent="."]
 visible = false
@@ -513,3 +193,5 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 path = NodePath("../../MainScreen")
+
+[editable path="OptionsMenu"]

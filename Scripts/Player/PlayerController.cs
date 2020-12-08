@@ -35,6 +35,7 @@ public class PlayerController : HealthKinematic
     public SpotLight headLamp;
     public SoundManager soundRequest;
     public AnimationController anim;
+    public TestBook bookMenu;
 
     public void ToggleCamera(bool state)
     {
@@ -56,6 +57,7 @@ public class PlayerController : HealthKinematic
         headRotation = new Rotation(this, true, GetChild<Spatial>(2).GetChild<Spatial>(0), true, -80, 85);
         camera = GetChild<Spatial>(2).GetChild<Spatial>(0).GetChild<Camera>(0);
         headLamp = camera.GetParent().GetChild<SpotLight>(2);
+        bookMenu = camera.GetParent().GetChild<TestBook>(3);
         bodyRotation = new Rotation(this, false, this);
         soundRequest = GetChild<SoundManager>(5);
         InputHandler.Instance.ConnectToMouseMovement(this, nameof(Rotating));
@@ -91,6 +93,7 @@ public class PlayerController : HealthKinematic
 
     public void UpdateCharacterSettings()
     {
+        GD.Print(SettingsOptions.GetSetting<float>(SettingsNames.cameraFOV));
         camera.Fov = SettingsOptions.GetSetting<float>(SettingsNames.cameraFOV);
     }
 

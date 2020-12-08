@@ -1,20 +1,13 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Textures/TargetRetical.png" type="Texture" id=1]
-[ext_resource path="res://Scenes/MenuButtons/ToggleOption.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/Menus/OptionsMenu.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scripts/Menu/InGameMenu.cs" type="Script" id=3]
 [ext_resource path="res://Scripts/Menu/MenuButtons/QuitToTitleScreen.cs" type="Script" id=4]
-[ext_resource path="res://Scripts/Menu/FPSCounter.cs" type="Script" id=5]
 [ext_resource path="res://Scripts/Menu/MenuButtons/SwapToMenu.cs" type="Script" id=6]
-[ext_resource path="res://Scripts/Menu/StateShower.cs" type="Script" id=7]
-[ext_resource path="res://Scenes/MenuButtons/SliderOption.tscn" type="PackedScene" id=8]
-[ext_resource path="res://Scripts/Menu/SpeedDisplay.cs" type="Script" id=9]
-[ext_resource path="res://Scripts/Menu/MenuButtons/ApplySettings.cs" type="Script" id=10]
-[ext_resource path="res://Scripts/Menu/MenuButtons/SwapFromSettings.cs" type="Script" id=11]
 [ext_resource path="res://Scripts/Menu/MenuButtons/RegectSettings.cs" type="Script" id=12]
 [ext_resource path="res://Scripts/Menu/MenuButtons/ConfirmButton.cs" type="Script" id=13]
 [ext_resource path="res://Scripts/Menu/MenuButtons/ContinueGame.cs" type="Script" id=14]
-[ext_resource path="res://Scenes/MenuButtons/ChangingInputButton.tscn" type="PackedScene" id=15]
 [ext_resource path="res://Textures/Hud.png" type="Texture" id=16]
 [ext_resource path="res://Scripts/Menu/MenuButtons/LinkToForm.cs" type="Script" id=17]
 
@@ -155,6 +148,7 @@ pause_mode = 2
 [node name="InGameMenuAndHud" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -165,44 +159,13 @@ pathToHealthConatiner = NodePath("PlayerHud/Health")
 [node name="PlayerHud" type="Control" parent="InGameMenuAndHud"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="FPS" type="Label" parent="InGameMenuAndHud/PlayerHud"]
-anchor_left = 0.550286
-anchor_top = 0.431036
-anchor_right = 0.589349
-anchor_bottom = 0.454369
-text = "FPS:"
-script = ExtResource( 5 )
-__meta__ = {
-"_edit_use_anchors_": true
-}
-
-[node name="Speed" type="Label" parent="InGameMenuAndHud/PlayerHud"]
-anchor_left = 0.550286
-anchor_top = 0.483383
-anchor_right = 0.596184
-anchor_bottom = 0.506717
-text = "Speed: "
-script = ExtResource( 9 )
-__meta__ = {
-"_edit_use_anchors_": true
-}
-
-[node name="State" type="Label" parent="InGameMenuAndHud/PlayerHud"]
-anchor_left = 0.550286
-anchor_top = 0.5434
-anchor_right = 0.596184
-anchor_bottom = 0.566733
-text = "Speed: "
-script = ExtResource( 7 )
-__meta__ = {
-"_edit_use_anchors_": true
-}
-
 [node name="Crosshair" type="TextureRect" parent="InGameMenuAndHud/PlayerHud"]
+light_mask = 0
 anchor_left = 0.476562
 anchor_top = 0.4625
 anchor_right = 0.523438
@@ -220,6 +183,7 @@ anchor_top = 0.0666667
 anchor_right = 0.75
 anchor_bottom = 0.12
 margin_top = -3.8147e-06
+mouse_filter = 1
 __meta__ = {
 "_edit_group_": true,
 "_edit_use_anchors_": true
@@ -228,6 +192,7 @@ __meta__ = {
 [node name="ProgressBar" type="ProgressBar" parent="InGameMenuAndHud/PlayerHud/Health"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 1
 max_value = 99.0
 value = 99.0
 rounded = true
@@ -240,6 +205,7 @@ __meta__ = {
 anchor_top = 0.579014
 anchor_right = 1.0
 anchor_bottom = 0.715681
+mouse_filter = 2
 bbcode_enabled = true
 scroll_active = false
 __meta__ = {
@@ -258,16 +224,20 @@ margin_left = -0.0639992
 margin_top = 0.200001
 margin_right = 0.0639648
 margin_bottom = -0.200012
+mouse_filter = 2
 texture = ExtResource( 16 )
 expand = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Tween" type="Tween" parent="InGameMenuAndHud/PlayerHud"]
+
 [node name="BaseMenu" type="Panel" parent="InGameMenuAndHud"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -329,210 +299,9 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="OptionsMenu" type="Panel" parent="InGameMenuAndHud"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Actual Control Settings" type="TabContainer" parent="InGameMenuAndHud/OptionsMenu"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Settings" type="Tabs" parent="InGameMenuAndHud/OptionsMenu/Actual Control Settings"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
-rect_pivot_offset = Vector2( -508, 208 )
-
-[node name="ToggleSprint" parent="InGameMenuAndHud/OptionsMenu/Actual Control Settings/Settings" instance=ExtResource( 2 )]
-anchor_left = 0.011811
-anchor_top = 0.0141844
-anchor_right = 0.011811
-anchor_bottom = 0.0141845
-text = "Toggle Sprint"
-
-[node name="Invert x" parent="InGameMenuAndHud/OptionsMenu/Actual Control Settings/Settings" instance=ExtResource( 2 )]
-anchor_left = 0.011811
-anchor_top = 0.0876213
-anchor_right = 0.011811
-anchor_bottom = 0.0876213
-text = "Invert X"
-optionName = 4
-
-[node name="Invert Y" parent="InGameMenuAndHud/OptionsMenu/Actual Control Settings/Settings" instance=ExtResource( 2 )]
-anchor_left = 0.011811
-anchor_top = 0.172728
-anchor_right = 0.011811
-anchor_bottom = 0.172728
-text = "Invert Y"
-optionName = 5
-
-[node name="Mouse Sensitivity X" parent="InGameMenuAndHud/OptionsMenu/Actual Control Settings/Settings" instance=ExtResource( 8 )]
-anchor_left = 0.011811
-anchor_top = 0.257834
-anchor_right = 0.0118111
-anchor_bottom = 0.257834
-name = "Horizontal Sensitivity"
-min = 1.0
-
-[node name="Mouse Sensitivity X2" parent="InGameMenuAndHud/OptionsMenu/Actual Control Settings/Settings" instance=ExtResource( 8 )]
-anchor_left = 0.011811
-anchor_top = 0.257834
-anchor_right = 0.0118111
-anchor_bottom = 0.257834
-margin_top = 190.582
-margin_bottom = 238.582
-name = "FPS"
-optionName = 6
-multiplier = 1.0
-min = 10.0
-max = 120.0
-
-[node name="Mouse Sensitivity Y" parent="InGameMenuAndHud/OptionsMenu/Actual Control Settings/Settings" instance=ExtResource( 8 )]
-anchor_left = 0.011811
-anchor_top = 0.368795
-anchor_right = 0.0118111
-anchor_bottom = 0.368795
-name = "Vertical sensitivity"
-min = 1.0
-
-[node name="Mouse Sensitivity Y2" parent="InGameMenuAndHud/OptionsMenu/Actual Control Settings/Settings" instance=ExtResource( 8 )]
-anchor_left = 0.011811
-anchor_top = 0.496454
-anchor_right = 0.0118111
-anchor_bottom = 0.496454
-name = "Camera FOV"
-optionName = 3
-multiplier = 1.0
-min = 50.0
-max = 140.0
-
-[node name="Inputs" type="Tabs" parent="InGameMenuAndHud/OptionsMenu/Actual Control Settings"]
+[node name="OptionsMenu" parent="InGameMenuAndHud" instance=ExtResource( 2 )]
 visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
-
-[node name="JumpButton" parent="InGameMenuAndHud/OptionsMenu/Actual Control Settings/Inputs" instance=ExtResource( 15 )]
-margin_right = 240.0
-text = "Move Forward"
-input = 0
-
-[node name="JumpButton2" parent="InGameMenuAndHud/OptionsMenu/Actual Control Settings/Inputs" instance=ExtResource( 15 )]
-anchor_top = 0.12766
-anchor_bottom = 0.12766
-margin_right = 240.0
-text = "Move Back"
-input = 1
-
-[node name="JumpButton3" parent="InGameMenuAndHud/OptionsMenu/Actual Control Settings/Inputs" instance=ExtResource( 15 )]
-anchor_top = 0.184397
-anchor_bottom = 0.184397
-margin_right = 240.0
-text = "Strafe Left"
-input = 2
-
-[node name="JumpButton4" parent="InGameMenuAndHud/OptionsMenu/Actual Control Settings/Inputs" instance=ExtResource( 15 )]
-anchor_top = 0.241135
-anchor_bottom = 0.241135
-margin_right = 240.0
-text = "Strafe Right"
-input = 3
-
-[node name="JumpButton5" parent="InGameMenuAndHud/OptionsMenu/Actual Control Settings/Inputs" instance=ExtResource( 15 )]
-anchor_top = 0.297872
-anchor_bottom = 0.297872
-margin_right = 240.0
-text = "Jump"
-input = 4
-
-[node name="JumpButton6" parent="InGameMenuAndHud/OptionsMenu/Actual Control Settings/Inputs" instance=ExtResource( 15 )]
-anchor_top = 0.35461
-anchor_bottom = 0.35461
-margin_right = 240.0
-text = "Crouch"
-
-[node name="JumpButton7" parent="InGameMenuAndHud/OptionsMenu/Actual Control Settings/Inputs" instance=ExtResource( 15 )]
-anchor_top = 0.411348
-anchor_bottom = 0.411348
-margin_right = 240.0
-text = "Sprint"
-input = 6
-
-[node name="JumpButton8" parent="InGameMenuAndHud/OptionsMenu/Actual Control Settings/Inputs" instance=ExtResource( 15 )]
-anchor_top = 0.468085
-anchor_bottom = 0.468085
-margin_right = 240.0
-text = "Weapon Slot 1"
-input = 12
-
-[node name="JumpButton9" parent="InGameMenuAndHud/OptionsMenu/Actual Control Settings/Inputs" instance=ExtResource( 15 )]
-anchor_top = 0.524823
-anchor_bottom = 0.524823
-margin_right = 240.0
-text = "Weapon Slot 2"
-input = 13
-
-[node name="JumpButton10" parent="InGameMenuAndHud/OptionsMenu/Actual Control Settings/Inputs" instance=ExtResource( 15 )]
-anchor_top = 0.58156
-anchor_bottom = 0.58156
-margin_right = 240.0
-text = "Weapon Slot 3"
-input = 14
-
-[node name="JumpButton11" parent="InGameMenuAndHud/OptionsMenu/Actual Control Settings/Inputs" instance=ExtResource( 15 )]
-anchor_top = 0.638298
-anchor_bottom = 0.638298
-margin_right = 240.0
-text = "Weapon Slot 4"
-input = 15
-
-[node name="JumpButton12" parent="InGameMenuAndHud/OptionsMenu/Actual Control Settings/Inputs" instance=ExtResource( 15 )]
-anchor_top = 0.695035
-anchor_bottom = 0.695035
-margin_right = 240.0
-text = "Holster"
-input = 16
-
-[node name="Button" type="Button" parent="InGameMenuAndHud/OptionsMenu"]
-anchor_left = 0.0625
-anchor_top = 0.92
-anchor_right = 0.062875
-anchor_bottom = 0.92
-margin_right = 127.616
-margin_bottom = 24.0
-text = "Apply"
-script = ExtResource( 10 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Button2" type="Button" parent="InGameMenuAndHud/OptionsMenu"]
-anchor_left = 0.937
-anchor_top = 0.92
-anchor_right = 0.937
-anchor_bottom = 0.92
-margin_left = -127.488
-margin_right = 0.511963
-margin_bottom = 24.0
-text = "Back"
-script = ExtResource( 11 )
-__meta__ = {
-"_edit_use_anchors_": true
-}
-path = NodePath("../../BaseMenu")
-confirmPath = NodePath("../../Confirm")
+mouse_filter = 1
 
 [node name="SavingRequest" type="Panel" parent="InGameMenuAndHud"]
 visible = false
@@ -541,6 +310,7 @@ anchor_top = 0.156667
 anchor_right = 0.84375
 anchor_bottom = 0.843333
 margin_bottom = 3.05176e-05
+mouse_filter = 1
 __meta__ = {
 "_edit_use_anchors_": true
 }
@@ -586,6 +356,7 @@ anchor_top = 0.156667
 anchor_right = 0.84375
 anchor_bottom = 0.843333
 margin_bottom = 3.05176e-05
+mouse_filter = 1
 __meta__ = {
 "_edit_use_anchors_": true
 }
@@ -613,6 +384,7 @@ margin_left = 0.511993
 margin_top = -0.200012
 margin_right = 384.512
 margin_bottom = 127.8
+mouse_filter = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -676,6 +448,7 @@ anim_player = NodePath("../AnimationPlayer")
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 1
 
 [node name="Panel" type="Panel" parent="InGameMenuAndHud/Upgrade"]
 anchor_left = 0.328125
@@ -733,6 +506,7 @@ __meta__ = {
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 1
 custom_styles/panel = SubResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false

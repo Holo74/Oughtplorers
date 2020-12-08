@@ -17,6 +17,8 @@ public class InGameMenu : MenuBase
     private AnimationPlayer animations;
     [Signal]
     public delegate void TransitionCamera();
+    private Tween textTween;
+    private TextureRect crossHair;
     public override void _Ready()
     {
         GameManager.Instance.currentMenu = this;
@@ -35,7 +37,7 @@ public class InGameMenu : MenuBase
         mainNode = menu;
         healthContainer = GetNode<Control>(pathToHealthConatiner);
         healthBar = healthContainer.GetChild<ProgressBar>(0);
-        displayText = GetChild(0).GetChild<RichTextLabel>(5);
+        displayText = hud.GetChild<RichTextLabel>(2);
         instance = this;
         animations = GetChild<AnimationPlayer>(6);
         upgradeMenu = GetChild<Control>(8);
@@ -44,6 +46,8 @@ public class InGameMenu : MenuBase
         upgradeMenu.GetChild(0).GetChild(2).Connect("pressed", GameManager.Instance, nameof(GameManager.ToggleGamePause));
         PlayerController.Instance.ability.AddToStateChange(PlayerStateAnimations);
         transitionNode = GetChild<Control>(9);
+        textTween = hud.GetChild<Tween>(4);
+        crossHair = hud.GetChild<TextureRect>(0);
     }
 
     public override void _Process(float delta)
@@ -73,10 +77,10 @@ public class InGameMenu : MenuBase
 
     public override void _PhysicsProcess(float delta)
     {
-        if (timer < 3f)
+        if (timer < 4f)
         {
             timer += delta;
-            if (timer > 3f)
+            if (timer > 4f)
             {
                 displayText.BbcodeText = "";
             }
@@ -100,8 +104,11 @@ public class InGameMenu : MenuBase
 
     public static void DisplayText(string text)
     {
+        instance.displayText.PercentVisible = 0.0f;
+        instance.textTween.InterpolateProperty(instance.displayText, "percent_visible", 0.0f, 1.0f, 2.0f);
         instance.displayText.BbcodeText = "[center]" + text + "[/center]";
         instance.timer = 0f;
+        instance.textTween.Start();
     }
 
     public void UpdateHealth(bool damaged, float newValue)
@@ -205,5 +212,10 @@ public class InGameMenu : MenuBase
     public void EmitSignalToTransition()
     {
         EmitSignal("TransitionCamera");
+    }
+
+    public void SetCrossHairColor(string color)
+    {
+        crossHair.Modulate = new Color(color);
     }
 }

@@ -15,6 +15,7 @@ public class MovingPlatform : Spatial
     private Tween.EaseType ease;
     private int pointOn = 0;
     private Vector3 originalPos;
+    private RigidBody body;
     public override void _Ready()
     {
         tween = GetChild<Tween>(0);
