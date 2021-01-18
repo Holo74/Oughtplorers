@@ -1,0 +1,10 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Resources/ScanEntries/TestEntry2.tres" type="Resource" id=1]
+[ext_resource path="res://Resources/ScanEntries/TestEntry1.tres" type="Resource" id=2]
+[ext_resource path="res://Resources/ScanEntries/TestEntry.tres" type="Resource" id=3]
+[ext_resource path="res://Scripts/Data/AutoLoadScanInfo.cs" type="Script" id=4]
+
+[node name="Node" type="Node"]
+script = ExtResource( 4 )
+completeScanList = [ ExtResource( 2 ), ExtResource( 1 ), ExtResource( 3 ) ]

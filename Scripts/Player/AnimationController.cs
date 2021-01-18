@@ -22,7 +22,7 @@ public class AnimationController : Node
     {
         for (int i = 0; i < 5; i++)
         {
-            retrieveGunAnimation[i] = controller.gunCamera.GetChild(i).GetChild<RetrieveAnimationPlayer>(0);
+            retrieveGunAnimation[i] = WeaponController.instance.GetChild(i).GetChild<RetrieveAnimationPlayer>(0);
             retrieveGunAnimation[i].GetAnimationPlayer().Connect("animation_finished", this, nameof(FinishGunAnimation));
         }
     }

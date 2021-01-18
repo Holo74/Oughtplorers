@@ -10,7 +10,7 @@ public class TestBook : Spatial
         mouseIn = state;
         GD.Print(state + " This is the new state");
     }
-
+    
     public void ActivateBook()
     {
         if (PlayerController.Instance.playMovement.GetCurrentSpeed() > 0.1f || !PlayerController.Instance.playMovement.groundColliding)

@@ -24,6 +24,7 @@ config/icon="res://icon.png"
 GameManager="*res://Scenes/GameManager.tscn"
 InputHandler="*res://Scenes/InputHandler.tscn"
 PlayerOptions="*res://Scenes/PlayerOptions.tscn"
+ScanInfoResources="*res://Scenes/ScanInfoResources.tscn"
 
 [display]
 
@@ -145,6 +146,13 @@ BookMenu={
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777218,"unicode":0,"echo":false,"script":null)
  ]
 }
+
+[layer_names]
+
+3d_physics/layer_1="Universal"
+3d_physics/layer_5="Bullets"
+3d_physics/layer_9="Scannables"
+3d_physics/layer_10="UI"
 
 [rendering]
 

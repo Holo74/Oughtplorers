@@ -7,4 +7,6 @@ public class DoorLoadingInfo : Spatial
     public string pathway = "";
     [Export]
     public Vector3 offset, rot;
+    [Export]
+    public bool loadDoor = false;
 }

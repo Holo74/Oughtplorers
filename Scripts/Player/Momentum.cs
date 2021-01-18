@@ -172,7 +172,7 @@ public class Momentum : BaseAttatch
             verticalMove = Vector3.Zero;
         finalMove += horizontalAcc + verticalMove + pushing + knockback;
         //Moves the player finally
-        controller.MoveAndSlideWithSnap(finalMove, snapDown, Vector3.Up);
+        controller.MoveAndSlideWithSnap(finalMove, snapDown, Vector3.Up, true);
         //Will only work if you have a force applying downward to the character?
         if (controller.IsOnFloor() != onFloor)
         {

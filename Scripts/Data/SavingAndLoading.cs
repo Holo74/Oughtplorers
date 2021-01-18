@@ -24,12 +24,13 @@ public class SavingAndLoading
         saveData.Close();
     }
 
-    public static void SavingGameData(string savePath, Dictionary playerUpgrades, Dictionary additionalInfo)
+    public static void SavingGameData(string savePath, Dictionary playerUpgrades, Dictionary additionalInfo, Godot.Collections.Array scans)
     {
         File saveData = new File();
         saveData.Open(savePath, File.ModeFlags.Write);
         saveData.StoreLine(JSON.Print(playerUpgrades));
         saveData.StoreLine(JSON.Print(additionalInfo));
+        saveData.StoreLine(JSON.Print(scans));
         saveData.Close();
     }
 
@@ -42,7 +43,9 @@ public class SavingAndLoading
             saveData.Open(savePath, File.ModeFlags.Read);
             Dictionary playerUpgrades = (Dictionary)JSON.Parse(saveData.GetLine()).Result;
             Dictionary additionalInfo = (Dictionary)JSON.Parse(saveData.GetLine()).Result;
-            returning = new SavedData(playerUpgrades, additionalInfo);
+            Godot.Collections.Array scans = (Godot.Collections.Array)JSON.Parse(saveData.GetLine()).Result;
+            GD.Print(scans + " These are the scans loading");
+            returning = new SavedData(playerUpgrades, additionalInfo, scans);
         }
         else
         {

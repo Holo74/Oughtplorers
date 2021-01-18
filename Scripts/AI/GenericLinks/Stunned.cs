@@ -26,7 +26,6 @@ public class Stunned : AILink
     {
         if (currentTime >= 0)
         {
-            GD.Print(currentTime);
             currentTime -= controller.delta;
         }
     }

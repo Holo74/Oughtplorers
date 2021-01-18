@@ -321,7 +321,8 @@ public class PlayerAbility : BaseAttatch
 
     public void BookMenu()
     {
-        controller.bookMenu.ActivateBook();
+        if (controller.gunCamera.CurrentWeapon().WeaponReady())
+            controller.bookMenu.ActivateBook();
     }
 
     public void SwapWeapon(CurrentWeaponEquiped request)

@@ -19,13 +19,11 @@ public class AcidPool : HealthKinematic
             {
                 finishedMoving = true;
                 acid.Translation = Vector3.Zero;
-                GD.Print("Finished moving acid");
             }
         }
     }
     public override bool TakeDamage(float damage, DamageType typing, Node Source)
     {
-        GD.Print("Took damage");
         if (!activatedPool)
         {
             activatedPool = true;

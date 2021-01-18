@@ -39,47 +39,47 @@ extents = Vector3( 0.278606, 0.319469, 0.423816 )
 [sub_resource type="BoxShape" id=3]
 extents = Vector3( 0.490626, 0.605549, 0.423816 )
 
-[sub_resource type="BoxShape" id=14]
+[sub_resource type="BoxShape" id=4]
 extents = Vector3( 0.615669, 1.41508, 1 )
 
-[sub_resource type="BoxShape" id=4]
+[sub_resource type="BoxShape" id=5]
 extents = Vector3( 0.1, 0.1, 0.1 )
 
-[sub_resource type="AnimationNodeAnimation" id=5]
+[sub_resource type="AnimationNodeAnimation" id=6]
 animation = "Idle"
 
-[sub_resource type="AnimationNodeAnimation" id=6]
+[sub_resource type="AnimationNodeAnimation" id=7]
 animation = "Intro"
 
-[sub_resource type="AnimationNodeAnimation" id=7]
+[sub_resource type="AnimationNodeAnimation" id=8]
 animation = "Threatening"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=8]
+[sub_resource type="AnimationNodeStateMachineTransition" id=9]
 advance_condition = "Threaten"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=9]
-advance_condition = "Intro"
-
 [sub_resource type="AnimationNodeStateMachineTransition" id=10]
-switch_mode = 2
-auto_advance = true
+advance_condition = "Intro"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=11]
 switch_mode = 2
 auto_advance = true
 
-[sub_resource type="AnimationNodeStateMachine" id=12]
-states/Idle/node = SubResource( 5 )
+[sub_resource type="AnimationNodeStateMachineTransition" id=12]
+switch_mode = 2
+auto_advance = true
+
+[sub_resource type="AnimationNodeStateMachine" id=13]
+states/Idle/node = SubResource( 6 )
 states/Idle/position = Vector2( -107, 106 )
-states/Intro/node = SubResource( 6 )
+states/Intro/node = SubResource( 7 )
 states/Intro/position = Vector2( 87, 157 )
-states/Threatening/node = SubResource( 7 )
+states/Threatening/node = SubResource( 8 )
 states/Threatening/position = Vector2( 87, 38 )
-transitions = [ "Idle", "Threatening", SubResource( 8 ), "Idle", "Intro", SubResource( 9 ), "Intro", "Idle", SubResource( 10 ), "Threatening", "Idle", SubResource( 11 ) ]
+transitions = [ "Idle", "Threatening", SubResource( 9 ), "Idle", "Intro", SubResource( 10 ), "Intro", "Idle", SubResource( 11 ), "Threatening", "Idle", SubResource( 12 ) ]
 start_node = "Idle"
 graph_offset = Vector2( -283, -13 )
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=13]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=14]
 
 [node name="FirstBoss" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
@@ -95,6 +95,7 @@ bones/21/bound_children = [ NodePath("BoneAttachment5") ]
 bones/22/bound_children = [ NodePath("BoneAttachment") ]
 
 [node name="AnimationPlayer" parent="Armature" index="0"]
+playback_process_mode = 0
 anims/Intro = SubResource( 1 )
 
 [node name="BoneAttachment" type="BoneAttachment" parent="Armature" index="3"]
@@ -126,7 +127,7 @@ shape = SubResource( 3 )
 
 [node name="CollisionShape" parent="Armature/BoneAttachment2/Knockback/Area" index="0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 6.79483e-22, 0, 1, 0, 0, -0.867882 )
-shape = SubResource( 14 )
+shape = SubResource( 4 )
 
 [node name="BoneAttachment3" type="BoneAttachment" parent="Armature" index="5"]
 transform = Transform( 0.0431956, -3.26116e-09, -0.999067, -0.999067, 7.54274e-08, -0.0431955, 7.54979e-08, 1, 1.19904e-14, 0.55843, 0.0174696, -4.21878e-16 )
@@ -168,19 +169,19 @@ shape = SubResource( 3 )
 script = ExtResource( 4 )
 
 [node name="CollisionShape" type="CollisionShape" parent="KinematicBody" index="0"]
-shape = SubResource( 4 )
+shape = SubResource( 5 )
 
 [node name="AnimationTree" type="AnimationTree" parent="." index="2"]
-tree_root = SubResource( 12 )
+tree_root = SubResource( 13 )
 anim_player = NodePath("../Armature/AnimationPlayer")
 active = true
-parameters/playback = SubResource( 13 )
+parameters/playback = SubResource( 14 )
 parameters/conditions/Intro = false
 parameters/conditions/Threaten = false
+[connection signal="StartUpCreature" from="." to="Armature/BoneAttachment3/KinematicBody" method="ConnectToController" flags=6]
 [connection signal="StartUpCreature" from="." to="Armature/BoneAttachment2/KinematicBody" method="ConnectToController" flags=6]
 [connection signal="StartUpCreature" from="." to="Armature/BoneAttachment5/KinematicBody" method="ConnectToController" flags=6]
-[connection signal="StartUpCreature" from="." to="Armature/BoneAttachment4/KinematicBody" method="ConnectToController" flags=6]
-[connection signal="StartUpCreature" from="." to="Armature/BoneAttachment3/KinematicBody" method="ConnectToController" flags=6]
 [connection signal="StartUpCreature" from="." to="Armature/BoneAttachment/KinematicBody" method="ConnectToController" flags=6]
+[connection signal="StartUpCreature" from="." to="Armature/BoneAttachment4/KinematicBody" method="ConnectToController" flags=6]
 
 [editable path="Armature/BoneAttachment2/Knockback"]

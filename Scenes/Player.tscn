@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=47 format=2]
 
 [ext_resource path="res://Scripts/Player/PlayerController.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/Player/RayCastData.cs" type="Script" id=2]
@@ -10,7 +10,14 @@
 [ext_resource path="res://Scripts/Player/PlayerSoundControl.cs" type="Script" id=8]
 [ext_resource path="res://Scripts/Player/AnimationController.cs" type="Script" id=9]
 [ext_resource path="res://Animations/PlayerAnimations/DeathAnimation.tres" type="Animation" id=10]
-[ext_resource path="res://Scripts/Player/TestBook.cs" type="Script" id=11]
+[ext_resource path="res://Scripts/Player/PlayersJournal.cs" type="Script" id=11]
+[ext_resource path="res://Scripts/Player/ScanNode.cs" type="Script" id=12]
+[ext_resource path="res://Scripts/Player/JournalScripts/Tabs.cs" type="Script" id=13]
+[ext_resource path="res://Models/PlayerModels/BookBinder/Cube.mesh" type="ArrayMesh" id=14]
+[ext_resource path="res://Models/PlayerModels/BookBinder/bookRing.tres" type="ArrayMesh" id=15]
+[ext_resource path="res://Scripts/Player/JournalScripts/BookRaycast.cs" type="Script" id=16]
+[ext_resource path="res://Textures/JournalEntries/World/Flower.png" type="Texture" id=17]
+[ext_resource path="res://Scripts/Player/JournalScripts/FlipPages.cs" type="Script" id=18]
 
 [sub_resource type="SphereShape" id=1]
 radius = 0.5
@@ -18,28 +25,297 @@ radius = 0.5
 [sub_resource type="SphereShape" id=2]
 radius = 0.5
 
-[sub_resource type="CubeMesh" id=3]
-size = Vector3( 0.1, 0.1, 0.1 )
-
-[sub_resource type="SpatialMaterial" id=13]
-flags_unshaded = true
-
-[sub_resource type="BoxShape" id=12]
-extents = Vector3( 0.05, 0.05, 0.05 )
-
-[sub_resource type="CylinderShape" id=4]
+[sub_resource type="CylinderShape" id=3]
 radius = 0.489413
 height = 0.194701
 
-[sub_resource type="BoxShape" id=5]
+[sub_resource type="BoxShape" id=4]
 extents = Vector3( 0.145557, 0.314335, 0.44142 )
 
-[sub_resource type="CylinderShape" id=6]
+[sub_resource type="CylinderShape" id=5]
 margin = 0.08
 radius = 0.489413
 height = 0.0894769
 
-[sub_resource type="Shader" id=7]
+[sub_resource type="Animation" id=6]
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("Book:translation:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("Book:translation:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( -1.86401, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("Book:translation:z")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Book/SpotLight:light_energy")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.9, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0, 1.0 ]
+}
+
+[sub_resource type="Animation" id=7]
+resource_name = "FlipToTheLeft"
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("Book:translation:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("Book:translation:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("Book:translation:z")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Book/SpotLight:light_energy")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 1.0 ]
+}
+tracks/4/type = "bezier"
+tracks/4/path = NodePath("Book/BookMesh/PageFlip:rotation_degrees:x")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+tracks/5/type = "bezier"
+tracks/5/path = NodePath("Book/BookMesh/PageFlip:rotation_degrees:y")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, -180, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+tracks/6/type = "bezier"
+tracks/6/path = NodePath("Book/BookMesh/PageFlip:rotation_degrees:z")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+
+[sub_resource type="Animation" id=8]
+resource_name = "FlipToTheRight"
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("Book:translation:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("Book:translation:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("Book:translation:z")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0 )
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Book/SpotLight:light_energy")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 1.0 ]
+}
+tracks/4/type = "bezier"
+tracks/4/path = NodePath("Book/BookMesh/PageFlip:rotation_degrees:x")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+tracks/5/type = "bezier"
+tracks/5/path = NodePath("Book/BookMesh/PageFlip:rotation_degrees:y")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"points": PoolRealArray( -180, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+tracks/6/type = "bezier"
+tracks/6/path = NodePath("Book/BookMesh/PageFlip:rotation_degrees:z")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+
+[sub_resource type="Animation" id=9]
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("Book:translation:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("Book:translation:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, -1.68997, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("Book:translation:z")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 1 )
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Book/SpotLight:light_energy")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
+
+[sub_resource type="CubeMesh" id=10]
+size = Vector3( 0.1, 0.1, 0.002 )
+
+[sub_resource type="SpatialMaterial" id=11]
+
+[sub_resource type="BoxShape" id=12]
+extents = Vector3( 0.0506172, 0.0505646, 0.0029988 )
+
+[sub_resource type="SpatialMaterial" id=13]
+albedo_color = Color( 0.231373, 0.133333, 0.133333, 1 )
+
+[sub_resource type="SpatialMaterial" id=14]
+albedo_color = Color( 0.576471, 0.14902, 0.14902, 1 )
+
+[sub_resource type="SpatialMaterial" id=15]
+albedo_color = Color( 0.960784, 0.223529, 0.223529, 1 )
+
+[sub_resource type="SpatialMaterial" id=16]
+albedo_color = Color( 0.886275, 0.427451, 0.427451, 1 )
+
+[sub_resource type="CubeMesh" id=17]
+size = Vector3( 0.5, 1, 0.05 )
+
+[sub_resource type="SpatialMaterial" id=18]
+
+[sub_resource type="SpatialMaterial" id=19]
+albedo_texture = ExtResource( 17 )
+
+[sub_resource type="CubeMesh" id=20]
+size = Vector3( 0.406, 1, 0.01 )
+
+[sub_resource type="SpatialMaterial" id=21]
+flags_transparent = true
+
+[sub_resource type="BoxShape" id=22]
+extents = Vector3( 0.2, 0.5, 0.005 )
+
+[sub_resource type="SpatialMaterial" id=23]
+flags_transparent = true
+
+[sub_resource type="Shader" id=24]
 code = "shader_type spatial;
 
 varying mat4 CAMERA;
@@ -67,19 +343,19 @@ void fragment() {
 	ALBEDO.rgb = c;
 }"
 
-[sub_resource type="ShaderMaterial" id=8]
-shader = SubResource( 7 )
+[sub_resource type="ShaderMaterial" id=25]
+shader = SubResource( 24 )
 shader_param/size_x = 0.006
 shader_param/size_y = 0.006
 
-[sub_resource type="QuadMesh" id=9]
-material = SubResource( 8 )
+[sub_resource type="QuadMesh" id=26]
+material = SubResource( 25 )
 size = Vector2( 2, 2 )
 
-[sub_resource type="AnimationNodeStateMachine" id=10]
+[sub_resource type="AnimationNodeStateMachine" id=27]
 graph_offset = Vector2( -161, -45 )
 
-[sub_resource type="AnimationNodeStateMachinePlayback" id=11]
+[sub_resource type="AnimationNodeStateMachinePlayback" id=28]
 
 [node name="Player" type="KinematicBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0820016, 0, 0 )
@@ -128,17 +404,8 @@ light_bake_mode = 0
 spot_range = 11.0
 spot_angle = 17.5647
 
-[node name="TestBook" type="MeshInstance" parent="HeadCollisionPos/HeadRot"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.417493, -0.439251, -1.35479 )
-mesh = SubResource( 3 )
-material/0 = SubResource( 13 )
-script = ExtResource( 11 )
-
-[node name="KinematicBody" type="Area" parent="HeadCollisionPos/HeadRot/TestBook"]
-input_capture_on_drag = true
-
-[node name="CollisionShape" type="CollisionShape" parent="HeadCollisionPos/HeadRot/TestBook/KinematicBody"]
-shape = SubResource( 12 )
+[node name="ScanPoint" type="Spatial" parent="HeadCollisionPos/HeadRot"]
+script = ExtResource( 12 )
 
 [node name="HeadCast" type="RayCast" parent="HeadCollisionPos"]
 cast_to = Vector3( 0, 0.524, 0 )
@@ -153,7 +420,7 @@ direction = 3
 
 [node name="CollisionShape2" type="CollisionShape" parent="HeadCollisionPos/Above"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.13357, 0 )
-shape = SubResource( 4 )
+shape = SubResource( 3 )
 
 [node name="HeadSpace" type="RayCast" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.279173, 0 )
@@ -170,7 +437,7 @@ script = ExtResource( 3 )
 direction = 1
 
 [node name="CollisionShape" type="CollisionShape" parent="SensorAreas/Right"]
-shape = SubResource( 5 )
+shape = SubResource( 4 )
 
 [node name="Left" type="Area" parent="SensorAreas"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, 0.281, 0 )
@@ -178,7 +445,7 @@ input_ray_pickable = false
 script = ExtResource( 3 )
 
 [node name="CollisionShape" type="CollisionShape" parent="SensorAreas/Left"]
-shape = SubResource( 5 )
+shape = SubResource( 4 )
 
 [node name="Ground" type="Area" parent="SensorAreas"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.539855, 0 )
@@ -187,7 +454,7 @@ script = ExtResource( 3 )
 direction = 2
 
 [node name="CollisionShape" type="CollisionShape" parent="SensorAreas/Ground"]
-shape = SubResource( 6 )
+shape = SubResource( 5 )
 
 [node name="Sound" type="Node" parent="."]
 script = ExtResource( 7 )
@@ -205,6 +472,7 @@ script = ExtResource( 8 )
 names = PoolStringArray(  )
 
 [node name="GunView" type="ViewportContainer" parent="."]
+light_mask = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -223,7 +491,7 @@ render_target_update_mode = 3
 gui_snap_controls_to_pixels = false
 
 [node name="Camera" type="Camera" parent="GunView/Viewport"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.291721, 0.427272 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.291721, 2.54472 )
 cull_mask = 2
 current = true
 script = ExtResource( 6 )
@@ -253,12 +521,231 @@ transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -0.6355
 
 [node name="PaperAndPen" parent="GunView/Viewport/Camera/Scan" instance=ExtResource( 5 )]
 
+[node name="Book Menu" type="Spatial" parent="GunView/Viewport/Camera"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0509744, -0.402403, -1.03296 )
+script = ExtResource( 11 )
+rightPage = NodePath("Book/BookMesh/RightPages/RightSide")
+leftPage = NodePath("Book/BookMesh/LeftPages/RightSide")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="GunView/Viewport/Camera/Book Menu"]
+"anims/Bring Up" = SubResource( 6 )
+anims/FlipToTheLeft = SubResource( 7 )
+anims/FlipToTheRight = SubResource( 8 )
+"anims/Hold Down" = SubResource( 9 )
+
+[node name="Book" type="Spatial" parent="GunView/Viewport/Camera/Book Menu"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.86401, 0 )
+
+[node name="Tabs" type="Spatial" parent="GunView/Viewport/Camera/Book Menu/Book"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.127434, 0.477783, 0.0653298 )
+
+[node name="Creatures Tab" type="MeshInstance" parent="GunView/Viewport/Camera/Book Menu/Book/Tabs"]
+layers = 2
+mesh = SubResource( 10 )
+material/0 = SubResource( 11 )
+script = ExtResource( 13 )
+section = 1
+tabName = "Creatures"
+highlighted = Color( 1, 0, 0, 1 )
+unhighlighted = Color( 0, 1, 0, 1 )
+currentlyOn = Color( 0, 0, 0, 1 )
+empty = Color( 0.305882, 0.305882, 0.305882, 1 )
+
+[node name="StaticBody" type="KinematicBody" parent="GunView/Viewport/Camera/Book Menu/Book/Tabs/Creatures Tab"]
+collision_layer = 512
+collision_mask = 512
+
+[node name="CollisionShape" type="CollisionShape" parent="GunView/Viewport/Camera/Book Menu/Book/Tabs/Creatures Tab/StaticBody"]
+shape = SubResource( 12 )
+
+[node name="Creatures Tab3" type="MeshInstance" parent="GunView/Viewport/Camera/Book Menu/Book/Tabs"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.107004, 0, 0 )
+layers = 2
+mesh = SubResource( 10 )
+material/0 = SubResource( 13 )
+script = ExtResource( 13 )
+section = 2
+tabName = "Creatures"
+highlighted = Color( 1, 0, 0, 1 )
+unhighlighted = Color( 0, 1, 0, 1 )
+currentlyOn = Color( 0, 0, 0, 1 )
+empty = Color( 0.305882, 0.305882, 0.305882, 1 )
+
+[node name="StaticBody" type="KinematicBody" parent="GunView/Viewport/Camera/Book Menu/Book/Tabs/Creatures Tab3"]
+collision_layer = 512
+collision_mask = 512
+
+[node name="CollisionShape" type="CollisionShape" parent="GunView/Viewport/Camera/Book Menu/Book/Tabs/Creatures Tab3/StaticBody"]
+shape = SubResource( 12 )
+
+[node name="Creatures Tab4" type="MeshInstance" parent="GunView/Viewport/Camera/Book Menu/Book/Tabs"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.21453, 0, 0 )
+layers = 2
+mesh = SubResource( 10 )
+material/0 = SubResource( 14 )
+script = ExtResource( 13 )
+section = 3
+tabName = "Creatures"
+highlighted = Color( 1, 0, 0, 1 )
+unhighlighted = Color( 0, 1, 0, 1 )
+currentlyOn = Color( 0, 0, 0, 1 )
+empty = Color( 0.305882, 0.305882, 0.305882, 1 )
+
+[node name="StaticBody" type="KinematicBody" parent="GunView/Viewport/Camera/Book Menu/Book/Tabs/Creatures Tab4"]
+collision_layer = 512
+collision_mask = 512
+
+[node name="CollisionShape" type="CollisionShape" parent="GunView/Viewport/Camera/Book Menu/Book/Tabs/Creatures Tab4/StaticBody"]
+shape = SubResource( 12 )
+
+[node name="Creatures Tab5" type="MeshInstance" parent="GunView/Viewport/Camera/Book Menu/Book/Tabs"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.320381, 0, 0 )
+layers = 2
+mesh = SubResource( 10 )
+material/0 = SubResource( 15 )
+script = ExtResource( 13 )
+section = 4
+tabName = "Creatures"
+highlighted = Color( 1, 0, 0, 1 )
+unhighlighted = Color( 0, 1, 0, 1 )
+currentlyOn = Color( 0, 0, 0, 1 )
+empty = Color( 0.305882, 0.305882, 0.305882, 1 )
+
+[node name="StaticBody" type="KinematicBody" parent="GunView/Viewport/Camera/Book Menu/Book/Tabs/Creatures Tab5"]
+collision_layer = 512
+collision_mask = 512
+
+[node name="CollisionShape" type="CollisionShape" parent="GunView/Viewport/Camera/Book Menu/Book/Tabs/Creatures Tab5/StaticBody"]
+shape = SubResource( 12 )
+
+[node name="Creatures Tab2" type="MeshInstance" parent="GunView/Viewport/Camera/Book Menu/Book/Tabs"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.557301, 0, 0 )
+layers = 2
+mesh = SubResource( 10 )
+material/0 = SubResource( 16 )
+script = ExtResource( 13 )
+tabName = "Index"
+highlighted = Color( 1, 0, 0, 1 )
+unhighlighted = Color( 0, 1, 0, 1 )
+currentlyOn = Color( 0, 0, 0, 1 )
+empty = Color( 0.305882, 0.305882, 0.305882, 1 )
+
+[node name="StaticBody" type="KinematicBody" parent="GunView/Viewport/Camera/Book Menu/Book/Tabs/Creatures Tab2"]
+collision_layer = 512
+collision_mask = 512
+
+[node name="CollisionShape" type="CollisionShape" parent="GunView/Viewport/Camera/Book Menu/Book/Tabs/Creatures Tab2/StaticBody"]
+shape = SubResource( 12 )
+
+[node name="SpotLight" type="SpotLight" parent="GunView/Viewport/Camera/Book Menu/Book"]
+transform = Transform( 0.748551, -0.662001, 0.0377666, 0.319753, 0.410281, 0.854065, -0.580887, -0.627235, 0.518793, -0.0266494, 0.660008, 0.292925 )
+layers = 2
+light_energy = 0.0
+light_bake_mode = 0
+spot_range = 1.60498
+spot_angle = 65.3531
+
+[node name="BookMesh" type="Spatial" parent="GunView/Viewport/Camera/Book Menu/Book"]
+
+[node name="FrontPage" type="MeshInstance" parent="GunView/Viewport/Camera/Book Menu/Book/BookMesh"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 0, 0 )
+layers = 2
+mesh = SubResource( 17 )
+material/0 = null
+
+[node name="BackPage" type="MeshInstance" parent="GunView/Viewport/Camera/Book Menu/Book/BookMesh"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 0, 0 )
+layers = 2
+mesh = SubResource( 17 )
+material/0 = null
+
+[node name="Rings" type="Spatial" parent="GunView/Viewport/Camera/Book Menu/Book/BookMesh"]
+
+[node name="Middle" type="MeshInstance" parent="GunView/Viewport/Camera/Book Menu/Book/BookMesh/Rings"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0233972 )
+layers = 2
+mesh = ExtResource( 15 )
+material/0 = null
+
+[node name="Top" type="MeshInstance" parent="GunView/Viewport/Camera/Book Menu/Book/BookMesh/Rings"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0.023 )
+layers = 2
+mesh = ExtResource( 15 )
+material/0 = null
+
+[node name="Bottom" type="MeshInstance" parent="GunView/Viewport/Camera/Book Menu/Book/BookMesh/Rings"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, 0.023 )
+layers = 2
+mesh = ExtResource( 15 )
+material/0 = null
+
+[node name="RightPages" type="Spatial" parent="GunView/Viewport/Camera/Book Menu/Book/BookMesh"]
+transform = Transform( -1, 0, -2.76965e-06, 0, 1, 0, 3.25841e-07, 0, -8.5, 2.98023e-08, 0, 0.033 )
+
+[node name="RightSide" type="MeshInstance" parent="GunView/Viewport/Camera/Book Menu/Book/BookMesh/RightPages"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.293891, 0, 0 )
+layers = 2
+mesh = ExtResource( 14 )
+material/0 = SubResource( 18 )
+
+[node name="LeftPages" type="Spatial" parent="GunView/Viewport/Camera/Book Menu/Book/BookMesh"]
+transform = Transform( -1, 0, -2.76965e-06, 0, 1, 0, 3.25841e-07, 0, -8.5, 2.98023e-08, 0, 0.033 )
+
+[node name="RightSide" type="MeshInstance" parent="GunView/Viewport/Camera/Book Menu/Book/BookMesh/LeftPages"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.294, 0, 0 )
+layers = 2
+mesh = ExtResource( 14 )
+material/0 = SubResource( 19 )
+
+[node name="PageFlip" type="Spatial" parent="GunView/Viewport/Camera/Book Menu/Book/BookMesh"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0433632 )
+
+[node name="MeshInstance" type="MeshInstance" parent="GunView/Viewport/Camera/Book Menu/Book/BookMesh/PageFlip"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.294, 0, 0 )
+layers = 2
+mesh = ExtResource( 14 )
+material/0 = null
+
+[node name="PageFlipLeft" type="MeshInstance" parent="GunView/Viewport/Camera/Book Menu/Book"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.827209, 0, 0 )
+layers = 2
+mesh = SubResource( 20 )
+material/0 = SubResource( 21 )
+script = ExtResource( 18 )
+highlightedColor = Color( 1, 1, 1, 1 )
+
+[node name="StaticBody" type="KinematicBody" parent="GunView/Viewport/Camera/Book Menu/Book/PageFlipLeft"]
+collision_layer = 512
+collision_mask = 512
+
+[node name="CollisionShape" type="CollisionShape" parent="GunView/Viewport/Camera/Book Menu/Book/PageFlipLeft/StaticBody"]
+shape = SubResource( 22 )
+
+[node name="PageFlipRight" type="MeshInstance" parent="GunView/Viewport/Camera/Book Menu/Book"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.834507, 0, 0 )
+layers = 2
+mesh = SubResource( 20 )
+material/0 = SubResource( 23 )
+script = ExtResource( 18 )
+highlightedColor = Color( 1, 1, 1, 1 )
+reverse = true
+
+[node name="StaticBody" type="KinematicBody" parent="GunView/Viewport/Camera/Book Menu/Book/PageFlipRight"]
+collision_layer = 512
+collision_mask = 512
+
+[node name="CollisionShape" type="CollisionShape" parent="GunView/Viewport/Camera/Book Menu/Book/PageFlipRight/StaticBody"]
+shape = SubResource( 22 )
+
+[node name="Tween" type="Tween" parent="GunView/Viewport/Camera/Book Menu"]
+playback_process_mode = 0
+
 [node name="Advanced Post Processing WIP" type="MeshInstance" parent="."]
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -7.45058e-09, 1, -3 )
 visible = false
 layers = 262144
 extra_cull_margin = 16384.0
-mesh = SubResource( 9 )
+mesh = SubResource( 26 )
 material/0 = null
 
 [node name="AnimationParent" type="Node" parent="."]
@@ -267,14 +754,15 @@ script = ExtResource( 9 )
 [node name="CameraTween" type="Tween" parent="AnimationParent"]
 
 [node name="GunAnimationTree" type="AnimationTree" parent="AnimationParent"]
-tree_root = SubResource( 10 )
-parameters/playback = SubResource( 11 )
+tree_root = SubResource( 27 )
+parameters/playback = SubResource( 28 )
 
 [node name="PlayerHeadAnimations" type="AnimationPlayer" parent="AnimationParent"]
 anims/DeathAnimation = ExtResource( 10 )
-[connection signal="input_event" from="HeadCollisionPos/HeadRot/TestBook/KinematicBody" to="HeadCollisionPos/HeadRot/TestBook" method="MouseEvent"]
-[connection signal="mouse_entered" from="HeadCollisionPos/HeadRot/TestBook/KinematicBody" to="HeadCollisionPos/HeadRot/TestBook" method="MouseEnter" binds= [ true ]]
-[connection signal="mouse_exited" from="HeadCollisionPos/HeadRot/TestBook/KinematicBody" to="HeadCollisionPos/HeadRot/TestBook" method="MouseEnter" binds= [ false ]]
+
+[node name="Book Ray" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+script = ExtResource( 16 )
 [connection signal="finished" from="Sound/Feet" to="Sound/Feet" method="FinishedSound"]
 [connection signal="finished" from="Sound/Speaking" to="Sound/Speaking" method="FinishedSound"]
 [connection signal="finished" from="Sound/Gun" to="Sound/Gun" method="FinishedSound"]

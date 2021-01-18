@@ -17,16 +17,22 @@ public class WeaponController : Camera
     private CurrentWeaponEquiped currentToolEnum;
     private PlayerController controller;
     private Spatial nCurrentTool;
+    public static WeaponController instance;
     public override void _Ready()
     {
-        controller = GetParent().GetParent().GetParent<PlayerController>();
         tools[0] = new FirstWeapon();
         tools[4] = new Scanner();
+        instance = this;
         CallDeferred(nameof(FinishingUp));
+        for (int i = 0; i < 5; i++)
+        {
+            GetChild<Spatial>(i).Scale = Vector3.Zero;
+        }
     }
 
     public void FinishingUp()
     {
+        controller = PlayerController.Instance;
         anim.Connect(nameof(AnimationController.GunAnimationFinished), this, nameof(WeaponAnimationFinished));
     }
 
@@ -44,6 +50,9 @@ public class WeaponController : Camera
                 WeaponHolstered();
                 break;
             case "Writing":
+                currentTool.ReadyGun();
+                anim.PlayGunAnimation("Idle");
+                break;
             case "Equiping":
                 anim.PlayGunAnimation("Idle");
                 break;
@@ -75,12 +84,15 @@ public class WeaponController : Camera
 
     public void UseCurrentWeapon(bool force = false)
     {
-        anim.PlayGunAnimation("Writing");
+        if (currentTool.WeaponReady())
+        {
+            currentTool.FireGun(controller.fireFromLocations.GlobalTransform.origin, controller.fireFromLocations.GlobalTransform.basis);
+        }
     }
 
     public void UseCurrentSecondary()
     {
-
+        currentTool.Secondary();
     }
 }
 
@@ -90,5 +102,6 @@ public enum CurrentWeaponEquiped
     second,
     third,
     fourth,
-    none
+    none,
+    book
 }

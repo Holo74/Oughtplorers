@@ -1,0 +1,10 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://Textures/JournalEntries/World/Test2.png" type="Texture" id=1]
+[ext_resource path="res://Scripts/Player/JournalScripts/ScanInfoResource.cs" type="Script" id=2]
+
+[resource]
+script = ExtResource( 2 )
+Name = "Test 2"
+section = 1
+pageTexture = ExtResource( 1 )

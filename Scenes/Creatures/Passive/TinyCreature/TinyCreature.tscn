@@ -5,7 +5,6 @@
 [ext_resource path="res://Scripts/AI/MasterController.cs" type="Script" id=3]
 [ext_resource path="res://Generic.tres" type="Resource" id=4]
 
-
 [sub_resource type="BoxShape" id=1]
 
 [sub_resource type="BoxShape" id=2]
@@ -15,6 +14,14 @@ extents = Vector3( 0, 0, 0 )
 script = ExtResource( 3 )
 startLink = ExtResource( 4 )
 healthChildNum = 1
+
+[node name="Armature" parent="." index="0"]
+bones/0/bound_children = [ NodePath("Head") ]
+bones/1/bound_children = [ NodePath("Head2") ]
+bones/2/bound_children = [ NodePath("Head3") ]
+
+[node name="AnimationPlayer" parent="Armature" index="0"]
+playback_process_mode = 0
 
 [node name="Head" type="BoneAttachment" parent="Armature" index="2"]
 transform = Transform( 1, 0, 0, 0, 0, -1, 0, 1, 1.19249e-08, 0, 1.35799, -4.26893e-09 )
@@ -37,7 +44,7 @@ script = ExtResource( 2 )
 shape = SubResource( 1 )
 
 [node name="Head3" type="BoneAttachment" parent="Armature" index="4"]
-transform = Transform( 1, 0, 0, 0, 1.38177e-15, -1, 0, 1, 1.19249e-08, 0, 4.57314, -4.26093e-08 )
+transform = Transform( 1, 0, 0, 0, 5.96244e-09, -1, 0, 1, 1.78873e-08, 0, 4.57314, -4.26093e-08 )
 bone_name = "Bone.003"
 
 [node name="KinematicBody" type="KinematicBody" parent="Armature/Head3" index="0"]

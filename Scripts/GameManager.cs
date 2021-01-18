@@ -46,9 +46,9 @@ public class GameManager : Node
     public override void _Ready()
     {
         instance = this;
-        datas[0] = SavingAndLoading.LoadingGameSaveData(savePath + "1" + savePathEnd);
-        datas[1] = SavingAndLoading.LoadingGameSaveData(savePath + "2" + savePathEnd);
-        datas[2] = SavingAndLoading.LoadingGameSaveData(savePath + "3" + savePathEnd);
+        datas[0] = SavingAndLoading.LoadingGameSaveData(savePath + "0" + savePathEnd);
+        datas[1] = SavingAndLoading.LoadingGameSaveData(savePath + "1" + savePathEnd);
+        datas[2] = SavingAndLoading.LoadingGameSaveData(savePath + "2" + savePathEnd);
         SavingAndLoading.LoadingOptionsSaveData("user://Option.save");
         AllDataLoaded = true;
         SettingsOptions.RegisterUpdatedEvent(UpdateGameSettings);
@@ -57,11 +57,12 @@ public class GameManager : Node
     public void StartGame(int i)
     {
         dataUsed = i;
-        StartGame(datas[i].SavedInPath[SavedData.SavedAreaPath].ToString());
+        StartGame(i, datas[i].SavedInPath[SavedData.SavedAreaPath].ToString());
     }
 
-    public void StartGame(string loadArea = "res://Scenes/WhiteBoxes/TreeLevelWhiteBox.tscn")
+    public void StartGame(int i, string loadArea = "res://Scenes/WhiteBoxes/TreeLevelWhiteBox.tscn")
     {
+        dataUsed = i;
         startingAreaPath = loadArea;
         GetTree().ChangeScene("res://Scenes/WorldManager.tscn");
     }
@@ -125,10 +126,11 @@ public class GameManager : Node
             {
                 if (holder[SavedData.SavedGameName].Equals("New Game"))
                 {
-                    AddToDic(holder, SavedData.SavedGameName, "Save Game " + (dataUsed + 1));
+                    AddToDic(holder, SavedData.SavedGameName, "Save Game " + (dataUsed));
                 }
             }
-            SavingAndLoading.SavingGameData(savePath + (dataUsed + 1).ToString() + ".save", PlayerController.Instance.upgrades.GetAllUpgrades(), holder);
+            SavingAndLoading.SavingGameData(savePath + (dataUsed).ToString() + ".save", PlayerController.Instance.upgrades.GetAllUpgrades(), holder
+                , PlayersJournal.instance.scanNames);
             ToggleGamePause();
         }
     }

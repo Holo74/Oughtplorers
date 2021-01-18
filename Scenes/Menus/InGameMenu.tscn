@@ -1,14 +1,17 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Textures/TargetRetical.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/Menus/OptionsMenu.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scripts/Menu/InGameMenu.cs" type="Script" id=3]
 [ext_resource path="res://Scripts/Menu/MenuButtons/QuitToTitleScreen.cs" type="Script" id=4]
+[ext_resource path="res://Textures/UI/HUD/HUD_Test_Alpha.png" type="Texture" id=5]
 [ext_resource path="res://Scripts/Menu/MenuButtons/SwapToMenu.cs" type="Script" id=6]
+[ext_resource path="res://Textures/UI/HUD/Health/health_bar_test_over.png" type="Texture" id=7]
+[ext_resource path="res://Textures/UI/HUD/Health/health_bar_test_progress.png" type="Texture" id=8]
+[ext_resource path="res://Textures/UI/HUD/Health/health_bar_test_under.png" type="Texture" id=9]
 [ext_resource path="res://Scripts/Menu/MenuButtons/RegectSettings.cs" type="Script" id=12]
 [ext_resource path="res://Scripts/Menu/MenuButtons/ConfirmButton.cs" type="Script" id=13]
 [ext_resource path="res://Scripts/Menu/MenuButtons/ContinueGame.cs" type="Script" id=14]
-[ext_resource path="res://Textures/Hud.png" type="Texture" id=16]
 [ext_resource path="res://Scripts/Menu/MenuButtons/LinkToForm.cs" type="Script" id=17]
 
 [sub_resource type="Animation" id=1]
@@ -18,7 +21,7 @@ tracks/0/path = NodePath("PlayerHud/TextureRect:rect_position:x")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
-tracks/0/enabled = true
+tracks/0/enabled = false
 tracks/0/keys = {
 "points": PoolRealArray( -40, -0.25, 0, 0.25, 0, -40, -0.25, 0, 0.25, 0, -40, -0.25, 0, 0.25, 0 ),
 "times": PoolRealArray( 0, 0.5, 1 )
@@ -28,7 +31,7 @@ tracks/1/path = NodePath("PlayerHud/TextureRect:rect_position:y")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
-tracks/1/enabled = true
+tracks/1/enabled = false
 tracks/1/keys = {
 "points": PoolRealArray( -40, -0.25, 0, 0.28, 0.348751, -38, -0.21, -0.61832, 0.23, -0.430515, -40, -0.16, 0.755665, 0.25, 0 ),
 "times": PoolRealArray( 0, 0.5, 1 )
@@ -40,7 +43,7 @@ tracks/0/path = NodePath("PlayerHud/TextureRect:rect_position:x")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
-tracks/0/enabled = true
+tracks/0/enabled = false
 tracks/0/keys = {
 "points": PoolRealArray( -40, -0.25, 0, 0.25, 0, -40, -0.25, 0, 0.25, 0 ),
 "times": PoolRealArray( 0, 1 )
@@ -50,7 +53,7 @@ tracks/1/path = NodePath("PlayerHud/TextureRect:rect_position:y")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
-tracks/1/enabled = true
+tracks/1/enabled = false
 tracks/1/keys = {
 "points": PoolRealArray( -40, -0.25, 0, 0.11, -36.1273, -65, -0.82, -10.8948, 0.25, 0 ),
 "times": PoolRealArray( 0, 1 )
@@ -120,7 +123,7 @@ tracks/0/path = NodePath("PlayerHud/TextureRect:rect_position:x")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
-tracks/0/enabled = true
+tracks/0/enabled = false
 tracks/0/keys = {
 "points": PoolRealArray( -40, -0.25, 0, 0.25, 0, -40, -0.25, 0, 0.25, 0, -40, -0.25, 0, 0.25, 0, -40, -0.25, 0, 0.25, 0 ),
 "times": PoolRealArray( 0, 0.5, 1, 1.5 )
@@ -130,7 +133,7 @@ tracks/1/path = NodePath("PlayerHud/TextureRect:rect_position:y")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
-tracks/1/enabled = true
+tracks/1/enabled = false
 tracks/1/keys = {
 "points": PoolRealArray( -40, -0.25, 0, 0.16, 8.57922, -16, -0.27, -0.953188, 0, -18.0537, -50, -0.3, 6.8966, 0.28, 1.67219, -40, -0.13, -8.29964, 0.26, 15.813 ),
 "times": PoolRealArray( 0, 0.5, 1, 1.5 )
@@ -140,7 +143,7 @@ tracks/1/keys = {
 animation = "Idle"
 
 [sub_resource type="StyleBoxFlat" id=6]
-bg_color = Color( 1, 1, 1, 0.971615 )
+bg_color = Color( 1, 1, 1, 0 )
 
 [node name="CanvasLayer" type="CanvasLayer"]
 pause_mode = 2
@@ -178,10 +181,10 @@ __meta__ = {
 }
 
 [node name="Health" type="Control" parent="InGameMenuAndHud/PlayerHud"]
-anchor_left = 0.25
-anchor_top = 0.0666667
-anchor_right = 0.75
-anchor_bottom = 0.12
+anchor_left = 0.328125
+anchor_top = 0.0466667
+anchor_right = 0.667969
+anchor_bottom = 0.135
 margin_top = -3.8147e-06
 mouse_filter = 1
 __meta__ = {
@@ -189,14 +192,16 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="ProgressBar" type="ProgressBar" parent="InGameMenuAndHud/PlayerHud/Health"]
+[node name="ProgressBar" type="TextureProgress" parent="InGameMenuAndHud/PlayerHud/Health"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-mouse_filter = 1
 max_value = 99.0
 value = 99.0
 rounded = true
-percent_visible = false
+texture_under = ExtResource( 9 )
+texture_over = ExtResource( 7 )
+texture_progress = ExtResource( 8 )
+nine_patch_stretch = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -216,16 +221,10 @@ __meta__ = {
 one_shot = true
 
 [node name="TextureRect" type="TextureRect" parent="InGameMenuAndHud/PlayerHud"]
-anchor_left = -0.039
-anchor_top = -0.067
-anchor_right = 1.039
-anchor_bottom = 1.067
-margin_left = -0.0639992
-margin_top = 0.200001
-margin_right = 0.0639648
-margin_bottom = -0.200012
+anchor_right = 1.0
+anchor_bottom = 1.0
 mouse_filter = 2
-texture = ExtResource( 16 )
+texture = ExtResource( 5 )
 expand = true
 __meta__ = {
 "_edit_use_anchors_": false

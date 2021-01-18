@@ -33,7 +33,5 @@ material/0 = null
 [node name="CollisionShape" type="CollisionShape" parent="Top/RigidBody"]
 shape = SubResource( 3 )
 
-[node name="Spawn" parent="." groups=[
-"Spawn",
-] instance=ExtResource( 2 )]
+[node name="Spawn" parent="." instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.684114, 0 )

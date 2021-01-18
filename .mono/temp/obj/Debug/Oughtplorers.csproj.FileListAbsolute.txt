@@ -4,3 +4,9 @@
 /home/holo74/Oughtplorers/.mono/temp/obj/Debug/Oughtplorers.csproj.CoreCompileInputs.cache
 /home/holo74/Oughtplorers/.mono/temp/obj/Debug/Oughtplorers.dll
 /home/holo74/Oughtplorers/.mono/temp/obj/Debug/Oughtplorers.pdb
+/home/meow74/Oughtplorers/.mono/temp/obj/Debug/Oughtplorers.dll
+/home/meow74/Oughtplorers/.mono/temp/obj/Debug/Oughtplorers.pdb
+/home/meow74/Oughtplorers/.mono/temp/bin/Debug/Oughtplorers.dll
+/home/meow74/Oughtplorers/.mono/temp/bin/Debug/Oughtplorers.pdb
+/home/meow74/Oughtplorers/.mono/temp/obj/Debug/Oughtplorers.csprojAssemblyReference.cache
+/home/meow74/Oughtplorers/.mono/temp/obj/Debug/Oughtplorers.csproj.CoreCompileInputs.cache

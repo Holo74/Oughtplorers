@@ -72,7 +72,6 @@ __meta__ = {
 }
 
 [node name="Game" type="Panel" parent="."]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 __meta__ = {
@@ -102,6 +101,9 @@ script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": true
 }
+useDemoLevels = true
+pathwayToDemoLevel = "res://Scenes/InGameLevels/SwampLevels/SwampRoom01.tscn"
+textUsed = "Swamp"
 
 [node name="Saves2" type="Button" parent="Game"]
 anchor_left = 0.4375
@@ -136,6 +138,7 @@ pathwayToDemoLevel = "res://Scenes/TestingScenes/Leaves.tscn"
 textUsed = "Test"
 
 [node name="OptionsMenu" parent="." instance=ExtResource( 5 )]
+visible = false
 
 [node name="Button2" parent="OptionsMenu" index="2"]
 path = NodePath("../../MainScreen")

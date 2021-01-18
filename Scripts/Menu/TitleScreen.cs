@@ -22,9 +22,4 @@ public class TitleScreen : MenuBase
     {
         GameManager.Instance.StartGame(save);
     }
-
-    public void GoToDebug()
-    {
-        GameManager.Instance.StartGame();
-    }
 }

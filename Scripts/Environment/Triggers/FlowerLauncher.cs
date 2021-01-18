@@ -60,7 +60,6 @@ public class FlowerLauncher : HealthKinematic
     {
         if (tookDamage)
         {
-            GD.Print(timer);
             timer -= delta;
             if (timer < 0)
             {

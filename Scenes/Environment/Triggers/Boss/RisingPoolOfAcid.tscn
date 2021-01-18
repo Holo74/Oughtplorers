@@ -1,7 +1,8 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scripts/Environment/Triggers/Boss/Charger/AcidPool.cs" type="Script" id=1]
-[ext_resource path="res://Scripts/Environment/PosionFog.cs" type="Script" id=2]
+[ext_resource path="res://Scripts/Environment/Zones/PosionFog.cs" type="Script" id=2]
+
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 1, 1.35893, 1 )

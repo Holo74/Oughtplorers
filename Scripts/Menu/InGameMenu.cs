@@ -7,7 +7,7 @@ public class InGameMenu : MenuBase
     [Export]
     private NodePath pathToQuit, pathToHealthConatiner;
     private Control hud, menu, healthContainer, savingRequest, savingCompleting, upgradeMenu, transitionNode;
-    private ProgressBar healthBar;
+    private TextureProgress healthBar;
     private RichTextLabel displayText, upgradeName, upgradeDescription;
     private static InGameMenu instance;
     public static InGameMenu Instance { get { return instance; } }
@@ -21,33 +21,51 @@ public class InGameMenu : MenuBase
     private TextureRect crossHair;
     public override void _Ready()
     {
-        GameManager.Instance.currentMenu = this;
-        foreach (Node c in GetChildren())
-        {
-            if (c is Control a)
-                a.Visible = false;
-        }
-        GameManager.Instance.Connect(nameof(GameManager.ToggleGame), this, nameof(ToggleMenu));
-        PlayerController.Instance.Connect(nameof(PlayerController.UpdateHealth), this, nameof(UpdateHealth));
-        PlayerController.Instance.AttachToDeath(Dead);
+        instance = this;
         hud = GetChild<Control>(0);
         menu = GetChild<Control>(1);
         savingRequest = GetChild<Control>(3);
         savingCompleting = GetChild<Control>(4);
         mainNode = menu;
         healthContainer = GetNode<Control>(pathToHealthConatiner);
-        healthBar = healthContainer.GetChild<ProgressBar>(0);
+        healthBar = healthContainer.GetChild<TextureProgress>(0);
         displayText = hud.GetChild<RichTextLabel>(2);
-        instance = this;
         animations = GetChild<AnimationPlayer>(6);
         upgradeMenu = GetChild<Control>(8);
         upgradeName = upgradeMenu.GetChild(0).GetChild<RichTextLabel>(0);
         upgradeDescription = upgradeMenu.GetChild(0).GetChild<RichTextLabel>(1);
-        upgradeMenu.GetChild(0).GetChild(2).Connect("pressed", GameManager.Instance, nameof(GameManager.ToggleGamePause));
-        PlayerController.Instance.ability.AddToStateChange(PlayerStateAnimations);
         transitionNode = GetChild<Control>(9);
         textTween = hud.GetChild<Tween>(4);
         crossHair = hud.GetChild<TextureRect>(0);
+        CallDeferred(nameof(DeferedSetup));
+    }
+
+    private void DeferedSetup()
+    {
+        upgradeMenu.GetChild(0).GetChild(2).Connect("pressed", GameManager.Instance, nameof(GameManager.ToggleGamePause));
+        PlayerController.Instance.ability.AddToStateChange(PlayerStateAnimations);
+
+        foreach (Node c in GetChildren())
+        {
+            if (c is Control a)
+                a.Visible = false;
+        }
+        GameManager.Instance.currentMenu = this;
+        GameManager.Instance.Connect(nameof(GameManager.ToggleGame), this, nameof(ToggleMenu));
+        PlayerController.Instance.Connect(nameof(PlayerController.UpdateHealth), this, nameof(UpdateHealth));
+        PlayerController.Instance.AttachToDeath(Dead);
+        ScanNode.Instance.Connect(nameof(ScanNode.FoundScannable), this, nameof(FoundScans));
+        ScanNode.Instance.Connect(nameof(ScanNode.LostScannables), this, nameof(LostScans));
+    }
+
+    public void FoundScans(Scannables scans)
+    {
+        SetCrossHairColor("00bfff");
+    }
+
+    public void LostScans()
+    {
+        SetCrossHairColor("ffffff");
     }
 
     public override void _Process(float delta)

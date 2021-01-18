@@ -187,10 +187,10 @@ public class PlayerInput : BaseAttatch
             return;
         if (GameManager.Instance.playing && inputLockTimer <= 0f)
         {
-            controller.bodyRotation.RotateAmount(vec.x * timeDelta * SettingsOptions.GetSetting<float>(SettingsNames.mouseXSensitivity) *
+            controller.bodyRotation.RotateAmount(vec.x * GameManager.Instance.GetPhysicsProcessDeltaTime() * SettingsOptions.GetSetting<float>(SettingsNames.mouseXSensitivity) *
                 (SettingsOptions.GetSetting<bool>(SettingsNames.invertX) ? -1 : 1) *
                 controller.ability.ZoomRatio);
-            controller.headRotation.RotateAmount(vec.y * timeDelta * SettingsOptions.GetSetting<float>(SettingsNames.mouseYSensitivity) *
+            controller.headRotation.RotateAmount(vec.y * GameManager.Instance.GetPhysicsProcessDeltaTime() * SettingsOptions.GetSetting<float>(SettingsNames.mouseYSensitivity) *
                 (SettingsOptions.GetSetting<bool>(SettingsNames.invertY) ? -1 : 1) *
                 controller.ability.ZoomRatio);
         }

@@ -5,11 +5,13 @@ public class SoundManager : Node
 {
     //Handles all sound that the player has.  It will not try to determine when to play it but requests must be made
     private PlayerSoundControl feet, speaking, gun;
+    public static SoundManager instance;
     public override void _Ready()
     {
         feet = GetChild<PlayerSoundControl>(0);
         speaking = GetChild<PlayerSoundControl>(1);
         gun = GetChild<PlayerSoundControl>(2);
+        instance = this;
     }
 
     public void AudioFinished(PlayerSoundControl sound)

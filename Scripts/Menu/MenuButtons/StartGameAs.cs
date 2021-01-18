@@ -31,6 +31,6 @@ public class StartGameAs : Button
 
     private void LoadDemo()
     {
-        GameManager.Instance.StartGame(pathwayToDemoLevel);
+        GameManager.Instance.StartGame(saveSlot, pathwayToDemoLevel);
     }
 }

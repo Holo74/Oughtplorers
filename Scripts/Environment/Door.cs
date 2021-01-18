@@ -20,7 +20,8 @@ public class Door : HealthStatic
         registered = true;
         //GetParent<Spatial>().Translate(Vector3.Up * 4);
         tree = GetChild(1).GetChild<AnimationTree>(0);
-        ActivateDoor(false);
+        //Here because otherwise the doors in other rooms would show up when rooms load in
+        ActivateDoor(info.loadDoor);
         Init(-1);
         tree.Active = true;
     }
